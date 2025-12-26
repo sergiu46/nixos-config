@@ -39,6 +39,11 @@
             { nixpkgs.overlays = [ overlay-unstable ]; }
             ./hosts/Latitude-NIX/configuration.nix
             nix-flatpak.nixosModules.nix-flatpak
+            {
+              nixpkgs.config.permittedInsecurePackages = [
+                "${nixpkgs.ventoy-qt5.pname}-${nixpkgs.ventoy-qt5.version}"
+              ];
+            }
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;

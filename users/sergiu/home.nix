@@ -9,12 +9,12 @@
     gnomeExtensions.just-perfection
     gnomeExtensions.system-monitor
     gnomeExtensions.dash-to-dock
-    ventoy-full-gtk
+    ventoy-full-qt
   ];
 
   imports = [
     ./vscode.nix
-    ./ventoy.nix
+
   ];
 
   home.shellAliases = {
