@@ -2,7 +2,7 @@
 
 let
   user = config.home.username;
-  host = "Latitude-NIX"; # Hardcode or pass from flake if you want
+  host = "Latitude-NIX";
 in
 {
   programs.vscode = {
