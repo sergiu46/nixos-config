@@ -2,7 +2,6 @@
 
 let
   user = config.home.username;
-  host = "Latitude-NIX";
 in
 {
   programs.vscode = {
