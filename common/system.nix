@@ -129,17 +129,6 @@
   };
 
 
-# # Use gpg-agent for SSH (replaces ssh-agent, avoids graphical freeze)
-#   programs.gnupg.agent = {
-#     enable = true;
-#     enableSSHSupport = true;     # Crucial: enables SSH key handling
-#     pinentryPackage = pkgs.pinentry-curses;  # Terminal prompt (safe, no GUI freeze)
-#     # pinentryPackage = pkgs.pinentry-gnome3;  # Uncomment if you prefer GNOME tray prompt
-#   };
-
-#   # Optional: Disable the old ssh-agent to avoid conflicts
-#   programs.ssh.startAgent = false;
-
 
 
 }
