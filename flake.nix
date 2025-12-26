@@ -11,7 +11,15 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nix-flatpak, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixpkgs-unstable,
+      home-manager,
+      nix-flatpak,
+      ...
+    }@inputs:
     let
       system = "x86_64-linux";
       # Helper to pass unstable packages into modules
@@ -35,6 +43,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.backupFileExtension = "backup";
               home-manager.users.sergiu = import ./users/sergiu/home.nix;
               home-manager.users.denisa = import ./users/denisa/home.nix;
             }
@@ -60,4 +69,3 @@
       };
     };
 }
-

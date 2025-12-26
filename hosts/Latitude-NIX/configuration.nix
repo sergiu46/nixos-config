@@ -7,9 +7,6 @@
     ../../common/users.nix
   ];
 
-
-
-
   networking.hostName = "Latitude-NIX";
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
