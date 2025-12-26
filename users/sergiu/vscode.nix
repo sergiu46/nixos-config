@@ -8,7 +8,6 @@ in
   programs.vscode = {
     enable = true;
     package = pkgs.unstable.vscode;
-
     mutableExtensionsDir = true;
 
     profiles.default = {
@@ -16,26 +15,14 @@ in
         bbenoist.nix
         jnoortheen.nix-ide
       ];
-
-      userSettings = {
-        "editor.formatOnSave" = true;
-        "nix.enableLanguageServer" = true;
-        "nix.serverPath" = "nixd";
-
-        "nix.serverSettings" = {
-          "nixd" = {
-            formatting.command = [ "nixfmt" ];
-
-            options = {
-              nixos.expr = ''(builtins.getFlake "/home/${user}/NixOS").nixosConfigurations."${host}".options'';
-
-              home_manager.expr = ''(builtins.getFlake "/home/${user}/NixOS").homeConfigurations.${user}.options'';
-            };
-          };
-        };
-      };
+      # DELETE the userSettings = { ... }; block from here entirely.
     };
   };
+
+  # This tells Nix to point the VS Code config to a real file in your repo folder
+  # instead of creating a read-only file in the /nix/store
+  xdg.configFile."Code/User/settings.json".source =
+    config.lib.file.mkOutOfStoreSymlink "/home/${user}/NixOS/users/sergiu/vscode-settings.json";
 
   home.packages = with pkgs; [
     nixd
