@@ -1,12 +1,10 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
+let
+  user = config.home.username;
+  host = "Latitude-NIX"; # Hardcode or pass from flake if you want
+in
 {
-  # Tools used by VSCode for Nix development
-  home.packages = with pkgs; [
-    nixd
-    nixfmt-rfc-style
-  ];
-
   programs.vscode = {
     enable = true;
     package = pkgs.unstable.vscode;
@@ -19,30 +17,29 @@
         jnoortheen.nix-ide
       ];
 
-      # This writes ~/.config/Code/User/settings.json
       userSettings = {
-        "nix.serverPath" = "nixd";
+        "editor.formatOnSave" = true;
         "nix.enableLanguageServer" = true;
+        "nix.serverPath" = "nixd";
 
         "nix.serverSettings" = {
           "nixd" = {
-            formatting = {
-              command = [ "nixfmt" ];
-            };
+            formatting.command = [ "nixfmt" ];
 
             options = {
-              nixos = {
-                expr = ''(builtins.getFlake "/home/sergiu/NixOS").nixosConfigurations.myhostname.options'';
-              };
-              home_manager = {
-                expr = ''(builtins.getFlake "/home/sergiu/NixOS").homeConfigurations.sergiu.options'';
-              };
+              nixos.expr = ''(builtins.getFlake "/home/${user}/NixOS").nixosConfigurations."${host}".options'';
+
+              home_manager.expr = ''(builtins.getFlake "/home/${user}/NixOS").homeConfigurations.${user}.options'';
             };
           };
         };
-
-        "editor.formatOnSave" = true;
       };
     };
   };
+
+  home.packages = with pkgs; [
+    nixd
+    nixfmt-rfc-style
+    alejandra
+  ];
 }
