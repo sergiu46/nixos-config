@@ -118,7 +118,7 @@
   # Automatic garbage collection (cleans unreferenced store paths)
   nix.gc = {
     automatic = true;
-    dates = "weekly";                     # Runs once per week (independent of upgrade day)
+    dates = "daily";                     # Runs once per week (independent of upgrade day)
     randomizedDelaySec = "45min";
     options = "--delete-older-than 30d";  # Safety net: never delete generations newer than 30 days
   };
@@ -127,8 +127,6 @@
   systemd.timers.nix-gc.timerConfig = {
     Persistent = true;
   };
-
-
 
 
 }
