@@ -1,19 +1,20 @@
 { pkgs, ... }:
 {
-  imports = [
-    ./vscode.nix
-  ];
 
   home.username = "sergiu";
   home.homeDirectory = "/home/sergiu";
 
   home.packages = with pkgs; [
-    # unstable.vscode # Unstable version
     unstable.bitwarden-desktop
     gnomeExtensions.just-perfection
     gnomeExtensions.system-monitor
     gnomeExtensions.dash-to-dock
+    ventoy-full-gtk
+  ];
 
+  imports = [
+    ./vscode.nix
+    ./ventoy.nix
   ];
 
   home.shellAliases = {
