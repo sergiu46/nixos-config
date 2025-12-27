@@ -13,7 +13,6 @@
     htop
     gparted
     parted
-    btrfs-progs
     unstable.microsoft-edge
     unstable.telegram-desktop
 

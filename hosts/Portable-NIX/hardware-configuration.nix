@@ -6,16 +6,32 @@
   # --- Bootloader Support ---
   # This section ensures the USB can boot on almost any modern PC
   boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = false; # Crucial for USB: don't mess with host's EFI
+  boot.loader.efi.canTouchEfiVariables = false;
+  boot.loader.efi.efiSysMountPoint = "/boot";
 
-  # Kernel modules for various hardware (Storage, USB 3.0, Keyboards)
   boot.initrd.availableKernelModules = [
-    "nvme"
     "xhci_pci"
+    "ehci_pci"
+    "ohci_pci"
+    "uhci_hcd"
     "ahci"
-    "usbhid"
     "usb_storage"
+    "uas"
     "sd_mod"
+    "sr_mod"
+    "nvme"
+    "ahci"
+    "rtsx_pci"
+  ];
+
+  # Support all common filesystems
+  boot.supportedFilesystems = lib.mkForce [
+    "ext4"
+    "btrfs"
+    "xfs"
+    "vfat"
+    "ntfs"
+    "f2fs"
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [
@@ -26,17 +42,12 @@
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/NIXROOT";
-    fsType = "ext4";
-    options = [ "noatime" ];
+    fsType = "ext4"; # or btrfs if you prefer
   };
 
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/NIXBOOT";
     fsType = "vfat";
-    options = [
-      "fmask=0022"
-      "dmask=0022"
-    ];
   };
 
   swapDevices = [ ];

@@ -8,7 +8,7 @@
     ../../common/users.nix
   ];
 
-  networking.hostName = "USB-NIX";
+  networking.hostName = "Portable-NIX";
 
   # --- USB OPTIMIZATIONS ---
 

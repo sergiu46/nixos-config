@@ -71,12 +71,12 @@
             }
           ];
         };
-        "USB-NIX" = nixpkgs.lib.nixosSystem {
+        "Portable-NIX" = nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit inputs; };
           modules = [
             { nixpkgs.overlays = [ overlay-unstable ]; }
-            ./hosts/USB-NIX/configuration.nix
+            ./hosts/Portable-NIX/configuration.nix
             nix-flatpak.nixosModules.nix-flatpak
             {
               nixpkgs.config.permittedInsecurePackages = [
@@ -90,6 +90,27 @@
               home-manager.users.sergiu = import ./users/sergiu/home.nix;
             }
 
+          ];
+        };
+
+        portable = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit inputs; };
+          modules = [
+            { nixpkgs.overlays = [ overlay-unstable ]; }
+            ./hosts/portable
+            nix-flatpak.nixosModules.nix-flatpak
+            {
+              nixpkgs.config.permittedInsecurePackages = [
+                "ventoy-qt5-1.1.07"
+              ];
+            }
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.sergiu = import ./users/sergiu/home.nix;
+            }
           ];
         };
       };

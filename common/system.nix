@@ -1,5 +1,4 @@
 {
-  inputs,
   pkgs,
   ...
 }:
@@ -8,7 +7,6 @@
   imports = [
     ./packages.nix
   ];
-
 
   # Locale
   time.timeZone = "Europe/Bucharest";
