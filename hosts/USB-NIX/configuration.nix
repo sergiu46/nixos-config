@@ -1,0 +1,36 @@
+{ config, pkgs, ... }:
+
+{
+  imports = [
+    ./hardware-configuration.nix
+    ./sync-config.nix
+    ../../common/system.nix
+    ../../common/users.nix
+  ];
+
+  networking.hostName = "USB-NIX";
+
+  # --- USB OPTIMIZATIONS ---
+  
+  # 1. Aggressive Garbage Collection (Keep only 1-2 generations)
+  boot.loader.systemd-boot.configurationLimit = 2; # Current + 1 rollback
+  
+  nix.gc = {
+    automatic = true;
+    dates = "daily";
+    options = "--delete-older-than 1d"; # Effectively keeps only the current state
+  };
+
+  # 2. Storage Optimization
+  nix.settings.auto-optimise-store = true; # Hard-link duplicates
+
+  # 3. Logs to RAM (Prevents constant writing to USB)
+  services.journald.extraConfig = "Storage=volatile";
+
+  # 4. Move temporary build files to RAM (Prevents wearing out USB during updates)
+  boot.tmp.useTmpfs = true;
+  boot.tmp.tmpfsSize = "50%"; # Uses half your RAM for builds
+
+  # Standard NixOS version
+  system.stateVersion = "25.11";
+}

@@ -13,7 +13,7 @@
   ];
 
   imports = [
-    ./vscode.nix
+    ./vscode/vscode.nix
 
   ];
 

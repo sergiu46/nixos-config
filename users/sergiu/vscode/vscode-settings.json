@@ -20,5 +20,6 @@
         }
     },
     "git.enableSmartCommit": true,
-    "git.confirmSync": false
+    "git.confirmSync": false,
+    "explorer.confirmDragAndDrop": false
 }

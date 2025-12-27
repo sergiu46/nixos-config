@@ -1,0 +1,55 @@
+{ config, lib, pkgs, modulesPath, ... }:
+
+{
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
+
+  # --- Bootloader Support ---
+  # This section ensures the USB can boot on almost any modern PC
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = false; # Crucial for USB: don't mess with host's EFI
+
+  # Kernel modules for various hardware (Storage, USB 3.0, Keyboards)
+  boot.initrd.availableKernelModules = [ 
+    "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" 
+  ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-intel" "kvm-amd" ];
+  boot.extraModulePackages = [ ];
+
+  # --- Filesystem (The "Persistence" Part) ---
+  # We use Labels instead of UUIDs because UUIDs change if you re-format.
+  # When you format your USB, label the partitions 'NIXOS_USB' and 'BOOT_USB'
+fileSystems."/" = {
+    device = "/dev/disk/by-label/NIXOS_USB";
+    fsType = "btrfs";
+    options = [ "subvol=root" "compress=zstd:1" "noatime" ];
+  };
+
+  fileSystems."/home" = {
+    device = "/dev/disk/by-label/NIXOS_USB";
+    fsType = "btrfs";
+    options = [ "subvol=home" "compress=zstd:1" "noatime" ];
+  };
+
+  fileSystems."/nix" = {
+    device = "/dev/disk/by-label/NIXOS_USB";
+    fsType = "btrfs";
+    options = [ "subvol=nix" "compress=zstd:1" "noatime" ];
+  };
+
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-label/BOOT_USB";
+    fsType = "vfat";
+  };
+
+  swapDevices = [ ];
+
+  # --- Hardware Compatibility ---
+  # Enables DHCP on all interfaces (portable networking)
+  networking.useDHCP = lib.mkDefault true;
+  
+  # Power management for laptops
+  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  hardware.cpu.intel.updateMicrocode = true;
+  hardware.cpu.amd.updateMicrocode = true;
+}

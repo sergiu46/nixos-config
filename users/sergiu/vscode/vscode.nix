@@ -11,17 +11,14 @@ in
 
     profiles.default = {
       extensions = with pkgs.vscode-extensions; [
-        bbenoist.nix
         jnoortheen.nix-ide
       ];
-      # DELETE the userSettings = { ... }; block from here entirely.
     };
   };
 
   # This tells Nix to point the VS Code config to a real file in your repo folder
-  # instead of creating a read-only file in the /nix/store
   xdg.configFile."Code/User/settings.json".source =
-    config.lib.file.mkOutOfStoreSymlink "/home/${user}/NixOS/users/sergiu/vscode-settings.json";
+    config.lib.file.mkOutOfStoreSymlink "/home/${user}/NixOS/${user}/vscode/vscode-settings.json";
 
   home.packages = with pkgs; [
     nixd

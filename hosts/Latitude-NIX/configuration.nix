@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     ../../common/system.nix
     ../../common/users.nix
+    ../../common/auto-update.nix
   ];
 
   networking.hostName = "Latitude-NIX";

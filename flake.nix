@@ -41,14 +41,13 @@
             nix-flatpak.nixosModules.nix-flatpak
             {
               nixpkgs.config.permittedInsecurePackages = [
-                "${nixpkgs.ventoy-qt5.pname}-${nixpkgs.ventoy-qt5.version}"
+                "ventoy-qt5-1.1.07"
               ];
             }
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              # home-manager.backupFileExtension = "backup";
               home-manager.users.sergiu = import ./users/sergiu/home.nix;
               home-manager.users.denisa = import ./users/denisa/home.nix;
             }
@@ -68,6 +67,26 @@
               home-manager.useUserPackages = true;
               home-manager.users.sergiu = import ./users/sergiu/home.nix;
               home-manager.users.denisa = import ./users/denisa/home.nix;
+            }
+          ];
+        };
+        "USB-NIX" = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit inputs; };
+          modules = [
+            { nixpkgs.overlays = [ overlay-unstable ]; }
+            ./hosts/USB-NIX/configuration.nix
+            nix-flatpak.nixosModules.nix-flatpak
+            {
+              nixpkgs.config.permittedInsecurePackages = [
+                "ventoy-qt5-1.1.07"
+              ];
+            }
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.sergiu = import ./users/sergiu/home.nix;
             }
           ];
         };
