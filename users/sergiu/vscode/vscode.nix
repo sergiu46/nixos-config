@@ -18,7 +18,7 @@ in
 
   # This tells Nix to point the VS Code config to a real file in your repo folder
   xdg.configFile."Code/User/settings.json".source =
-    config.lib.file.mkOutOfStoreSymlink "/home/${user}/NixOS/${user}/vscode/vscode-settings.json";
+    config.lib.file.mkOutOfStoreSymlink "~/NixOS/users/${user}/vscode/vscode-settings.json";
 
   home.packages = with pkgs; [
     nixd
