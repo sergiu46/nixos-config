@@ -18,7 +18,10 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                label = "NIXBOOT";
+                extraArgs = [
+                  "-n"
+                  "NIXBOOT"
+                ]; # Optional: sets label
               };
             };
             root = {
@@ -27,21 +30,14 @@
                 type = "filesystem";
                 format = "ext4";
                 mountpoint = "/";
-                label = "NIXROOT";
+                extraArgs = [
+                  "-L"
+                  "NIXROOT"
+                ]; # Optional: sets label
               };
             };
           };
         };
-      };
-    };
-    nodev = {
-      "/" = {
-        fsType = "tmpfs";
-        mountOptions = [
-          "defaults"
-          "size=50%"
-          "mode=755"
-        ]; # Optional: tmpfs root for speed/security on USB
       };
     };
   };
