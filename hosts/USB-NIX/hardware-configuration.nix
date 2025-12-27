@@ -9,37 +9,40 @@
   boot.loader.efi.canTouchEfiVariables = false; # Crucial for USB: don't mess with host's EFI
 
   # Kernel modules for various hardware (Storage, USB 3.0, Keyboards)
-  boot.initrd.availableKernelModules = [ 
-    "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" 
+  boot.initrd.availableKernelModules = [
+    "nvme"
+    "xhci_pci"
+    "ahci"
+    "usbhid"
+    "usb_storage"
+    "sd_mod"
   ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" "kvm-amd" ];
+  boot.kernelModules = [
+    "kvm-intel"
+    "kvm-amd"
+  ];
   boot.extraModulePackages = [ ];
 
   # --- Filesystem (The "Persistence" Part) ---
   # We use Labels instead of UUIDs because UUIDs change if you re-format.
   # When you format your USB, label the partitions 'NIXOS_USB' and 'BOOT_USB'
-fileSystems."/" = {
+  fileSystems."/" = {
     device = "/dev/disk/by-label/NIXOS_USB";
-    fsType = "btrfs";
-    options = [ "subvol=root" "compress=zstd:1" "noatime" ];
+    fsType = "ext4";
+    options = [ "noatime" ]; # 'noatime' helps reduce wear on USB flash drives
   };
 
-  fileSystems."/home" = {
-    device = "/dev/disk/by-label/NIXOS_USB";
-    fsType = "btrfs";
-    options = [ "subvol=home" "compress=zstd:1" "noatime" ];
-  };
-
-  fileSystems."/nix" = {
-    device = "/dev/disk/by-label/NIXOS_USB";
-    fsType = "btrfs";
-    options = [ "subvol=nix" "compress=zstd:1" "noatime" ];
-  };
+  # Note: Since ext4 doesn't have subvolumes, /home and /nix will
+  # live on the same root partition unless you create separate physical partitions.
 
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/BOOT_USB";
     fsType = "vfat";
+    options = [
+      "fmask=0022"
+      "dmask=0022"
+    ]; # Standard permissions for FAT32
   };
 
   swapDevices = [ ];
@@ -47,9 +50,9 @@ fileSystems."/" = {
   # --- Hardware Compatibility ---
   # Enables DHCP on all interfaces (portable networking)
   networking.useDHCP = lib.mkDefault true;
-  
+
   # Power management for laptops
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  powerManagement.cpuFreqGovernor = lib.mkDefault "balanced";
   hardware.cpu.intel.updateMicrocode = true;
   hardware.cpu.amd.updateMicrocode = true;
 }

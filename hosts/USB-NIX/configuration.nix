@@ -11,12 +11,12 @@
   networking.hostName = "USB-NIX";
 
   # --- USB OPTIMIZATIONS ---
-  
+
   # 1. Aggressive Garbage Collection (Keep only 1-2 generations)
   boot.loader.systemd-boot.configurationLimit = 2; # Current + 1 rollback
-  
+
   nix.gc = {
-    automatic = true;
+    automatic = false;
     dates = "daily";
     options = "--delete-older-than 1d"; # Effectively keeps only the current state
   };
