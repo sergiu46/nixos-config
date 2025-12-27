@@ -6,5 +6,6 @@
                 "expr": "import <nixpkgs> { overlays = [ (import /home/sergiu/NixOS/flake.nix).outputs.overlays.default or (_: _: {}) ]; }"
             }
         }
-    }
+    },
+    "git.enableSmartCommit": true
 }
