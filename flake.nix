@@ -9,8 +9,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
-    disko.url = "github:nix-community/disko";
-    disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -91,7 +89,7 @@
               home-manager.useUserPackages = true;
               home-manager.users.sergiu = import ./users/sergiu/home.nix;
             }
-            disko.nixosModules.disko
+
           ];
         };
       };
