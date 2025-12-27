@@ -1,5 +1,4 @@
 {
-  inputs,
   pkgs,
   ...
 }:
@@ -12,6 +11,7 @@
     curl
     tree
     htop
+    gparted
     parted
     btrfs-progs
     unstable.microsoft-edge
