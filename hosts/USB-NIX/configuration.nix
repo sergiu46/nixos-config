@@ -4,7 +4,6 @@
   imports = [
     ./hardware-configuration.nix
     ./sync-config.nix
-    ./disko.nix
     ../../common/system.nix
     ../../common/users.nix
   ];
