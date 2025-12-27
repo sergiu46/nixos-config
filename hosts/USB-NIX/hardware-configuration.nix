@@ -37,7 +37,7 @@
   # live on the same root partition unless you create separate physical partitions.
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-label/nixboot";
+    device = "/dev/disk/by-label/NIXBOOT";
     fsType = "vfat";
     options = [
       "fmask=0022"
