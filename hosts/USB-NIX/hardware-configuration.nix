@@ -28,7 +28,7 @@
   # We use Labels instead of UUIDs because UUIDs change if you re-format.
   # When you format your USB, label the partitions 'NIXOS_USB' and 'BOOT_USB'
   fileSystems."/" = {
-    device = "/dev/disk/by-label/NIXOS-USB";
+    device = "/dev/disk/by-label/nixroot";
     fsType = "ext4";
     options = [ "noatime" ]; # 'noatime' helps reduce wear on USB flash drives
   };
@@ -37,7 +37,7 @@
   # live on the same root partition unless you create separate physical partitions.
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-label/BOOT-USB";
+    device = "/dev/disk/by-label/nixboot";
     fsType = "vfat";
     options = [
       "fmask=0022"
