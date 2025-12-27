@@ -24,17 +24,11 @@
   ];
   boot.extraModulePackages = [ ];
 
-  # --- Filesystem (The "Persistence" Part) ---
-  # We use Labels instead of UUIDs because UUIDs change if you re-format.
-  # When you format your USB, label the partitions 'NIXOS_USB' and 'BOOT_USB'
   fileSystems."/" = {
-    device = "/dev/disk/by-label/nixroot";
+    device = "/dev/disk/by-label/NIXROOT";
     fsType = "ext4";
-    options = [ "noatime" ]; # 'noatime' helps reduce wear on USB flash drives
+    options = [ "noatime" ];
   };
-
-  # Note: Since ext4 doesn't have subvolumes, /home and /nix will
-  # live on the same root partition unless you create separate physical partitions.
 
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/NIXBOOT";
@@ -42,7 +36,7 @@
     options = [
       "fmask=0022"
       "dmask=0022"
-    ]; # Standard permissions for FAT32
+    ];
   };
 
   swapDevices = [ ];

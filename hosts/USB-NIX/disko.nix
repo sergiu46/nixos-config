@@ -1,13 +1,13 @@
-{ ... }:
-
+{
+  disks ? [ "/dev/vda" ],
+  ...
+}:
 {
   disko.devices = {
     disk = {
       main = {
-        # This name "main" will be used in the install command
         type = "disk";
-        # For USB installs, leave device blank or use a placeholder – disko-install handles it dynamically
-        # device = "/dev/sda";  # Optional; better to pass via --disk
+        device = builtins.elemAt disks 0;
         content = {
           type = "gpt";
           partitions = {
@@ -18,18 +18,30 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
+                label = "NIXBOOT";
               };
             };
             root = {
               size = "100%";
               content = {
                 type = "filesystem";
-                format = "ext4"; # Or "btrfs", "xfs", etc.
+                format = "ext4";
                 mountpoint = "/";
+                label = "NIXROOT";
               };
             };
           };
         };
+      };
+    };
+    nodev = {
+      "/" = {
+        fsType = "tmpfs";
+        mountOptions = [
+          "defaults"
+          "size=50%"
+          "mode=755"
+        ]; # Optional: tmpfs root for speed/security on USB
       };
     };
   };
