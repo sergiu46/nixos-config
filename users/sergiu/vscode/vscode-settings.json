@@ -1,24 +1,10 @@
 {
-    "editor.formatOnSave": true,
     "nix.enableLanguageServer": true,
-    "nix.serverPath": "nixd",
     "nix.serverSettings": {
         "nixd": {
-            "formatting": {
-                "command": [
-                    "nixfmt"
-                ]
-            },
-            "options": {
-                "home_manager": {
-                    "expr": "(builtins.getFlake \"/home/sergiu/NixOS\").homeConfigurations.sergiu.options"
-                },
-                "nixos": {
-                    "expr": "(builtins.getFlake \"/home/sergiu/NixOS\").nixosConfigurations.\"Latitude-NIX\".options"
-                }
+            "nixpkgs": {
+                "expr": "import <nixpkgs> { overlays = [ (import /home/sergiu/NixOS/flake.nix).outputs.overlays.default or (_: _: {}) ]; }"
             }
         }
-    },
-    "git.enableSmartCommit": true
-
+    }
 }
