@@ -18,8 +18,6 @@
     hunspell
     hunspellDicts.en_US
     hunspellDicts.ro_RO
-    # unstable.microsoft-edge
-    # unstable.telegram-desktop
   ];
 
   # Flatpak

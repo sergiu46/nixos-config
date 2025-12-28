@@ -4,10 +4,17 @@ let
   user = config.home.username;
 in
 {
+  # Home packages
+  home.packages = with pkgs; [
+    nixd # The actual server
+    nixfmt-rfc-style # Formatter
+  ];
+
+  # VSCode
   programs.vscode = {
     enable = true;
-    package = pkgs.unstable.vscode;
     mutableExtensionsDir = true;
+    package = pkgs.vscode;
 
     profiles.default = {
       extensions = with pkgs.vscode-extensions; [
@@ -19,9 +26,4 @@ in
   # Writable symlink to your repo
   xdg.configFile."Code/User/settings.json".source =
     config.lib.file.mkOutOfStoreSymlink "/home/${user}/NixOS/users/${user}/vscode/vscode-settings.json";
-
-  home.packages = with pkgs; [
-    nixd # The actual server
-    nixfmt-rfc-style # Formatter
-  ];
 }
