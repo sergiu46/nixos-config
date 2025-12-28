@@ -3,6 +3,7 @@
 
   home.username = "sergiu";
   home.homeDirectory = "/home/sergiu";
+  home.stateVersion = stateVersion;
 
   home.packages = with pkgs; [
     bitwarden-desktop
@@ -48,5 +49,4 @@
 
   programs.bash.enable = true;
 
-  home.stateVersion = stateVersion;
 }

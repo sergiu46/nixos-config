@@ -39,7 +39,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-
+              home-manager.extraSpecialArgs = { inherit stateVersion; };
               home-manager.users.denisa = import ./users/denisa/home.nix;
               home-manager.users.sergiu = import ./users/sergiu/home.nix;
             }
@@ -60,7 +60,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-
+              home-manager.extraSpecialArgs = { inherit stateVersion; };
               home-manager.users.sergiu = import ./users/sergiu/home.nix;
             }
           ];
