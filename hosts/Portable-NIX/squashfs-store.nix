@@ -6,34 +6,44 @@
 }:
 
 let
-  squashfsImage = "/nix/store.squashfs";
-in
-{
-  # Build a squashfs image of the store at build time
-  system.build.squashfsStore =
+  # Build a squashfs image of the system closure
+  storeSquashfs =
     pkgs.runCommand "nix-store-squashfs"
       {
         buildInputs = [ pkgs.squashfsTools ];
       }
       ''
         mkdir -p $out
-        mksquashfs /nix/store $out/store.squashfs -comp zstd -Xcompression-level 19 -noappend
+        mksquashfs ${config.system.build.toplevel} $out/store.squashfs \
+          -comp zstd -Xcompression-level 19 -noappend
       '';
+in
+{
+  # Expose it as a system output (optional)
+  system.build.storeSquashfs = storeSquashfs;
 
-  # Install the squashfs image into the system closure
-  environment.etc."store.squashfs".source = config.system.build.squashfsStore + "/store.squashfs";
-
-  # Mount squashfs as read-only store
+  # Mount the squashfs image directly from the Nix store
   fileSystems."/nix/store-ro" = {
+    device = "${storeSquashfs}/store.squashfs";
     fsType = "squashfs";
-    device = "/etc/store.squashfs";
     options = [
       "loop"
       "ro"
     ];
+    neededForBoot = true;
   };
 
-  # Overlay tmpfs on top of squashfs
+  # Writable overlay layer in RAM
+  fileSystems."/nix/store-rw" = {
+    fsType = "tmpfs";
+    options = [
+      "mode=0755"
+      "size=4G"
+    ];
+    neededForBoot = true;
+  };
+
+  # Overlay mount
   fileSystems."/nix/store" = {
     fsType = "overlay";
     device = "overlay";
@@ -41,19 +51,13 @@ in
       "lowerdir=/nix/store-ro"
       "upperdir=/nix/store-rw/upper"
       "workdir=/nix/store-rw/work"
+      "x-systemd.requires-mounts-for=/nix/store-ro"
+      "x-systemd.requires-mounts-for=/nix/store-rw"
     ];
+    neededForBoot = true;
   };
 
-  # Writable layer in RAM
-  fileSystems."/nix/store-rw" = {
-    fsType = "tmpfs";
-    options = [
-      "mode=0755"
-      "size=4G"
-    ];
-  };
-
-  # Ensure directories exist early
+  # Ensure overlay dirs exist
   systemd.tmpfiles.rules = [
     "d /nix/store-rw 0755 root root -"
     "d /nix/store-rw/upper 0755 root root -"

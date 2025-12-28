@@ -5,6 +5,7 @@
 {
   # System-wide packages (Stable)
   environment.systemPackages = with pkgs; [
+    f2fs-tools
     vim
     git
     wget

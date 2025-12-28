@@ -3,8 +3,8 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./squashfs-store.nix
     ./sync-config.nix
+    #./squashfs-store.nix
     ../../common/system.nix
     ../../common/users.nix
   ];

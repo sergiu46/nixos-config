@@ -8,10 +8,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = false;
   boot.loader.efi.efiSysMountPoint = "/boot";
-
-  systemd.enableUnifiedCgroupHierarchy = true;
-  systemd.services."systemd-journald".serviceConfig.ReadWritePaths = [ "/var/log" ];
   boot.initrd.systemd.enable = true;
+
+  systemd.services."systemd-journald".serviceConfig.ReadWritePaths = [ "/var/log" ];
 
   boot.initrd.availableKernelModules = [
     "xhci_pci"
@@ -36,6 +35,7 @@
     "vfat"
     "ntfs"
     "f2fs"
+    "squashfs"
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [
@@ -46,7 +46,12 @@
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/NIXROOT";
-    fsType = "ext4"; # or btrfs if you prefer
+    fsType = "f2fs";
+    options = [
+      "noatime"
+      "compress_algorithm=zstd"
+      "compress_chksum"
+    ];
   };
 
   fileSystems."/boot" = {
@@ -66,9 +71,6 @@
   zramSwap.enable = true;
   zramSwap.memoryPercent = 50;
 
-  #swapDevices = [ ];
-
-  # --- Hardware Compatibility ---
   # Enables DHCP on all interfaces (portable networking)
   networking.useDHCP = lib.mkDefault true;
 
