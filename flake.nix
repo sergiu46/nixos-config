@@ -93,26 +93,6 @@
           ];
         };
 
-        portable = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = { inherit inputs; };
-          modules = [
-            { nixpkgs.overlays = [ overlay-unstable ]; }
-            ./hosts/portable
-            nix-flatpak.nixosModules.nix-flatpak
-            {
-              nixpkgs.config.permittedInsecurePackages = [
-                "ventoy-qt5-1.1.07"
-              ];
-            }
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.sergiu = import ./users/sergiu/home.nix;
-            }
-          ];
-        };
       };
     };
 }
