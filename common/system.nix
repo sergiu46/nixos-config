@@ -30,6 +30,9 @@
     LC_TIME = "ro_RO.UTF-8";
   };
 
+  # Local time to match Windows
+  time.hardwareClockInLocalTime = true;
+
   # Networking
   networking.networkmanager.enable = true;
 
