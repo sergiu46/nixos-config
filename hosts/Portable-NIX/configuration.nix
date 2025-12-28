@@ -13,9 +13,6 @@
     ../../common/users.nix
   ];
 
-  # Hostname
-  networking.hostName = "Portable-NIX";
-
   # Bootloader & Kernel
   boot = {
     extraModulePackages = [ ];
@@ -42,6 +39,12 @@
       systemd.enable = true;
     };
 
+    kernel.sysctl = {
+      "vm.dirty_background_ratio" = 10;
+      "vm.dirty_ratio" = 20;
+      "vm.swappiness" = 10;
+    };
+
     kernelModules = [
       "kvm-amd"
       "kvm-intel"
@@ -49,16 +52,10 @@
 
     kernelParams = [
       "biosdevname=0"
+      "mq-deadline"
       "net.ifnames=0"
       "scsi_mod.use_blk_mq=1"
-      "mq-deadline"
     ];
-
-    kernel.sysctl = {
-      "vm.dirty_background_ratio" = 10;
-      "vm.dirty_ratio" = 20;
-      "vm.swappiness" = 10;
-    };
 
     loader = {
       efi = {
@@ -82,8 +79,8 @@
     ];
 
     tmp = {
-      useTmpfs = true;
       tmpfsSize = "50%";
+      useTmpfs = true;
     };
   };
 
@@ -93,11 +90,11 @@
       device = "/dev/disk/by-label/NIXROOT";
       fsType = "f2fs";
       options = [
+        "background_gc=on"
         "compress_algorithm=zstd:3"
         "compress_chksum"
-        "noatime"
-        "background_gc=on"
         "discard"
+        "noatime"
       ];
     };
 
@@ -115,23 +112,15 @@
         "size=200M"
       ];
     };
-
   };
-  systemd.mounts = [
-    {
-      what = "tmpfs";
-      where = "/var/lib/systemd";
-      type = "tmpfs";
-      options = "mode=0755,size=20M";
-    }
-  ];
 
+  # Initrd cache warmup
   boot.initrd.systemd.services.cache-preload = {
     description = "Warm page cache with common binaries";
     wantedBy = [ "initrd.target" ];
     serviceConfig = {
-      Type = "oneshot";
       ExecStart = "/bin/sh -c 'cat /nix/store/*/bin/* > /dev/null 2>&1'";
+      Type = "oneshot";
     };
   };
 
@@ -148,6 +137,9 @@
     graphics.enable = true;
   };
 
+  # Hostname
+  networking.hostName = "Portable-NIX";
+
   # Networking
   networking = {
     networkmanager.enable = true;
@@ -157,12 +149,16 @@
   # Nix & Store Optimizations
   nix = {
     gc = {
-      automatic = false;
+      automatic = true;
       dates = "daily";
       options = "--delete-older-than 1d";
     };
 
-    settings.auto-optimise-store = true;
+    settings = {
+      auto-optimise-store = true;
+      fsync-metadata = false;
+      use-xdg-base-directories = true;
+    };
   };
 
   # Power Management
@@ -172,13 +168,24 @@
   services = {
     fstrim.enable = true;
 
-    journald.extraConfig = ''
-      Storage=volatile
-      RuntimeMaxUse=50M
+    journald.extraConfig = "Storage=volatile\nRuntimeMaxUse=50M";
+
+    udev.extraRules = ''
+      ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/scheduler}="bfq"
     '';
 
     xserver.videoDrivers = [ "modesetting" ];
   };
+
+  # Systemd Mounts
+  systemd.mounts = [
+    {
+      options = "mode=0755,size=20M";
+      type = "tmpfs";
+      what = "tmpfs";
+      where = "/var/lib/systemd";
+    }
+  ];
 
   # Systemd Services
   systemd.services = {
@@ -186,18 +193,15 @@
     "systemd-tmpfiles-clean".enable = false;
   };
 
+  # Systemd Coredump
+  systemd.coredump.enable = false;
+
+  # Documentation
+  documentation.man.generateCaches = false;
+
   # Swap
   zramSwap = {
     enable = true;
-    memoryPercent = 30;
+    memoryPercent = 25;
   };
-
-  systemd.coredump.enable = false;
-  documentation.man.generateCaches = false;
-  services.udev.extraRules = ''
-    ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/scheduler}="bfq"
-  '';
-  nix.settings.use-xdg-base-directories = true;
-  nix.settings.fsync-metadata = false;
-
 }

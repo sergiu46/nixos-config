@@ -86,6 +86,6 @@
   # ZRAM swap
   zramSwap = {
     enable = true;
-    memoryPercent = 30;
+    memoryPercent = 25;
   };
 }
