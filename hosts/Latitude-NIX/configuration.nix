@@ -68,7 +68,7 @@
 
   # Power management
   powerManagement = {
-    cpuFreqGovernor = "powersave"; # CPU frequency scaling
+    cpuFreqGovernor = "balanced"; # CPU frequency scaling
     enable = true; # Laptop-specific power settings
   };
 

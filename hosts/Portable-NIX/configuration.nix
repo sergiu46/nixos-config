@@ -161,9 +161,11 @@
     };
   };
 
-  # Power Management
-  powerManagement.cpuFreqGovernor = lib.mkDefault "balanced";
-
+  # Power management
+  powerManagement = {
+    cpuFreqGovernor = "balanced"; # CPU frequency scaling
+    enable = true; # Laptop-specific power settings
+  };
   # Services
   services = {
     fstrim.enable = true;
