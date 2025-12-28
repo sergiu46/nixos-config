@@ -1,40 +1,192 @@
-{ ... }:
+{
+  pkgs,
+  lib,
+  modulesPath,
+  ...
+}:
 
 {
   imports = [
-    ./hardware-configuration.nix
+    (modulesPath + "/installer/scan/not-detected.nix")
     ./sync-config.nix
-    #./squashfs-store.nix
     ../../common/system.nix
     ../../common/users.nix
   ];
 
+  # -------------------------------------------------------
+  # Hostname
+  # -------------------------------------------------------
   networking.hostName = "Portable-NIX";
 
-  # --- USB OPTIMIZATIONS ---
+  # -------------------------------------------------------
+  # Bootloader & Kernel
+  # -------------------------------------------------------
+  boot = {
+    extraModulePackages = [ ];
 
-  # 1. Aggressive Garbage Collection (Keep only 1-2 generations)
-  boot.loader.systemd-boot.configurationLimit = 2; # Current + 1 rollback
+    initrd = {
+      availableKernelModules = [
+        "ahci"
+        "ehci_pci"
+        "mmc_block"
+        "mmc_core"
+        "nvme"
+        "ohci_pci"
+        "rtsx_pci"
+        "sd_mod"
+        "sdhci_acpi"
+        "sdhci_pci"
+        "sr_mod"
+        "uas"
+        "uhci_hcd"
+        "usb_storage"
+        "xhci_pci"
+      ];
+      kernelModules = [ ];
+      systemd.enable = true;
+    };
 
-  nix.gc = {
-    automatic = false;
-    dates = "daily";
-    options = "--delete-older-than 1d"; # Effectively keeps only the current state
+    kernelModules = [
+      "kvm-amd"
+      "kvm-intel"
+    ];
+
+    kernelParams = [
+      "biosdevname=0"
+      "net.ifnames=0"
+    ];
+
+    kernel.sysctl = {
+      "vm.dirty_background_ratio" = 5;
+      "vm.dirty_ratio" = 10;
+      "vm.swappiness" = 10;
+    };
+
+    loader = {
+      efi = {
+        canTouchEfiVariables = false;
+        efiSysMountPoint = "/boot";
+      };
+      systemd-boot = {
+        configurationLimit = 2;
+        enable = true;
+      };
+    };
+
+    supportedFilesystems = lib.mkForce [
+      "btrfs"
+      "ext4"
+      "f2fs"
+      "ntfs"
+      "squashfs"
+      "vfat"
+      "xfs"
+    ];
+
+    tmp = {
+      useTmpfs = true;
+      tmpfsSize = "50%";
+    };
   };
 
-  # 2. Storage Optimization
-  nix.settings.auto-optimise-store = true; # Hard-link duplicates
+  # -------------------------------------------------------
+  # File Systems
+  # -------------------------------------------------------
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-label/NIXROOT";
+      fsType = "f2fs";
+      options = [
+        "compress_algorithm=zstd:3"
+        "compress_chksum"
+        "noatime"
+      ];
+    };
 
-  # 3. Logs to RAM (Prevents constant writing to USB)
-  services.journald.extraConfig = ''
-    Storage=volatile
-    RuntimeMaxUse=50M
-  '';
+    "/boot" = {
+      device = "/dev/disk/by-label/NIXBOOT";
+      fsType = "vfat";
+    };
 
-  services.fstrim.enable = true;
+    "/tmp".fsType = "tmpfs";
 
-  # 4. Move temporary build files to RAM (Prevents wearing out USB during updates)
-  boot.tmp.useTmpfs = true;
-  boot.tmp.tmpfsSize = "50%"; # Uses half your RAM for builds
+    "/var/log" = {
+      fsType = "tmpfs";
+      options = [
+        "mode=0755"
+        "size=200M"
+      ];
+    };
+  };
 
+  # -------------------------------------------------------
+  # Hardware
+  # -------------------------------------------------------
+  hardware = {
+    cpu = {
+      amd.updateMicrocode = true;
+      intel.updateMicrocode = true;
+    };
+
+    enableAllFirmware = true;
+    firmware = [ pkgs.linux-firmware ];
+
+    graphics.enable = true;
+  };
+
+  # -------------------------------------------------------
+  # Networking
+  # -------------------------------------------------------
+  networking = {
+    networkmanager.enable = true;
+    useDHCP = lib.mkDefault true;
+  };
+
+  # -------------------------------------------------------
+  # Nix & Store Optimizations
+  # -------------------------------------------------------
+  nix = {
+    gc = {
+      automatic = false;
+      dates = "daily";
+      options = "--delete-older-than 1d";
+    };
+
+    settings.auto-optimise-store = true;
+  };
+
+  # -------------------------------------------------------
+  # Power Management
+  # -------------------------------------------------------
+  powerManagement.cpuFreqGovernor = lib.mkDefault "balanced";
+
+  # -------------------------------------------------------
+  # Services
+  # -------------------------------------------------------
+  services = {
+    fstrim.enable = true;
+
+    journald.extraConfig = ''
+      Storage=volatile
+      RuntimeMaxUse=50M
+    '';
+
+    xserver.videoDrivers = [ "modesetting" ];
+  };
+
+  # -------------------------------------------------------
+  # Systemd Services
+  # -------------------------------------------------------
+  systemd.services = {
+    "systemd-journald".serviceConfig.ReadWritePaths = [ "/var/log" ];
+    "systemd-tmpfiles-clean".enable = true;
+  };
+
+  # -------------------------------------------------------
+  # Swap
+  # -------------------------------------------------------
+  zramSwap = {
+    enable = true;
+    memoryPercent = 30;
+  };
 }
