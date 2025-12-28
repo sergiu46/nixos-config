@@ -25,18 +25,18 @@
   ];
 
   # Flatpak
-  # services.flatpak.enable = true;
-  # services.flatpak.update.onActivation = true;
-  # services.flatpak.remotes = [
-  #   {
-  #     name = "flathub";
-  #     location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
-  #   }
-  # ];
+  services.flatpak.enable = true;
+  services.flatpak.update.onActivation = true;
+  services.flatpak.remotes = [
+    {
+      name = "flathub";
+      location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
+    }
+  ];
 
-  # services.flatpak.packages = [
-  #   "com.github.iwalton3.jellyfin-media-player"
-  # ];
+  services.flatpak.packages = [
+    "com.github.iwalton3.jellyfin-media-player"
+  ];
 
   # Firefox
   programs.firefox.enable = true;
