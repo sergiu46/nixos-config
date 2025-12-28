@@ -13,14 +13,10 @@
     ../../common/users.nix
   ];
 
-  # -------------------------------------------------------
   # Hostname
-  # -------------------------------------------------------
   networking.hostName = "Portable-NIX";
 
-  # -------------------------------------------------------
   # Bootloader & Kernel
-  # -------------------------------------------------------
   boot = {
     extraModulePackages = [ ];
 
@@ -89,9 +85,7 @@
     };
   };
 
-  # -------------------------------------------------------
   # File Systems
-  # -------------------------------------------------------
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/NIXROOT";
@@ -119,9 +113,7 @@
     };
   };
 
-  # -------------------------------------------------------
   # Hardware
-  # -------------------------------------------------------
   hardware = {
     cpu = {
       amd.updateMicrocode = true;
@@ -134,17 +126,13 @@
     graphics.enable = true;
   };
 
-  # -------------------------------------------------------
   # Networking
-  # -------------------------------------------------------
   networking = {
     networkmanager.enable = true;
     useDHCP = lib.mkDefault true;
   };
 
-  # -------------------------------------------------------
   # Nix & Store Optimizations
-  # -------------------------------------------------------
   nix = {
     gc = {
       automatic = false;
@@ -155,14 +143,10 @@
     settings.auto-optimise-store = true;
   };
 
-  # -------------------------------------------------------
   # Power Management
-  # -------------------------------------------------------
   powerManagement.cpuFreqGovernor = lib.mkDefault "balanced";
 
-  # -------------------------------------------------------
   # Services
-  # -------------------------------------------------------
   services = {
     fstrim.enable = true;
 
@@ -174,17 +158,13 @@
     xserver.videoDrivers = [ "modesetting" ];
   };
 
-  # -------------------------------------------------------
   # Systemd Services
-  # -------------------------------------------------------
   systemd.services = {
     "systemd-journald".serviceConfig.ReadWritePaths = [ "/var/log" ];
     "systemd-tmpfiles-clean".enable = true;
   };
 
-  # -------------------------------------------------------
   # Swap
-  # -------------------------------------------------------
   zramSwap = {
     enable = true;
     memoryPercent = 30;
