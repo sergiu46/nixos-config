@@ -4,11 +4,11 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11"; # Stable
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable"; # Unstable
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-flatpak.url = "github:gmodena/nix-flatpak";
   };
 
   outputs =
@@ -18,7 +18,6 @@
       nixpkgs-unstable,
       home-manager,
       nix-flatpak,
-      disko,
       ...
     }@inputs:
     let
