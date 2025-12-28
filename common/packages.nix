@@ -14,8 +14,8 @@
     htop
     gparted
     parted
-    unstable.microsoft-edge
-    unstable.telegram-desktop
+    #unstable.microsoft-edge
+    #unstable.telegram-desktop
 
     # Libreoffice
     libreoffice-qt
@@ -36,7 +36,9 @@
 
   services.flatpak.packages = [
     "com.github.iwalton3.jellyfin-media-player"
-
+    "com.microsoft.Edge"
+    "org.telegram.desktop
+    
   ];
 
   # Firefox
