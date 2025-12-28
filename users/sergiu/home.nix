@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, stateVersion, ... }:
 {
 
   home.username = "sergiu";
@@ -41,7 +41,6 @@
 
   dconf = {
     enable = true;
-
     settings."org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
     };
@@ -49,5 +48,5 @@
 
   programs.bash.enable = true;
 
-  home.stateVersion = "25.11";
+  home.stateVersion = stateVersion;
 }

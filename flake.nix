@@ -21,12 +21,13 @@
     }@inputs:
     let
       system = "x86_64-linux";
+      stateVersion = "25.11";
     in
     {
       nixosConfigurations = {
         Latitude-NIX = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs stateVersion; };
 
           modules = [
             ./hosts/Latitude-NIX/configuration.nix
@@ -47,7 +48,7 @@
 
         Portable-NIX = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs stateVersion; };
 
           modules = [
             ./hosts/Portable-NIX/configuration.nix

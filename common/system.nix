@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, stateVersion, ... }:
 
 {
   imports = [
@@ -74,7 +74,7 @@
   };
 
   # Standard NixOS version
-  system.stateVersion = "25.11";
+  system.stateVersion = stateVersion;
 
   # Timezone
   time.timeZone = "Europe/Bucharest";
