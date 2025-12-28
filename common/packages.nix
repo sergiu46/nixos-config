@@ -29,7 +29,7 @@
         name = "flathub";
       }
     ];
-    update.onActivation = true;
+    # update.onActivation = true;
 
     packages = [
       "com.github.iwalton3.jellyfin-media-player"
