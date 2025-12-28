@@ -37,8 +37,8 @@
   services.flatpak.packages = [
     "com.github.iwalton3.jellyfin-media-player"
     "com.microsoft.Edge"
-    "org.telegram.desktop
-    
+    "org.telegram.desktop"
+
   ];
 
   # Firefox
