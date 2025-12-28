@@ -26,7 +26,12 @@
   nix.settings.auto-optimise-store = true; # Hard-link duplicates
 
   # 3. Logs to RAM (Prevents constant writing to USB)
-  services.journald.extraConfig = "Storage=volatile";
+  services.journald.extraConfig = ''
+    Storage=volatile
+    RuntimeMaxUse=50M
+  '';
+
+  services.fstrim.enable = true;
 
   # 4. Move temporary build files to RAM (Prevents wearing out USB during updates)
   boot.tmp.useTmpfs = true;

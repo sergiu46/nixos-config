@@ -12,6 +12,14 @@
     ventoy-full-qt
   ];
 
+  programs.git = {
+    enable = true;
+    settings = {
+      user.name = "Sergiu";
+      user.email = "sergiu@example.com";
+    };
+  };
+
   imports = [
     ./vscode/vscode.nix
 

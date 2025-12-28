@@ -1,4 +1,9 @@
-{ lib, modulesPath, ... }:
+{
+  pkgs,
+  lib,
+  modulesPath,
+  ...
+}:
 
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
@@ -11,6 +16,24 @@
   boot.initrd.systemd.enable = true;
 
   systemd.services."systemd-journald".serviceConfig.ReadWritePaths = [ "/var/log" ];
+
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 10;
+    "vm.dirty_ratio" = 10;
+    "vm.dirty_background_ratio" = 5;
+  };
+
+  boot.kernelParams = [
+    "net.ifnames=0"
+    "biosdevname=0"
+  ];
+
+  systemd.services."systemd-tmpfiles-clean".enable = true;
+
+  services.xserver.videoDrivers = [ "modesetting" ];
+
+  hardware.enableAllFirmware = true;
+  hardware.firmware = [ pkgs.linux-firmware ];
 
   boot.initrd.availableKernelModules = [
     "xhci_pci"
@@ -25,6 +48,11 @@
     "nvme"
     "ahci"
     "rtsx_pci"
+    "mmc_block"
+    "mmc_core"
+    "sdhci_pci"
+    "sdhci_acpi"
+
   ];
 
   # Support all common filesystems
@@ -49,7 +77,7 @@
     fsType = "f2fs";
     options = [
       "noatime"
-      "compress_algorithm=zstd"
+      "compress_algorithm=zstd:3"
       "compress_chksum"
     ];
   };
@@ -71,7 +99,10 @@
   zramSwap.enable = true;
   zramSwap.memoryPercent = 30;
 
+  hardware.graphics.enable = true;
+
   # Enables DHCP on all interfaces (portable networking)
+  networking.networkmanager.enable = true;
   networking.useDHCP = lib.mkDefault true;
 
   # Power management for laptops
