@@ -69,7 +69,7 @@
   };
 
   zramSwap.enable = true;
-  zramSwap.memoryPercent = 50;
+  zramSwap.memoryPercent = 30;
 
   # Enables DHCP on all interfaces (portable networking)
   networking.useDHCP = lib.mkDefault true;
