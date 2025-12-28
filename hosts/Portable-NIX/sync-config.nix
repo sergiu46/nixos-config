@@ -18,9 +18,7 @@
       CONFIG_DIR="/home/sergiu/NixOS"
       REPO_URL="https://github.com/sergiu46/nixos-config.git"
 
-      # Wait up to 30 seconds for actual internet connectivity
-      # Useful for slow Wi-Fi connections
-      for i in {1..30}; do
+      for i in {1..60}; do
         if ${pkgs.curl}/bin/curl -s --head  --request GET http://google.com | grep "200 OK" > /dev/null; then
           break
         fi
@@ -36,6 +34,5 @@
       fi
     '';
   };
-
 
 }

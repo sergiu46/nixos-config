@@ -31,6 +31,4 @@
   boot.tmp.useTmpfs = true;
   boot.tmp.tmpfsSize = "50%"; # Uses half your RAM for builds
 
-  # Standard NixOS version
-  system.stateVersion = "25.11";
 }

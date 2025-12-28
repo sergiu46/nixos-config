@@ -40,28 +40,7 @@
             { nixpkgs.overlays = [ overlay-unstable ]; }
             ./hosts/Latitude-NIX/configuration.nix
             nix-flatpak.nixosModules.nix-flatpak
-            {
-              nixpkgs.config.permittedInsecurePackages = [
-                "ventoy-qt5-1.1.07"
-              ];
-            }
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.sergiu = import ./users/sergiu/home.nix;
-              home-manager.users.denisa = import ./users/denisa/home.nix;
-            }
-          ];
-        };
-
-        "Thinkpad-NIX" = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = { inherit inputs; };
-          modules = [
-            { nixpkgs.overlays = [ overlay-unstable ]; }
-            ./hosts/Thinkpad-NIX/configuration.nix
-            nix-flatpak.nixosModules.nix-flatpak
+            { nixpkgs.config.permittedInsecurePackages = [ "ventoy-qt5-1.1.07" ]; }
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -78,11 +57,8 @@
             { nixpkgs.overlays = [ overlay-unstable ]; }
             ./hosts/Portable-NIX/configuration.nix
             nix-flatpak.nixosModules.nix-flatpak
-            {
-              nixpkgs.config.permittedInsecurePackages = [
-                "ventoy-qt5-1.1.07"
-              ];
-            }
+            { nixpkgs.config.permittedInsecurePackages = [ "ventoy-qt5-1.1.07" ]; }
+
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;

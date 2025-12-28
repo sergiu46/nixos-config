@@ -20,9 +20,10 @@
   home.shellAliases = {
     switch = "sudo nixos-rebuild switch --flake ~/NixOS#Latitude-NIX";
     check = "nixos-rebuild build --flake ~/NixOS#Latitude-NIX";
-    upswitch = "pushd ~/NixOS && nix flake update && git add flake.lock && sudo nixos-rebuild switch --flake .#Latitude-NIX && popd";
+    upswitch = "sudo nix flake update ~/NixOS && git add flake.lock && sudo nixos-rebuild switch --flake .#Latitude-NIX";
   };
 
   programs.bash.enable = true;
+
   home.stateVersion = "25.11";
 }

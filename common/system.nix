@@ -3,10 +3,12 @@
   ...
 }:
 {
-
   imports = [
     ./packages.nix
   ];
+
+  # Standard NixOS version
+  system.stateVersion = "25.11";
 
   # Locale
   time.timeZone = "Europe/Bucharest";
@@ -28,9 +30,6 @@
     layout = "ro";
     variant = "";
   };
-
-  # Enable X11
-  services.xserver.enable = true;
 
   # GNOME Desktop
   services.displayManager.gdm.enable = true;

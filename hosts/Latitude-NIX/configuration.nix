@@ -9,10 +9,9 @@
   ];
 
   networking.hostName = "Latitude-NIX";
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  system.stateVersion = "25.11";
 
   # GPU (Intel for your Latitude)
   services.xserver.videoDrivers = [ "intel" ];
