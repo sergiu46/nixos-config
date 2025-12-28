@@ -1,39 +1,91 @@
-{ ... }:
+{
+  config,
+  lib,
+  modulesPath,
+  ...
+}:
 
 {
   imports = [
-    ./hardware-configuration.nix
+    (modulesPath + "/installer/scan/not-detected.nix")
+    ../../common/auto-update.nix
     ../../common/system.nix
     ../../common/users.nix
-    ../../common/auto-update.nix
   ];
 
+  # Hostname
   networking.hostName = "Latitude-NIX";
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Bootloader and EFI
+  boot = {
+    extraModulePackages = [ ];
 
-  # GPU (Intel for your Latitude)
-  services.xserver.videoDrivers = [ "intel" ];
+    initrd = {
+      availableKernelModules = [
+        "ahci"
+        "nvme"
+        "rtsx_pci_sdmmc"
+        "sd_mod"
+        "usb_storage"
+        "xhci_pci"
+      ];
+      kernelModules = [ ];
+    };
 
-  # Laptop-specific hardware settings
-  powerManagement.enable = true;
-  services.tlp.enable = false;
+    kernelModules = [ "kvm-intel" ];
 
-  # Bluetooth
-  hardware.bluetooth.enable = true;
-  services.blueman.enable = true;
+    loader = {
+      efi.canTouchEfiVariables = true;
+      systemd-boot.enable = true;
+    };
+  };
 
-  # Enable thermald for Intel laptops
-  services.thermald.enable = true;
+  # File systems
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-uuid/33a9284e-70df-4f5c-b74f-36bc473b4850";
+      fsType = "ext4";
+    };
 
-  # Enable CPU frequency scaling
-  powerManagement.cpuFreqGovernor = "powersave";
+    "/boot" = {
+      device = "/dev/disk/by-uuid/4804-E951";
+      fsType = "vfat";
+      options = [
+        "dmask=0077"
+        "fmask=0077"
+      ];
+    };
+  };
 
-  # Enable battery monitoring
-  services.upower.enable = true;
+  # Hardware
+  hardware = {
+    bluetooth.enable = true; # Bluetooth
+    cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  };
 
-  # Touchpad (optional but recommended)
-  services.libinput.enable = true;
+  # Nixpkgs platform
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
+  # Power management
+  powerManagement = {
+    cpuFreqGovernor = "powersave"; # CPU frequency scaling
+    enable = true; # Laptop-specific power settings
+  };
+
+  # Services
+  services = {
+    blueman.enable = true; # Bluetooth manager
+    libinput.enable = true; # Touchpad support
+    thermald.enable = true; # Intel thermald
+    tlp.enable = false; # Disable TLP
+    upower.enable = true; # Battery monitoring
+
+    xserver.videoDrivers = [ "intel" ]; # Intel GPU
+  };
+
+  # ZRAM swap
+  zramSwap = {
+    enable = true;
+    memoryPercent = 30;
+  };
 }

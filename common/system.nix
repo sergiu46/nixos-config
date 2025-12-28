@@ -1,17 +1,22 @@
-{
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
+
 {
   imports = [
     ./packages.nix
   ];
 
-  # Standard NixOS version
-  system.stateVersion = "25.11";
+  # Audio
+  security.rtkit.enable = true;
+  services.pulseaudio.enable = false;
+
+  # Boot kernel packages
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  # GNOME desktop
+  services.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
 
   # Locale
-  time.timeZone = "Europe/Bucharest";
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "ro_RO.UTF-8";
@@ -25,49 +30,52 @@
     LC_TIME = "ro_RO.UTF-8";
   };
 
-  # Keyboard layout
-  services.xserver.xkb = {
-    layout = "ro";
-    variant = "";
-  };
-
-  # GNOME Desktop
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
-
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  # Networking
   networking.networkmanager.enable = true;
+
+  # Nix settings
+  nix.settings.experimental-features = [
+    "flakes"
+    "nix-command"
+  ];
+
+  # Nixpkgs config
   nixpkgs.config.allowUnfree = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # Audio
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-
+  # PipeWire audio stack
   services.pipewire = {
-    enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
-    pulse.enable = true;
+    enable = true;
     jack.enable = false;
+    pulse.enable = true;
   };
 
   # Printing
   services.printing = {
-    enable = true;
     drivers = [
-      pkgs.hplip
       pkgs.gutenprint
+      pkgs.hplip
     ];
+    enable = true;
   };
 
+  # Avahi
   services.avahi = {
     enable = true;
     nssmdns4 = true;
     openFirewall = true;
   };
 
+  # Keyboard layout
+  services.xserver.xkb = {
+    layout = "ro";
+    variant = "";
+  };
+
+  # Standard NixOS version
+  system.stateVersion = "25.11";
+
+  # Timezone
+  time.timeZone = "Europe/Bucharest";
 }
