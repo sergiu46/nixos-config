@@ -9,6 +9,10 @@
   boot.loader.efi.canTouchEfiVariables = false;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
+  systemd.enableUnifiedCgroupHierarchy = true;
+  systemd.services."systemd-journald".serviceConfig.ReadWritePaths = [ "/var/log" ];
+  boot.initrd.systemd.enable = true;
+
   boot.initrd.availableKernelModules = [
     "xhci_pci"
     "ehci_pci"
@@ -50,7 +54,19 @@
     fsType = "vfat";
   };
 
-  swapDevices = [ ];
+  fileSystems."/tmp".fsType = "tmpfs";
+  fileSystems."/var/log" = {
+    fsType = "tmpfs";
+    options = [
+      "mode=0755"
+      "size=200M"
+    ];
+  };
+
+  zramSwap.enable = true;
+  zramSwap.memoryPercent = 50;
+
+  #swapDevices = [ ];
 
   # --- Hardware Compatibility ---
   # Enables DHCP on all interfaces (portable networking)
