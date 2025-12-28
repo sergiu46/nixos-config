@@ -5,7 +5,7 @@
   home.homeDirectory = "/home/sergiu";
 
   home.packages = with pkgs; [
-    unstable.bitwarden-desktop
+    bitwarden-desktop
     gnomeExtensions.just-perfection
     gnomeExtensions.system-monitor
     gnomeExtensions.dash-to-dock
