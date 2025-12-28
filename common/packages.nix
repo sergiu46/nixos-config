@@ -1,47 +1,45 @@
-{
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
+
 {
   # System-wide packages (Stable)
   environment.systemPackages = with pkgs; [
-    f2fs-tools
-    vim
-    git
-    wget
     curl
-    tree
-    htop
+    git
     gparted
+    htop
     parted
-    #unstable.microsoft-edge
-    #unstable.telegram-desktop
-
-    # Libreoffice
+    gparted
+    f2fs-tools
+    tree
+    vim
+    wget
+    # Libre office
     libreoffice-qt
     hunspell
-    hunspellDicts.ro_RO
     hunspellDicts.en_US
+    hunspellDicts.ro_RO
+    # unstable.microsoft-edge
+    # unstable.telegram-desktop
   ];
 
   # Flatpak
-  services.flatpak.enable = true;
-  services.flatpak.update.onActivation = true;
-  services.flatpak.remotes = [
-    {
-      name = "flathub";
-      location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
-    }
-  ];
+  services.flatpak = {
+    enable = true;
+    remotes = [
+      {
+        location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
+        name = "flathub";
+      }
+    ];
+    update.onActivation = true;
 
-  services.flatpak.packages = [
-    "com.github.iwalton3.jellyfin-media-player"
-    "com.microsoft.Edge"
-    "org.telegram.desktop"
-
-  ];
+    packages = [
+      "com.github.iwalton3.jellyfin-media-player"
+      "com.microsoft.Edge"
+      "org.telegram.desktop"
+    ];
+  };
 
   # Firefox
   programs.firefox.enable = true;
-
 }
