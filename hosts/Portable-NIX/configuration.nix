@@ -50,11 +50,13 @@
     kernelParams = [
       "biosdevname=0"
       "net.ifnames=0"
+      "scsi_mod.use_blk_mq=1"
+      "mq-deadline"
     ];
 
     kernel.sysctl = {
-      "vm.dirty_background_ratio" = 5;
-      "vm.dirty_ratio" = 10;
+      "vm.dirty_background_ratio" = 10;
+      "vm.dirty_ratio" = 20;
       "vm.swappiness" = 10;
     };
 
@@ -94,6 +96,8 @@
         "compress_algorithm=zstd:3"
         "compress_chksum"
         "noatime"
+        "background_gc=on"
+        "discard"
       ];
     };
 
@@ -110,6 +114,24 @@
         "mode=0755"
         "size=200M"
       ];
+    };
+
+  };
+  systemd.mounts = [
+    {
+      what = "tmpfs";
+      where = "/var/lib/systemd";
+      type = "tmpfs";
+      options = "mode=0755,size=20M";
+    }
+  ];
+
+  boot.initrd.systemd.services.cache-preload = {
+    description = "Warm page cache with common binaries";
+    wantedBy = [ "initrd.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "/bin/sh -c 'cat /nix/store/*/bin/* > /dev/null 2>&1'";
     };
   };
 
@@ -161,7 +183,7 @@
   # Systemd Services
   systemd.services = {
     "systemd-journald".serviceConfig.ReadWritePaths = [ "/var/log" ];
-    "systemd-tmpfiles-clean".enable = true;
+    "systemd-tmpfiles-clean".enable = false;
   };
 
   # Swap
@@ -169,4 +191,13 @@
     enable = true;
     memoryPercent = 30;
   };
+
+  systemd.coredump.enable = false;
+  documentation.man.generateCaches = false;
+  services.udev.extraRules = ''
+    ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/scheduler}="bfq"
+  '';
+  nix.settings.use-xdg-base-directories = true;
+  nix.settings.fsync-metadata = false;
+
 }
