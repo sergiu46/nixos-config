@@ -39,4 +39,7 @@
 
   # Firefox
   programs.firefox.enable = true;
+
+  #Tailscale
+  services.tailscale.enable = true;
 }
