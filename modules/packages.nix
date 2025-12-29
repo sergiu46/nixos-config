@@ -13,6 +13,7 @@
     tree
     wget
     vlc
+    mkpasswd
     # Libre office
     libreoffice-qt
     hunspell
