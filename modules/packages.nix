@@ -34,6 +34,7 @@
       "com.github.iwalton3.jellyfin-media-player"
       "com.microsoft.Edge"
       "org.telegram.desktop"
+      "ev.deedles.Trayscale"
     ];
   };
 
