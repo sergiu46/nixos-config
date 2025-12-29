@@ -2,6 +2,7 @@
   pkgs,
   lib,
   modulesPath,
+  inputs,
   ...
 }:
 
@@ -150,6 +151,7 @@
       automatic = true;
       dates = "daily";
       options = "--delete-older-than 1d";
+      randomizedDelaySec = "10min";
     };
 
     settings = {
@@ -157,6 +159,21 @@
       fsync-metadata = false;
       use-xdg-base-directories = true;
     };
+  };
+
+  # Automatic system upgrades
+  system.autoUpgrade = {
+    allowReboot = false;
+    dates = "daily";
+    enable = true;
+    flake = inputs.self.outPath;
+    flags = [
+      "--refresh"
+      "-L"
+    ];
+    operation = "boot";
+    persistent = true;
+    randomizedDelaySec = "10min";
   };
 
   # Power management
