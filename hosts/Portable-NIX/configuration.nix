@@ -157,7 +157,7 @@
     };
 
     settings = {
-      auto-optimise-store = true;
+      auto-optimise-store = false;
       fsync-metadata = false;
       use-xdg-base-directories = true;
     };

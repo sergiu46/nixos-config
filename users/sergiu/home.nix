@@ -39,7 +39,7 @@
     mount-portable = "sudo mount /dev/disk/by-label/NIXROOT /mnt && sudo mkdir /mnt/boot && sudo mount /dev/disk/by-label/NIXBOOT /mnt/boot";
     install-portable = "sudo nixos-install --flake ~/NixOS#Portable-NIX";
 
-    clean = "sudo nix-collect-garbage -d && nix-collect-garbage -d && sudo nix-store --optimise";
+    clean = "sudo nix-collect-garbage -d && nix-collect-garbage -d";
   };
 
   dconf = {
