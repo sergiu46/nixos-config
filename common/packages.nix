@@ -12,6 +12,7 @@
     f2fs-tools
     tree
     wget
+    vlc
     # Libre office
     libreoffice-qt
     hunspell

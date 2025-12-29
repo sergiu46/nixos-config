@@ -15,7 +15,36 @@
   # GNOME desktop
   services.desktopManager.gnome.enable = true;
   services.displayManager.gdm.enable = true;
-  environment.gnome.excludePackages = with pkgs.gnome; [ epiphany ];
+  environment.gnome.excludePackages = with pkgs; [
+    epiphany
+    gnome-calendar
+    gnome-contacts
+    gnome-maps
+    gnome-tour
+    totem
+    rhythmbox
+    geary
+    yelp
+
+  ];
+  programs.dconf.enable = true;
+  programs.dconf.profiles = {
+    user = {
+      databases = [
+        {
+          settings = {
+            "org/gnome/mutter" = {
+              experimental-features = [
+                "scale-monitor-framebuffer"
+                "variable-refresh-rate"
+                "xwayland-native-scaling"
+              ];
+            };
+          };
+        }
+      ];
+    };
+  };
 
   # Locale
   i18n.defaultLocale = "en_US.UTF-8";
