@@ -8,9 +8,9 @@
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    ../../common/auto-update.nix
-    ../../common/system.nix
-    ../../common/users.nix
+    ../../modules/auto-update.nix
+    ../../modules/system.nix
+    ../../modules/users.nix
   ];
 
   # Hostname

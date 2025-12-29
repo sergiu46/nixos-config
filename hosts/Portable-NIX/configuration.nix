@@ -11,8 +11,8 @@
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     ./sync-config.nix
-    ../../common/system.nix
-    ../../common/users.nix
+    ../../modules/system.nix
+    ../../modules/users.nix
   ];
 
   # Bootloader & Kernel
