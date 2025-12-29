@@ -130,10 +130,8 @@
       amd.updateMicrocode = true;
       intel.updateMicrocode = true;
     };
-
     enableAllFirmware = true;
     firmware = [ pkgs.linux-firmware ];
-
     graphics.enable = true;
   };
 
@@ -170,11 +168,12 @@
   services = {
     fstrim.enable = true;
     power-profiles-daemon.enable = true;
+    xserver.videoDrivers = [ "modesetting" ];
     journald.extraConfig = "Storage=volatile\nRuntimeMaxUse=50M";
     udev.extraRules = ''
       ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/scheduler}="bfq"
     '';
-    xserver.videoDrivers = [ "modesetting" ];
+
   };
 
   # Systemd Mounts
