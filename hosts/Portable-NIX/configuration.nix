@@ -210,7 +210,7 @@
   # Systemd Services
   systemd.services = {
     "systemd-journald".serviceConfig.ReadWritePaths = [ "/var/log" ];
-    "systemd-tmpfiles-clean".enable = false;
+    "systemd-tmpfiles-clean".enable = true;
   };
 
   # Systemd Coredump
