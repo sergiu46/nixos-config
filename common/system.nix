@@ -15,6 +15,7 @@
   # GNOME desktop
   services.desktopManager.gnome.enable = true;
   services.displayManager.gdm.enable = true;
+  environment.gnome.excludePackages = with pkgs.gnome; [ epiphany ];
 
   # Locale
   i18n.defaultLocale = "en_US.UTF-8";
