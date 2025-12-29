@@ -21,8 +21,8 @@
     gnome-contacts
     gnome-maps
     gnome-tour
-    totem
-    rhythmbox
+    gnome-music
+    showtime
     geary
     yelp
 
