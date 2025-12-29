@@ -5,11 +5,16 @@
   home.homeDirectory = "/home/sergiu";
   home.stateVersion = stateVersion;
 
+  programs.bash.enable = true;
+
+  imports = [
+    ./vscode/vscode.nix
+  ];
+
   home.packages = with pkgs; [
     bitwarden-desktop
-    gnomeExtensions.just-perfection
     gnomeExtensions.system-monitor
-    gnomeExtensions.dash-to-dock
+    gnomeExtensions.alphabetical-app-grid
     ventoy-full-qt
   ];
 
@@ -20,11 +25,6 @@
       user.email = "sergiu@example.com";
     };
   };
-
-  imports = [
-    ./vscode/vscode.nix
-
-  ];
 
   home.shellAliases = {
     switch-latitude = "sudo nixos-rebuild switch --flake ~/NixOS#Latitude-NIX";
@@ -44,11 +44,19 @@
 
   dconf = {
     enable = true;
-    settings."org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
+
+    settings = {
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+      };
+
+      "org/gnome/shell" = {
+        enabled-extensions = [
+          "system-monitor@paradoxxx.zero.gmail.com"
+          "alphabetical-app-grid@stuarthayhurst"
+        ];
+      };
     };
   };
-
-  programs.bash.enable = true;
 
 }
