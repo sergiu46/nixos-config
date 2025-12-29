@@ -49,13 +49,6 @@
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
       };
-
-      "org/gnome/shell" = {
-        enabled-extensions = [
-          "system-monitor@paradoxxx.zero.gmail.com"
-          "alphabetical-app-grid@stuarthayhurst"
-        ];
-      };
     };
   };
 
