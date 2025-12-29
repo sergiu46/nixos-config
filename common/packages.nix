@@ -11,7 +11,6 @@
     gparted
     f2fs-tools
     tree
-    vim
     wget
     # Libre office
     libreoffice-qt

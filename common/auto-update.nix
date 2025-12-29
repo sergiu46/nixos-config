@@ -11,7 +11,7 @@
     automatic = true;
     dates = "daily";
     options = "--delete-older-than 14d";
-    randomizedDelaySec = "45min";
+    randomizedDelaySec = "10min";
   };
 
   # Automatic system upgrades
@@ -26,7 +26,7 @@
     ];
     operation = "boot";
     persistent = true;
-    randomizedDelaySec = "45min";
+    randomizedDelaySec = "10min";
   };
 
   # Persistent GC timer
