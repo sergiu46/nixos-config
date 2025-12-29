@@ -3,6 +3,7 @@
   lib,
   modulesPath,
   inputs,
+  config,
   ...
 }:
 
@@ -129,11 +130,12 @@
   hardware = {
     cpu = {
       amd.updateMicrocode = true;
-      intel.updateMicrocode = true;
+      intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     };
     enableAllFirmware = true;
     firmware = [ pkgs.linux-firmware ];
     graphics.enable = true;
+    bluetooth.enable = true;
   };
 
   # Hostname
@@ -184,6 +186,8 @@
   # Services
   services = {
     fstrim.enable = true;
+    blueman.enable = true;
+    thermald.enable = true;
     power-profiles-daemon.enable = true;
     xserver.videoDrivers = [ "modesetting" ];
     journald.extraConfig = "Storage=volatile\nRuntimeMaxUse=50M";

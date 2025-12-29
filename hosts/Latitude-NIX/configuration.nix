@@ -79,7 +79,6 @@
     thermald.enable = true; # Intel thermald
     tlp.enable = false; # Disable TLP
     upower.enable = true; # Battery monitoring
-
     xserver.videoDrivers = [ "intel" ]; # Intel GPU
   };
 
