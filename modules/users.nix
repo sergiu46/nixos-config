@@ -7,7 +7,7 @@
       "networkmanager"
     ];
     home = "/home/sergiu";
-    initialHashedPassword = "$6$l8tR42rMgdMGk/MO$lzJjl07et688Xo/sPlOtm7yHNakS.uWg5Tkwc0VHAI.grz6A7VhcFhI5./g.LF8SFEka4YHxuQUKAOvgSjHW2/";
+    initialHashedPassword = "$6$buw015VUknyintzF$VGdr4OGh4mwZHLcvAXkZP2i7vYDbfSbusuTMxi8qY4qVZz6m/pRhiih4tLmM2JdodHGnuug7gGu4NjBK.buhC0";
 
   };
 
@@ -15,6 +15,6 @@
     isNormalUser = true;
     extraGroups = [ "networkmanager" ];
     home = "/home/denisa";
-    initialHashedPassword = "$6$l8tR42rMgdMGk/MO$lzJjl07et688Xo/sPlOtm7yHNakS.uWg5Tkwc0VHAI.grz6A7VhcFhI5./g.LF8SFEka4YHxuQUKAOvgSjHW2/";
+    initialHashedPassword = "$6$buw015VUknyintzF$VGdr4OGh4mwZHLcvAXkZP2i7vYDbfSbusuTMxi8qY4qVZz6m/pRhiih4tLmM2JdodHGnuug7gGu4NjBK.buhC0";
   };
 }
