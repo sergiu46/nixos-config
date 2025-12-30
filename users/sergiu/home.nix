@@ -36,7 +36,7 @@
     check-portable = "nixos-rebuild build --flake ~/NixOS#Portable-NIX";
     boot-portable = "sudo nixos-rebuild boot --flake ~/NixOS#Portable-NIX";
     update-portable = "cd ~/NixOS && sudo nix flake update && sudo nixos-rebuild switch --flake ~/NixOS#Portable-NIX";
-    mount-portable = "sudo mount /dev/disk/by-label/NIXROOT /mnt && sudo mkdir /mnt/boot && sudo mount /dev/disk/by-label/NIXBOOT /mnt/boot";
+    mount-portable = "sudo mount /dev/disk/by-label/NIX-ROOT /mnt && sudo mkdir -p /mnt/boot && sudo mount /dev/disk/by-label/NIX-BOOT /mnt/boot";
     install-portable = "sudo nixos-install --flake ~/NixOS#Portable-NIX";
 
     clean = "sudo nix-collect-garbage -d && nix-collect-garbage -d";

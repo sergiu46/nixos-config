@@ -89,7 +89,7 @@
   # File Systems
   fileSystems = {
     "/" = {
-      device = "/dev/disk/by-label/NIXROOT";
+      device = "/dev/disk/by-label/NIX-ROOT";
       fsType = "f2fs";
       options = [
         "background_gc=on"
@@ -101,7 +101,7 @@
     };
 
     "/boot" = {
-      device = "/dev/disk/by-label/NIXBOOT";
+      device = "/dev/disk/by-label/NIX-BOOT";
       fsType = "vfat";
     };
 
