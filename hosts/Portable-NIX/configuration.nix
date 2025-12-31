@@ -150,7 +150,7 @@
   # Nix & Store Optimizations
   nix = {
     gc = {
-      automatic = true;
+      automatic = false;
       dates = "daily";
       options = "--delete-older-than 1d";
       randomizedDelaySec = "10min";
