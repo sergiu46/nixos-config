@@ -49,6 +49,38 @@
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
       };
+
+      "org/gnome/shell" = {
+        enabled-extensions = [
+          pkgs.gnomeExtensions.system-monitor.extensionUuid
+          pkgs.gnomeExtensions.alphabetical-app-grid.extensionUuid
+
+        ];
+
+        favorite-apps = [
+          "com.microsoft.Edge.desktop"
+          "firefox.desktop"
+          "org.gnome.Nautilus.desktop"
+          "com.github.iwalton3.jellyfin-media-player.desktop"
+          "org.telegram.desktop.desktop"
+          "com.microsoft.Edge.flextop.msedge-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop"
+          "code.desktop"
+          "org.gnome.Console.desktop"
+        ];
+
+      };
+    };
+  };
+
+  qt = {
+    enable = true;
+
+    platformTheme = {
+      name = "adwaita";
+    };
+
+    style = {
+      name = "adwaita-dark";
     };
   };
 
