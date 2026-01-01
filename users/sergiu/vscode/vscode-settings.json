@@ -17,5 +17,6 @@
   },
   "git.enableSmartCommit": true,
   "git.confirmSync": false,
-  "update.mode": "none"
+  "update.mode": "none",
+  "git.autofetch": true
 }
