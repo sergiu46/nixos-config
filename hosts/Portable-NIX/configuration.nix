@@ -47,10 +47,10 @@
       systemd.services.cache-preload = {
         description = "Warm page cache with common binaries";
         wantedBy = [ "initrd.target" ];
-        serviceConfig = {
-          ExecStart = "/bin/sh -c 'cat /nix/store/*/bin/* > /dev/null 2>&1'";
-          Type = "oneshot";
-        };
+        # serviceConfig = {
+        #   ExecStart = "/bin/sh -c 'cat /nix/store/*/bin/* > /dev/null 2>&1'";
+        #   Type = "oneshot";
+        # };
       };
     };
 
@@ -67,12 +67,9 @@
     ];
 
     kernelParams = [
-      "rootwait"
-      "usbcore.autosuspend=-1"
-      "biosdevname=0"
-      "mq-deadline"
-      "net.ifnames=0"
-      "scsi_mod.use_blk_mq=1"
+      #"usbcore.autosuspend=-1"
+      # "mq-deadline"
+      # "scsi_mod.use_blk_mq=1"
     ];
 
     loader = {
@@ -86,7 +83,7 @@
       };
     };
 
-    supportedFilesystems = lib.mkForce [
+    supportedFilesystems = lib.mkAfter [
       "btrfs"
       "ext4"
       "f2fs"
@@ -98,7 +95,6 @@
 
     tmp = {
       tmpfsSize = "50%";
-      useTmpfs = true;
     };
   };
 
@@ -172,8 +168,7 @@
   services = {
     fstrim.enable = true;
     blueman.enable = true;
-    thermald.enable = false; # Conflicts with power-profiles
-    power-profiles-daemon.enable = true; # ENABLED: Gives you the UI slider
+    power-profiles-daemon.enable = true;
 
     xserver.videoDrivers = [
       "modesetting"
@@ -193,7 +188,7 @@
   system.autoUpgrade = {
     allowReboot = false;
     dates = "daily";
-    enable = true;
+    enable = false;
     flake = inputs.self.outPath;
     flags = [
       "--refresh"
@@ -220,7 +215,6 @@
   ];
 
   systemd.services = {
-    "systemd-journald".serviceConfig.ReadWritePaths = [ "/var/log" ];
     "systemd-tmpfiles-clean".enable = true;
   };
 
