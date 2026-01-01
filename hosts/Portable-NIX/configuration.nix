@@ -20,14 +20,10 @@
 
   # Boot & Kernel
   boot = {
-    # Use the latest kernel for best compatibility with new hardware
     kernelPackages = pkgs.linuxPackages_latest;
-
     extraModulePackages = [ ];
-
     initrd = {
       systemd.enable = true;
-
       availableKernelModules = [
         "ahci"
         "ehci_pci"
@@ -48,7 +44,6 @@
         "hid_generic"
       ];
       kernelModules = [ ];
-
       systemd.services.cache-preload = {
         description = "Warm page cache with common binaries";
         wantedBy = [ "initrd.target" ];
@@ -71,10 +66,9 @@
       "kvm-intel"
     ];
 
-    # (Original + Optimized) Added rootwait and USB safeguards
     kernelParams = [
-      "rootwait" # Safety: wait for slow USB
-      "usbcore.autosuspend=-1" # Safety: don't sleep USB
+      "rootwait"
+      "usbcore.autosuspend=-1"
       "biosdevname=0"
       "mq-deadline"
       "net.ifnames=0"
@@ -83,7 +77,7 @@
 
     loader = {
       efi = {
-        canTouchEfiVariables = false; # Safety: Protect host BIOS
+        canTouchEfiVariables = false;
         efiSysMountPoint = "/boot";
       };
       systemd-boot = {
@@ -92,7 +86,6 @@
       };
     };
 
-    # Support for mounting any drive you find
     supportedFilesystems = lib.mkForce [
       "btrfs"
       "ext4"
@@ -109,7 +102,7 @@
     };
   };
 
-  # File Systems
+  # Root File Systems
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/NIX-ROOT";
@@ -119,11 +112,12 @@
         "compress_algorithm=zstd:3"
         "compress_chksum"
         "discard"
-        "noatime" # Don't write access times
-        "lazytime" # Defer inode updates
+        "noatime"
+        "lazytime"
       ];
     };
 
+    # Boot partition
     "/boot" = {
       device = "/dev/disk/by-label/NIX-BOOT";
       fsType = "vfat";
@@ -161,14 +155,12 @@
 
   # Nix & Store
   nix = {
-    # (Original)
     gc = {
       automatic = false; # Manual trigger preferred on USB to avoid unexpected lag
       dates = "daily";
       options = "--delete-older-than 1d";
       randomizedDelaySec = "10min";
     };
-
     settings = {
       auto-optimise-store = false; # OFF to prevent USB freeze
       fsync-metadata = false;
@@ -180,10 +172,8 @@
   services = {
     fstrim.enable = true;
     blueman.enable = true;
-
     thermald.enable = false; # Conflicts with power-profiles
     power-profiles-daemon.enable = true; # ENABLED: Gives you the UI slider
-    # ------------------------------
 
     xserver.videoDrivers = [
       "modesetting"
