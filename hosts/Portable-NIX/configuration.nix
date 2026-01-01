@@ -65,12 +65,6 @@
       "kvm-intel"
     ];
 
-    # kernelParams = [
-    #   #"usbcore.autosuspend=-1"
-    #   # "mq-deadline"
-    #   # "scsi_mod.use_blk_mq=1"
-    # ];
-
     loader = {
       efi = {
         canTouchEfiVariables = false;
@@ -151,13 +145,13 @@
   # Nix & Store
   nix = {
     gc = {
-      automatic = false; # Manual trigger preferred on USB to avoid unexpected lag
+      automatic = false;
       dates = "daily";
       options = "--delete-older-than 1d";
       randomizedDelaySec = "10min";
     };
     settings = {
-      auto-optimise-store = false; # OFF to prevent USB freeze
+      auto-optimise-store = false;
       fsync-metadata = false;
       use-xdg-base-directories = true;
     };
