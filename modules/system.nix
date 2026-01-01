@@ -75,6 +75,9 @@
   # Nixpkgs config
   nixpkgs.config.allowUnfree = true;
 
+  # Enable GNOME keyring
+  services.gnome.gnome-keyring.enable = true;
+
   # PipeWire audio stack
   services.pipewire = {
     alsa.enable = true;

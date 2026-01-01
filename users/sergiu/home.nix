@@ -18,6 +18,19 @@
     ventoy-full-qt
   ];
 
+  # Configure the SSH Client to use bitwarden
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+    matchBlocks."*" = {
+      setEnv = {
+        TERM = "xterm-256color";
+      };
+      identityAgent = "~/.bitwarden-ssh-agent.sock";
+    };
+  };
+
+  # Git setup
   programs.git = {
     enable = true;
     settings = {
@@ -66,6 +79,7 @@
           "com.microsoft.Edge.flextop.msedge-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop"
           "code.desktop"
           "org.gnome.Console.desktop"
+          "bitwarden.desktop"
         ];
 
       };
