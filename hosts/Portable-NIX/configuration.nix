@@ -87,7 +87,7 @@
         efiSysMountPoint = "/boot";
       };
       systemd-boot = {
-        configurationLimit = 2;
+        configurationLimit = 5;
         enable = true;
       };
     };
