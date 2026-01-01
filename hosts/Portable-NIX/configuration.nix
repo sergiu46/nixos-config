@@ -180,10 +180,8 @@
   services = {
     fstrim.enable = true;
     blueman.enable = true;
-
     power-profiles-daemon.enable = true; # ENABLED: Gives you the UI slider
-
-    thermald.enable = lib.mkForce false; # Conflicts with power-profiles
+    thermald.enable = true; # Conflicts with power-profiles
     xserver.videoDrivers = [
       "modesetting"
       "fbdev"
