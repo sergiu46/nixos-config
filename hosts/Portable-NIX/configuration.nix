@@ -169,6 +169,10 @@
     };
   };
 
+  # packages only for Portable
+  environment.systemPackages = with pkgs; [
+    power-profiles-daemon
+  ];
   # Services & Power
   services = {
     fstrim.enable = true;
