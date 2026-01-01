@@ -5,9 +5,17 @@
     ./packages.nix
   ];
 
+  # Packages for Power
+  environment.systemPackages = with pkgs; [
+    power-profiles-daemon
+  ];
+
   # Audio
   security.rtkit.enable = true;
   services.pulseaudio.enable = false;
+
+  # Upower
+  services.upower.enable = true;
 
   # GNOME desktop
   services.desktopManager.gnome.enable = true;

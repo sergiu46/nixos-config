@@ -5,6 +5,7 @@
   inputs,
   config,
   stateVersion,
+
   ...
 }:
 
@@ -21,7 +22,7 @@
   # Boot & Kernel
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
-    extraModulePackages = [ ];
+    extraModulePackages = [ config.boot.kernelPackages.acpi_call ];
     initrd = {
       systemd.enable = true;
       availableKernelModules = [
@@ -64,6 +65,7 @@
     kernelModules = [
       "kvm-amd"
       "kvm-intel"
+      "acpi_call"
     ];
 
     kernelParams = [
@@ -73,7 +75,8 @@
       "mq-deadline"
       "net.ifnames=0"
       "scsi_mod.use_blk_mq=1"
-      "intel_pstate=active"
+      "intel_pstate=active" # Modern Intel power driver
+      "amd_pstate=active" # Modern AMD power driver
     ];
 
     loader = {
@@ -177,9 +180,10 @@
   services = {
     fstrim.enable = true;
     blueman.enable = true;
-    thermald.enable = false; # Conflicts with power-profiles
+
     power-profiles-daemon.enable = true; # ENABLED: Gives you the UI slider
 
+    thermald.enable = lib.mkForce false; # Conflicts with power-profiles
     xserver.videoDrivers = [
       "modesetting"
       "fbdev"
