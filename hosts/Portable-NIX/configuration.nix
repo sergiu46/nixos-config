@@ -4,6 +4,7 @@
   modulesPath,
   inputs,
   config,
+  stateVersion,
   ...
 }:
 
@@ -251,5 +252,5 @@
     nixos.enable = false;
   };
 
-  system.stateVersion = "25.11";
+  system.stateVersion = stateVersion;
 }
