@@ -14,7 +14,7 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     ./sync-config.nix
     ../../modules/system.nix
-    ../../modules/users.nix
+    #../../modules/users.nix
   ];
 
   # Boot & Kernel

@@ -31,6 +31,8 @@
 
           modules = [
             ./hosts/Latitude-NIX/configuration.nix
+            ./users/sergiu/sergiu.nix
+            ./users/denisa/denisa.nix
             nix-flatpak.nixosModules.nix-flatpak
 
             { nixpkgs.config.permittedInsecurePackages = [ "ventoy-qt5-1.1.07" ]; }
@@ -40,8 +42,6 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = { inherit stateVersion; };
-              home-manager.users.denisa = import ./users/denisa/home.nix;
-              home-manager.users.sergiu = import ./users/sergiu/home.nix;
             }
           ];
         };
@@ -52,6 +52,7 @@
 
           modules = [
             ./hosts/Portable-NIX/configuration.nix
+            ./users/sergiu/sergiu.nix
             nix-flatpak.nixosModules.nix-flatpak
 
             { nixpkgs.config.permittedInsecurePackages = [ "ventoy-qt5-1.1.07" ]; }
@@ -61,7 +62,6 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = { inherit stateVersion; };
-              home-manager.users.sergiu = import ./users/sergiu/home.nix;
             }
           ];
         };

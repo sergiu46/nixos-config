@@ -11,7 +11,7 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     ../../modules/auto-update.nix
     ../../modules/system.nix
-    ../../modules/users.nix
+    #../../modules/users.nix
   ];
 
   # Hostname
