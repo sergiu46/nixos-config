@@ -3,7 +3,7 @@
 {
   # Bootloader entry limits
   boot.loader = {
-    systemd-boot.configurationLimit = 6;
+    systemd-boot.configurationLimit = 5;
   };
 
   # Automatic garbage collection
