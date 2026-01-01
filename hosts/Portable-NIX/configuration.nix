@@ -3,7 +3,6 @@
   lib,
   modulesPath,
   inputs,
-  config,
   stateVersion,
   ...
 }:
@@ -47,10 +46,10 @@
       systemd.services.cache-preload = {
         description = "Warm page cache with common binaries";
         wantedBy = [ "initrd.target" ];
-        # serviceConfig = {
-        #   ExecStart = "/bin/sh -c 'cat /nix/store/*/bin/* > /dev/null 2>&1'";
-        #   Type = "oneshot";
-        # };
+        serviceConfig = {
+          ExecStart = "/bin/sh -c 'cat /nix/store/*/bin/* > /dev/null 2>&1'";
+          Type = "oneshot";
+        };
       };
     };
 
@@ -66,11 +65,11 @@
       "kvm-intel"
     ];
 
-    kernelParams = [
-      #"usbcore.autosuspend=-1"
-      # "mq-deadline"
-      # "scsi_mod.use_blk_mq=1"
-    ];
+    # kernelParams = [
+    #   #"usbcore.autosuspend=-1"
+    #   # "mq-deadline"
+    #   # "scsi_mod.use_blk_mq=1"
+    # ];
 
     loader = {
       efi = {
@@ -134,7 +133,7 @@
   hardware = {
     cpu = {
       amd.updateMicrocode = true;
-      intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+      intel.updateMicrocode = true;
     };
     enableAllFirmware = true;
     firmware = [ pkgs.linux-firmware ];
