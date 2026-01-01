@@ -10,6 +10,8 @@
     power-profiles-daemon
   ];
 
+  security.polkit.enable = true;
+
   # Audio
   security.rtkit.enable = true;
   services.pulseaudio.enable = false;
