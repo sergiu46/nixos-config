@@ -174,6 +174,8 @@
     blueman.enable = true;
     thermald.enable = false; # Conflicts with power-profiles
     power-profiles-daemon.enable = true; # ENABLED: Gives you the UI slider
+    tlp.enable = lib.mkForce false;
+    auto-cpufreq.enable = lib.mkForce false;
 
     xserver.videoDrivers = [
       "modesetting"
