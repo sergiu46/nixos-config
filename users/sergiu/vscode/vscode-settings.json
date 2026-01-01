@@ -1,7 +1,7 @@
 {
   "nix.enableLanguageServer": true,
-  "nix.serverPath": "/etc/profiles/per-user/${user}/bin/nixd",
-  "nix.formatterPath": "/etc/profiles/per-user/${user}/bin/nixfmt-rfc-style",
+  "nix.serverPath": "/etc/profiles/per-user/sergiu/bin/nixd",
+  "nix.formatterPath": "/etc/profiles/per-user/sergiu/bin/nixfmt-rfc-style",
   "editor.defaultFormatter": "jnoortheen.nix-ide",
   "editor.formatOnSave": true,
   "[nix]": {
