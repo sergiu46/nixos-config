@@ -11,6 +11,6 @@
 
   };
 
-  home-manager.users.denisa = import ./users/sergiu/home.nix;
+  home-manager.users.sergiu = import ./home.nix;
 
 }
