@@ -9,17 +9,24 @@
 
 {
   imports = [
+    # Universal Hardware Support
+    (modulesPath + "/profiles/all-hardware.nix")
     (modulesPath + "/installer/scan/not-detected.nix")
     ./sync-config.nix
     ../../modules/system.nix
     ../../modules/users.nix
   ];
 
-  # Bootloader & Kernel
+  # Boot & Kernel
   boot = {
+    # Use the latest kernel for best compatibility with new hardware
+    kernelPackages = pkgs.linuxPackages_latest;
+
     extraModulePackages = [ ];
 
     initrd = {
+      systemd.enable = true;
+
       availableKernelModules = [
         "ahci"
         "ehci_pci"
@@ -36,15 +43,26 @@
         "uhci_hcd"
         "usb_storage"
         "xhci_pci"
+        "atkbd"
+        "hid_generic"
       ];
       kernelModules = [ ];
-      systemd.enable = true;
+
+      systemd.services.cache-preload = {
+        description = "Warm page cache with common binaries";
+        wantedBy = [ "initrd.target" ];
+        serviceConfig = {
+          ExecStart = "/bin/sh -c 'cat /nix/store/*/bin/* > /dev/null 2>&1'";
+          Type = "oneshot";
+        };
+      };
     };
 
     kernel.sysctl = {
-      "vm.dirty_background_ratio" = 10;
-      "vm.dirty_ratio" = 20;
+      "vm.dirty_background_ratio" = 5; # Lowered to write sooner (avoid stutter)
+      "vm.dirty_ratio" = 10;
       "vm.swappiness" = 10;
+      "vm.vfs_cache_pressure" = 50; # Keep file metadata in RAM longer
     };
 
     kernelModules = [
@@ -52,7 +70,10 @@
       "kvm-intel"
     ];
 
+    # (Original + Optimized) Added rootwait and USB safeguards
     kernelParams = [
+      "rootwait" # Safety: wait for slow USB
+      "usbcore.autosuspend=-1" # Safety: don't sleep USB
       "biosdevname=0"
       "mq-deadline"
       "net.ifnames=0"
@@ -61,7 +82,7 @@
 
     loader = {
       efi = {
-        canTouchEfiVariables = false;
+        canTouchEfiVariables = false; # Safety: Protect host BIOS
         efiSysMountPoint = "/boot";
       };
       systemd-boot = {
@@ -70,6 +91,7 @@
       };
     };
 
+    # Support for mounting any drive you find
     supportedFilesystems = lib.mkForce [
       "btrfs"
       "ext4"
@@ -96,7 +118,8 @@
         "compress_algorithm=zstd:3"
         "compress_chksum"
         "discard"
-        "noatime"
+        "noatime" # Don't write access times
+        "lazytime" # Defer inode updates
       ];
     };
 
@@ -105,8 +128,8 @@
       fsType = "vfat";
     };
 
+    # RAM Logs
     "/tmp".fsType = "tmpfs";
-
     "/var/log" = {
       fsType = "tmpfs";
       options = [
@@ -116,17 +139,7 @@
     };
   };
 
-  # Initrd cache warmup
-  boot.initrd.systemd.services.cache-preload = {
-    description = "Warm page cache with common binaries";
-    wantedBy = [ "initrd.target" ];
-    serviceConfig = {
-      ExecStart = "/bin/sh -c 'cat /nix/store/*/bin/* > /dev/null 2>&1'";
-      Type = "oneshot";
-    };
-  };
-
-  # Hardware
+  # Hardware & Graphics
   hardware = {
     cpu = {
       amd.updateMicrocode = true;
@@ -138,32 +151,54 @@
     bluetooth.enable = true;
   };
 
-  # Hostname
-  networking.hostName = "Portable-NIX";
-
-  # Networking
   networking = {
+    hostName = "Portable-NIX";
     networkmanager.enable = true;
     useDHCP = lib.mkDefault true;
+    usePredictableInterfaceNames = false;
   };
 
-  # Nix & Store Optimizations
+  # Nix & Store
   nix = {
+    # (Original)
     gc = {
-      automatic = false;
+      automatic = false; # Manual trigger preferred on USB to avoid unexpected lag
       dates = "daily";
       options = "--delete-older-than 1d";
       randomizedDelaySec = "10min";
     };
 
     settings = {
-      auto-optimise-store = false;
+      auto-optimise-store = false; # OFF to prevent USB freeze
       fsync-metadata = false;
       use-xdg-base-directories = true;
     };
   };
 
-  # Automatic system upgrades
+  # Services & Power
+  services = {
+    fstrim.enable = true;
+    blueman.enable = true;
+
+    thermald.enable = false; # Conflicts with power-profiles
+    power-profiles-daemon.enable = true; # ENABLED: Gives you the UI slider
+    # ------------------------------
+
+    xserver.videoDrivers = [
+      "modesetting"
+      "fbdev"
+    ];
+
+    # Volatile logs to save write cycles
+    journald.extraConfig = "Storage=volatile\nRuntimeMaxUse=50M";
+
+    # Added mmcblk (SD cards) support
+    udev.extraRules = ''
+      ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*", ATTR{queue/scheduler}="bfq"
+    '';
+  };
+
+  # Auto-Upgrade logic
   system.autoUpgrade = {
     allowReboot = false;
     dates = "daily";
@@ -178,26 +213,13 @@
     randomizedDelaySec = "10min";
   };
 
-  # Power management
+  # Power Management Flags
   powerManagement = {
-    cpuFreqGovernor = "balanced"; # CPU frequency scaling
-    enable = true; # Laptop-specific power settings
-  };
-  # Services
-  services = {
-    fstrim.enable = true;
-    blueman.enable = true;
-    thermald.enable = true;
-    power-profiles-daemon.enable = true;
-    xserver.videoDrivers = [ "modesetting" ];
-    journald.extraConfig = "Storage=volatile\nRuntimeMaxUse=50M";
-    udev.extraRules = ''
-      ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/scheduler}="bfq"
-    '';
-
+    cpuFreqGovernor = "balanced";
+    enable = true;
   };
 
-  # Systemd Mounts
+  # Systemd & Mounts
   systemd.mounts = [
     {
       options = "mode=0755,size=20M";
@@ -207,21 +229,27 @@
     }
   ];
 
-  # Systemd Services
   systemd.services = {
     "systemd-journald".serviceConfig.ReadWritePaths = [ "/var/log" ];
     "systemd-tmpfiles-clean".enable = true;
   };
 
-  # Systemd Coredump
   systemd.coredump.enable = false;
 
-  # Documentation
-  documentation.man.generateCaches = false;
-
-  # Swap
+  # Swap & Docs
   zramSwap = {
     enable = true;
     memoryPercent = 25;
   };
+
+  documentation = {
+    enable = false;
+    dev.enable = false;
+    doc.enable = false;
+    info.enable = false;
+    man.enable = false;
+    nixos.enable = false;
+  };
+
+  system.stateVersion = "25.11";
 }

@@ -2,6 +2,7 @@
   config,
   lib,
   modulesPath,
+  pkgs,
   ...
 }:
 
@@ -19,7 +20,7 @@
   # Bootloader and EFI
   boot = {
     extraModulePackages = [ ];
-
+    kernelPackages = pkgs.linuxPackages_latest;
     initrd = {
       availableKernelModules = [
         "ahci"

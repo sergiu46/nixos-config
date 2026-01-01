@@ -9,9 +9,6 @@
   security.rtkit.enable = true;
   services.pulseaudio.enable = false;
 
-  # Boot kernel packages
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
   # GNOME desktop
   services.desktopManager.gnome.enable = true;
   services.displayManager.gdm.enable = true;
