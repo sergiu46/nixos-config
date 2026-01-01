@@ -206,7 +206,6 @@
 
   # Power Management Flags
   powerManagement = {
-    cpuFreqGovernor = "balanced";
     enable = true;
   };
 
