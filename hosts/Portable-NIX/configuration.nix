@@ -8,17 +8,6 @@
   ...
 }:
 
-let
-  # Detect common battery paths at evaluation time so the portable image adapts.
-  isLaptop = builtins.any (path: builtins.pathExists path) [
-    "/sys/class/power_supply/BAT0"
-    "/sys/class/power_supply/BAT1"
-    "/sys/class/power_supply/BATTERY"
-  ];
-
-  # Detect Intel pstate presence for thermald gating
-  hasIntelPstate = builtins.pathExists "/sys/devices/system/cpu/intel_pstate";
-in
 {
   imports = [
     # Universal Hardware Support
@@ -32,7 +21,7 @@ in
   # Boot & Kernel
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
-    extraModulePackages = [ config.boot.kernelPackages.acpi_call ];
+    extraModulePackages = [ ];
     initrd = {
       systemd.enable = true;
       availableKernelModules = [
@@ -65,30 +54,16 @@ in
       };
     };
 
-    kernel.sysctl = lib.mkMerge [
-      {
-        "vm.dirty_background_ratio" = 5; # Lowered to write sooner (avoid stutter)
-        "vm.dirty_ratio" = 10;
-        "vm.swappiness" = 10;
-        "vm.vfs_cache_pressure" = 50; # Keep file metadata in RAM longer
-      }
-      # Laptop-friendly additions (safe defaults)
-      (
-        if isLaptop then
-          {
-            "vm.laptop_mode" = 5;
-            "kernel.nmi_watchdog" = 0;
-            "vm.dirty_writeback_centisecs" = 1500;
-          }
-        else
-          { }
-      )
-    ];
+    kernel.sysctl = {
+      "vm.dirty_background_ratio" = 5; # Lowered to write sooner (avoid stutter)
+      "vm.dirty_ratio" = 10;
+      "vm.swappiness" = 10;
+      "vm.vfs_cache_pressure" = 50; # Keep file metadata in RAM longer
+    };
 
     kernelModules = [
       "kvm-amd"
       "kvm-intel"
-      "acpi_call"
     ];
 
     kernelParams = [
@@ -98,8 +73,6 @@ in
       "mq-deadline"
       "net.ifnames=0"
       "scsi_mod.use_blk_mq=1"
-      "intel_pstate=active" # Modern Intel power driver
-      "amd_pstate=active" # Modern AMD power driver
     ];
 
     loader = {
@@ -195,44 +168,12 @@ in
     };
   };
 
-  # packages only for Portable
-  environment.systemPackages = with pkgs; [
-    power-profiles-daemon
-    tlp
-    # auto-cpufreq is intentionally not added to packages by default;
-    # enable it only if you want it on laptops (see services below).
-  ];
-
   # Services & Power
   services = {
     fstrim.enable = true;
     blueman.enable = true;
-
-    # Keep power-profiles-daemon enabled for UI integration everywhere
-    power-profiles-daemon.enable = true;
-
-    # Enable TLP only on laptops (battery present). TLP is conservative and portable.
-    tlp = {
-      enable = isLaptop;
-      # Example safe defaults; tweak if you want more aggressive battery savings.
-      settings = {
-        CPU_SCALING_GOVERNOR_ON_AC = "schedutil";
-        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-        CPU_ENERGY_PERF_POLICY_ON_AC = "balance_performance";
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-        PLATFORM_PROFILE_ON_AC = "balanced";
-        PLATFORM_PROFILE_ON_BAT = "low-power";
-        # Leave disk and USB defaults to TLP's safe values; avoid aggressive defaults on unknown hardware.
-      };
-    };
-
-    # Optional: auto-cpufreq for laptops only (do not enable together with TLP)
-    auto-cpufreq = {
-      enable = lib.mkIf isLaptop false; # keep disabled by default; set to `true` if you prefer it over TLP
-    };
-
-    # thermald: enable only when Intel pstate exists and on laptops to avoid pointless activation
-    thermald.enable = lib.mkIf (isLaptop && hasIntelPstate) true;
+    thermald.enable = false; # Conflicts with power-profiles
+    power-profiles-daemon.enable = true; # ENABLED: Gives you the UI slider
 
     xserver.videoDrivers = [
       "modesetting"
