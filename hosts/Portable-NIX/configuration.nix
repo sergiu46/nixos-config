@@ -193,18 +193,17 @@
         "mode=0755"
       ];
     };
-  };
 
-  "/home/sergiu/.var/app" = {
-    fsType = "tmpfs";
-    options = [
-      "size=30%"
-      "mode=0755"
-      "uid=1000"
-      "gid=100"
-    ];
+    "/home/sergiu/.var/app" = {
+      fsType = "tmpfs";
+      options = [
+        "size=30%"
+        "mode=0755"
+        "uid=1000"
+        "gid=100"
+      ];
+    };
   };
-
   # Nix temp build dir
   environment.variables.NIX_BUILD_TMPDIR = "/tmp/nix-build";
 
