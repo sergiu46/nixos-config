@@ -202,10 +202,11 @@
       ];
     };
 
+    # Jellyfin Media Player temp folder
     "/home/sergiu/.var/app/com.github.iwalton3.jellyfin-media-player/cache" = {
       fsType = "tmpfs";
       options = [
-        "size=10%" # ~800MB max on 8GB RAM – more than enough
+        "size=10%"
         "mode=0755"
 
       ];
