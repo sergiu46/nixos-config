@@ -68,9 +68,7 @@
 
     initrd = {
       systemd.enable = true;
-
       kernelModules = [ ];
-
       availableKernelModules = [
         "ahci"
         "ehci_pci"
@@ -292,7 +290,7 @@
 
     services."systemd-tmpfiles-clean".enable = true;
 
-    coredump.enable = false; # Disable coredumps to reduce writes
+    coredump.enable = false;
   };
 
   # Disable documentation to save space and build time
