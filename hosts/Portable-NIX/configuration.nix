@@ -8,21 +8,30 @@
 }:
 
 {
+  # Imports
+  # External modules for hardware detection, base system, and custom configs
   imports = [
-    # Universal Hardware Support
+    # Universal hardware support and automatic module detection
     (modulesPath + "/profiles/all-hardware.nix")
     (modulesPath + "/installer/scan/not-detected.nix")
+
+    # Custom modules
     ./sync-config.nix
     ../../modules/system.nix
-    #../../modules/users.nix
   ];
 
-  # Boot & Kernel
+  # Bootloader and Kernel Configuration
   boot = {
+    # Use the latest kernel packages
     kernelPackages = pkgs.linuxPackages_latest;
+
+    # Additional kernel modules (currently none)
     extraModulePackages = [ ];
+
+    # Kernel modules loaded in stage 1 (initrd)
     initrd = {
       systemd.enable = true;
+
       availableKernelModules = [
         "ahci"
         "ehci_pci"
@@ -42,7 +51,11 @@
         "atkbd"
         "hid_generic"
       ];
+
       kernelModules = [ ];
+
+      # Custom service to warm the page cache by touching common binaries
+      # (helps reduce initial I/O latency after boot)
       systemd.services.cache-preload = {
         description = "Warm page cache with common binaries";
         wantedBy = [ "initrd.target" ];
@@ -53,29 +66,33 @@
       };
     };
 
+    # Kernel sysctl tunables for better performance and responsiveness
     kernel.sysctl = {
-      "vm.dirty_background_ratio" = 5; # Lowered to write sooner (avoid stutter)
-      "vm.dirty_ratio" = 10;
-      "vm.swappiness" = 10;
-      "vm.vfs_cache_pressure" = 50; # Keep file metadata in RAM longer
+      "vm.dirty_background_ratio" = 5; # Start background writes earlier to avoid stutters
+      "vm.dirty_ratio" = 10; # Lower threshold for foreground writes
+      "vm.swappiness" = 10; # Prefer keeping active pages in RAM
+      "vm.vfs_cache_pressure" = 50; # Retain inode/dentry cache longer
     };
 
+    # Base kernel modules (e.g., for virtualization)
     kernelModules = [
       "kvm-amd"
       "kvm-intel"
     ];
 
+    # Bootloader configuration (systemd-boot with EFI)
     loader = {
       efi = {
-        canTouchEfiVariables = false;
+        canTouchEfiVariables = false; # Prevent modification of EFI vars
         efiSysMountPoint = "/boot";
       };
       systemd-boot = {
-        configurationLimit = 5;
         enable = true;
+        configurationLimit = 5; # Keep only the 5 most recent generations
       };
     };
 
+    # Additional supported filesystems (added after defaults)
     supportedFilesystems = lib.mkAfter [
       "btrfs"
       "ext4"
@@ -86,33 +103,31 @@
       "xfs"
     ];
 
-    tmp = {
-      tmpfsSize = "50%";
-    };
+    # Temporary directory settings
+    tmp.tmpfsSize = "50%";
   };
 
-  # Root File Systems
+  # Filesystem Mounts
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/NIX-ROOT";
       fsType = "f2fs";
       options = [
-        "background_gc=on"
-        "compress_algorithm=zstd:3"
-        "compress_chksum"
-        "discard"
-        "noatime"
-        "lazytime"
+        "background_gc=on" # Enable background garbage collection
+        "compress_algorithm=zstd:3" # Zstd compression for better performance
+        "compress_chksum" # Checksum for compressed data
+        "discard" # Enable TRIM for SSDs
+        "noatime" # Reduce writes by not updating access times
+        "lazytime" # Lazy timestamp updates
       ];
     };
 
-    # Boot partition
     "/boot" = {
       device = "/dev/disk/by-label/NIX-BOOT";
       fsType = "vfat";
     };
 
-    # RAM Logs
+    # Volatile storage in RAM to reduce disk writes
     "/tmp".fsType = "tmpfs";
     "/var/log" = {
       fsType = "tmpfs";
@@ -123,65 +138,75 @@
     };
   };
 
-  # Hardware & Graphics
+  # Hardware and Firmware
   hardware = {
+    # CPU microcode updates for both AMD and Intel
     cpu = {
       amd.updateMicrocode = true;
       intel.updateMicrocode = true;
     };
+
+    # Enable all available firmware and include linux-firmware package
     enableAllFirmware = true;
     firmware = [ pkgs.linux-firmware ];
+
+    # Graphics and Bluetooth
     graphics.enable = true;
     bluetooth.enable = true;
   };
 
+  # Networking
   networking = {
     hostName = "Portable-NIX";
-    networkmanager.enable = true;
-    useDHCP = lib.mkDefault true;
-    usePredictableInterfaceNames = false;
+    networkmanager.enable = true; # Use NetworkManager for easy Wi-Fi/etc.
+    useDHCP = lib.mkDefault true; # Default DHCP per interface
+    usePredictableInterfaceNames = false; # Prefer simple names like eth0, wlan0
   };
 
-  # Nix & Store
+  # Nix Package Manager Settings
   nix = {
     gc = {
-      automatic = false;
-      dates = "daily";
+      automatic = false; # Disabled automatic GC
+      dates = "daily"; # Would run daily if enabled
       options = "--delete-older-than 1d";
       randomizedDelaySec = "10min";
     };
+
     settings = {
-      auto-optimise-store = false;
-      fsync-metadata = false;
-      use-xdg-base-directories = true;
+      auto-optimise-store = false; # Manual optimization preferred
+      fsync-metadata = false; # Faster but slightly less safe
+      use-xdg-base-directories = true; # Follow XDG spec for config dirs
     };
   };
 
-  # Services & Power
+  # Services
   services = {
-    fstrim.enable = true;
-    blueman.enable = true;
-    power-profiles-daemon.enable = true;
+    fstrim.enable = true; # Periodic TRIM for SSD health
+    blueman.enable = true; # Bluetooth manager applet
+    power-profiles-daemon.enable = true; # Power profile switching
 
     xserver.videoDrivers = [
       "modesetting"
       "fbdev"
-    ];
+    ]; # Generic drivers
 
-    # Volatile logs to save write cycles
-    journald.extraConfig = "Storage=volatile\nRuntimeMaxUse=50M";
+    # Volatile journal to minimize disk writes
+    journald.extraConfig = ''
+      Storage=volatile
+      RuntimeMaxUse=50M
+    '';
 
-    # Added mmcblk (SD cards) support
+    # Udev rule to set BFQ scheduler for disks and SD/MMC devices
     udev.extraRules = ''
       ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*", ATTR{queue/scheduler}="bfq"
     '';
   };
 
-  # Auto-Upgrade logic
+  # System Auto-Upgrade
   system.autoUpgrade = {
+    enable = false; # Currently disabled
     allowReboot = false;
     dates = "daily";
-    enable = false;
     flake = inputs.self.outPath;
     flags = [
       "--refresh"
@@ -192,33 +217,33 @@
     randomizedDelaySec = "10min";
   };
 
-  # Power Management Flags
-  powerManagement = {
-    enable = true;
+  # Power Management
+  powerManagement.enable = true;
+
+  # Systemd Customizations
+  systemd = {
+    mounts = [
+      {
+        where = "/var/lib/systemd";
+        what = "tmpfs";
+        type = "tmpfs";
+        options = "mode=0755,size=20M";
+      }
+    ];
+
+    services."systemd-tmpfiles-clean".enable = true;
+
+    coredump.enable = false; # Disable coredumps to save space/writes
   };
 
-  # Systemd & Mounts
-  systemd.mounts = [
-    {
-      options = "mode=0755,size=20M";
-      type = "tmpfs";
-      what = "tmpfs";
-      where = "/var/lib/systemd";
-    }
-  ];
-
-  systemd.services = {
-    "systemd-tmpfiles-clean".enable = true;
-  };
-
-  systemd.coredump.enable = false;
-
-  # Swap & Docs
+  # Swap and Memory
   zramSwap = {
-    enable = true;
-    memoryPercent = 25;
+    enable = true; # Compressed swap in RAM
+    memoryPercent = 25; # Use up to 25% of RAM
   };
 
+  # Documentation
+  # Disable most documentation to save space and build time
   documentation = {
     enable = false;
     dev.enable = false;
@@ -228,5 +253,6 @@
     nixos.enable = false;
   };
 
+  # State Version
   system.stateVersion = stateVersion;
 }
