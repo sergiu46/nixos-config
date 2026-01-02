@@ -13,7 +13,7 @@
     (modulesPath + "/profiles/all-hardware.nix")
     (modulesPath + "/installer/scan/not-detected.nix")
 
-    ./sync-config.nix
+    ../../sync-config.nix
     ../../modules/system.nix
   ];
 
