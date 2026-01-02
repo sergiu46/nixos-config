@@ -2,7 +2,9 @@
 
 {
   # Insecure packages
-  nixpkgs.config.permittedInsecurePackages = [ "ventoy-qt5-1.1.07" ];
+  nixpkgs.config.permittedInsecurePackages = [
+    "ventoy-qt5-1.1.07"
+  ];
 
   # System-wide packages (Stable)
   environment.systemPackages = with pkgs; [

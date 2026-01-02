@@ -1,59 +1,63 @@
 { pkgs, stateVersion, ... }:
 
 {
+  # Imports
   imports = [
     ./packages.nix
   ];
 
-  # Packages for Power
-  environment.systemPackages = with pkgs; [
-    power-profiles-daemon
-  ];
+  # Desktop environment
+  services = {
+    desktopManager.gnome.enable = true;
+    displayManager.gdm.enable = true;
+    gnome.gnome-keyring.enable = true; # GNOME keyring
+    upower.enable = true; # Battery/power monitoring
+  };
 
-  security.polkit.enable = true;
-
-  # Audio
-  security.rtkit.enable = true;
-  services.pulseaudio.enable = false;
-
-  # Upower
-  services.upower.enable = true;
-
-  # GNOME desktop
-  services.desktopManager.gnome.enable = true;
-  services.displayManager.gdm.enable = true;
   environment.gnome.excludePackages = with pkgs; [
     epiphany
+    geary
     gnome-calendar
     gnome-contacts
     gnome-maps
-    gnome-tour
     gnome-music
-    showtime
-    geary
+    gnome-tour
     yelp
-
+    showtime
   ];
+
+  # Mutter experimental features (for better fractional scaling, VRR, etc.)
   programs.dconf.enable = true;
-  programs.dconf.profiles = {
-    user = {
-      databases = [
-        {
-          settings = {
-            "org/gnome/mutter" = {
-              experimental-features = [
-                "scale-monitor-framebuffer"
-                "variable-refresh-rate"
-                "xwayland-native-scaling"
-              ];
-            };
-          };
-        }
-      ];
-    };
+  programs.dconf.profiles.user.databases = [
+    {
+      settings = {
+        "org/gnome/mutter" = {
+          experimental-features = [
+            "scale-monitor-framebuffer"
+            "variable-refresh-rate"
+            "xwayland-native-scaling"
+          ];
+        };
+      };
+    }
+  ];
+
+  # Audio (PipeWire modern stack)
+  security.rtkit.enable = true;
+  services.pulseaudio.enable = false;
+
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    jack.enable = false;
+    pulse.enable = true;
   };
 
-  # Locale
+  # Networking
+  networking.networkmanager.enable = true;
+
+  # Locale and internationalization
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "ro_RO.UTF-8";
@@ -67,47 +71,10 @@
     LC_TIME = "ro_RO.UTF-8";
   };
 
-  # Local time to match Windows
-  time.hardwareClockInLocalTime = true;
-
-  # Networking
-  networking.networkmanager.enable = true;
-
-  # Nix settings
-  nix.settings.experimental-features = [
-    "flakes"
-    "nix-command"
-  ];
-
-  # Nixpkgs config
-  nixpkgs.config.allowUnfree = true;
-
-  # Enable GNOME keyring
-  services.gnome.gnome-keyring.enable = true;
-
-  # PipeWire audio stack
-  services.pipewire = {
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    enable = true;
-    jack.enable = false;
-    pulse.enable = true;
-  };
-
-  # Printing
-  services.printing = {
-    drivers = [
-      pkgs.gutenprint
-      pkgs.hplip
-    ];
-    enable = true;
-  };
-
-  # Avahi
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    openFirewall = true;
+  # Timezone and hardware clock (to match dual-boot Windows)
+  time = {
+    timeZone = "Europe/Bucharest";
+    hardwareClockInLocalTime = true;
   };
 
   # Keyboard layout
@@ -116,9 +83,32 @@
     variant = "";
   };
 
-  # Standard NixOS version
-  system.stateVersion = stateVersion;
+  # Printing and driver support
+  services.printing = {
+    enable = true;
+    drivers = with pkgs; [
+      gutenprint
+      hplip
+    ];
+  };
 
-  # Timezone
-  time.timeZone = "Europe/Bucharest";
+  # Network discovery (mDNS for local services/printers)
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+
+  # Nix settings
+  nix = {
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+  };
+
+  nixpkgs.config.allowUnfree = true;
+
+  # System state version
+  system.stateVersion = stateVersion;
 }

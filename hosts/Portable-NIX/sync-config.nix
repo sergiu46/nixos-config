@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  # 1. The Startup Service
+  # Download git config at startup
   systemd.services.sync-nixos-config = {
     description = "Sync NixOS config from GitHub on boot";
     after = [ "network-online.target" ];

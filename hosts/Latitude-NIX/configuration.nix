@@ -13,14 +13,25 @@
     ../../modules/system.nix
   ];
 
-  # Hostname
-  networking.hostName = "Latitude-NIX";
+  # Networking
+  networking.hostName = "Latitude-NIX"; # Hostname
 
-  # Bootloader and EFI
+  # Nixpkgs
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+
+  # Bootloader and kernel
   boot = {
-    extraModulePackages = [ ];
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+
     kernelPackages = pkgs.linuxPackages_latest;
+    kernelModules = [ "kvm-intel" ];
+    extraModulePackages = [ ];
+
     initrd = {
+      kernelModules = [ ];
       availableKernelModules = [
         "ahci"
         "nvme"
@@ -29,14 +40,6 @@
         "usb_storage"
         "xhci_pci"
       ];
-      kernelModules = [ ];
-    };
-
-    kernelModules = [ "kvm-intel" ];
-
-    loader = {
-      efi.canTouchEfiVariables = true;
-      systemd-boot.enable = true;
     };
   };
 
@@ -51,40 +54,39 @@
       device = "/dev/disk/by-uuid/4804-E951";
       fsType = "vfat";
       options = [
-        "dmask=0077"
         "fmask=0077"
+        "dmask=0077"
       ];
     };
   };
 
-  # Hardware
-  hardware = {
-    bluetooth.enable = true; # Bluetooth
-    cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  # Swap
+  zramSwap = {
+    enable = true;
+    memoryPercent = 50;
   };
 
-  # Nixpkgs platform
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  # Hardware configuration
+  hardware = {
+    cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
-  # Power management
+    bluetooth.enable = true; # Bluetooth
+  };
+
+  # Power management (laptop-specific)
   powerManagement = {
+    enable = true;
     cpuFreqGovernor = "balanced"; # CPU frequency scaling
-    enable = true; # Laptop-specific power settings
   };
 
   # Services
   services = {
+    xserver.videoDrivers = [ "intel" ]; # Intel iGPU
+
     blueman.enable = true; # Bluetooth manager
     libinput.enable = true; # Touchpad support
-    thermald.enable = true; # Intel thermald
-    tlp.enable = false; # Disable TLP
+    thermald.enable = true; # Intel thermal daemon
+    tlp.enable = false; # Disabled in favor of other power tools
     upower.enable = true; # Battery monitoring
-    xserver.videoDrivers = [ "intel" ]; # Intel GPU
-  };
-
-  # ZRAM swap
-  zramSwap = {
-    enable = true;
-    memoryPercent = 50;
   };
 }
