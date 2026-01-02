@@ -40,7 +40,7 @@
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = { inherit stateVersion; };
             }
-            { nixpkgs.config.permittedInsecurePackages = [ "ventoy-qt5-1.1.07" ]; }
+
           ];
         };
 
@@ -58,7 +58,7 @@
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = { inherit stateVersion; };
             }
-            { nixpkgs.config.permittedInsecurePackages = [ "ventoy-qt5-1.1.07" ]; }
+
           ];
         };
       };
