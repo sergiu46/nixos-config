@@ -11,7 +11,6 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     ../../modules/auto-update.nix
     ../../modules/system.nix
-    #../../modules/users.nix
   ];
 
   # Hostname
@@ -86,6 +85,6 @@
   # ZRAM swap
   zramSwap = {
     enable = true;
-    memoryPercent = 25;
+    memoryPercent = 50;
   };
 }
