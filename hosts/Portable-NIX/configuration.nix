@@ -198,7 +198,7 @@
       fsType = "tmpfs";
       options = [
         "size=30%"
-        "mode=0755"
+        "mode=0777"
       ];
     };
 
@@ -207,7 +207,7 @@
       fsType = "tmpfs";
       options = [
         "size=10%"
-        "mode=0755"
+        "mode=0777"
 
       ];
     };
