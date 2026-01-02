@@ -129,56 +129,67 @@
     };
 
     # Volatile storage in RAM to reduce disk writes
-    "/var/tmp" = {
-      fsType = "tmpfs";
-      options = [
-        "mode=1777"
-        "size=100M"
-      ];
-    };
-    "/var/cache" = {
-      fsType = "tmpfs";
-      options = [
-        "mode=0755"
-        "size=500M"
-      ];
-    };
-    "/var/spool" = {
-      fsType = "tmpfs";
-      options = [
-        "mode=0755"
-        "size=50M"
-      ];
-    };
-    "/var/log" = {
-      fsType = "tmpfs";
-      options = [
-        "mode=0755"
-        "size=200M"
-      ];
-    };
-    "/var/lib/nix" = {
-      fsType = "tmpfs";
-      options = [
-        "mode=0755"
-        "size=2G"
-      ];
-    };
-    # Fallback if not using boot.tmp.useTmpfs
     "/tmp" = {
       fsType = "tmpfs";
       options = [
-        "size=2G"
+        "size=25%"
         "mode=1777"
       ];
     };
+
+    "/var/lib/nix" = {
+      fsType = "tmpfs";
+      options = [
+        "size=20%"
+        "mode=0755"
+      ];
+    };
+
     "/home/sergiu/.cache" = {
       fsType = "tmpfs";
-      options = [ "size=1G" ];
+      options = [
+        "size=15%"
+        "mode=0700"
+        "uid=1000"
+        "gid=100"
+      ];
     };
+
+    "/var/cache" = {
+      fsType = "tmpfs";
+      options = [
+        "size=5%"
+        "mode=0755"
+      ];
+    };
+
+    "/var/log" = {
+      fsType = "tmpfs";
+      options = [
+        "size=3%"
+        "mode=0755"
+      ];
+    };
+
+    "/var/tmp" = {
+      fsType = "tmpfs";
+      options = [
+        "size=2%"
+        "mode=1777"
+      ];
+    };
+
     "/root/.cache" = {
       fsType = "tmpfs";
-      options = [ "size=100M" ];
+      options = [ "size=1%" ];
+    };
+
+    "/var/spool" = {
+      fsType = "tmpfs";
+      options = [
+        "size=1%"
+        "mode=0755"
+      ];
     };
   };
 
