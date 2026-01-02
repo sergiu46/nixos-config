@@ -254,9 +254,8 @@
   # Nix Package Manager Settings
   nix = {
     gc = {
-      # Disabled automatic GC
-      automatic = false;
-      # Would run daily if enabled
+      # Automatic GC
+      automatic = true;
       dates = "daily";
       options = "--delete-older-than 1d";
       randomizedDelaySec = "10min";
