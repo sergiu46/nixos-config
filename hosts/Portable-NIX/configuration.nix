@@ -164,6 +164,22 @@
         "size=2G"
       ];
     };
+    # Fallback if not using boot.tmp.useTmpfs
+    "/tmp" = {
+      fsType = "tmpfs";
+      options = [
+        "size=2G"
+        "mode=1777"
+      ];
+    };
+    "/home/sergiu/.cache" = {
+      fsType = "tmpfs";
+      options = [ "size=1G" ];
+    };
+    "/root/.cache" = {
+      fsType = "tmpfs";
+      options = [ "size=100M" ];
+    };
   };
 
   # Nix temp build dir
