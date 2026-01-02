@@ -5,7 +5,7 @@
     isNormalUser = true;
     extraGroups = [ "networkmanager" ];
     home = "/home/denisa";
-    initialHashedPassword = "$6$buw015VUknyintzF$VGdr4OGh4mwZHLcvAXkZP2i7vYDbfSbusuTMxi8qY4qVZz6m/pRhiih4tLmM2JdodHGnuug7gGu4NjBK.buhC0";
+    initialHashedPassword = "$6$KBCYxtQFkuzSoCNu$V1Bax2llJJWiMVfvapePb2JyPcHQR2iyljRqqAFRHHajQ90MVgiWvobXXzU6J1CxtSwi.OxsgXf/07GzRt6kx0";
   };
 
   home-manager.users.denisa = import ./home.nix;
