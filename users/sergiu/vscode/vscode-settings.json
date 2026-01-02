@@ -19,5 +19,6 @@
   "git.confirmSync": false,
   "update.mode": "none",
   "git.autofetch": true,
-  "workbench.startupEditor": "none"
+  "workbench.startupEditor": "none",
+  "explorer.confirmDragAndDrop": false
 }
