@@ -165,6 +165,9 @@
     };
   };
 
+  # Nix temp build dir
+  environment.variables.NIX_BUILD_TMPDIR = "/tmp/nix-build";
+
   # Hardware and Firmware
   hardware = {
     # CPU microcode updates for both AMD and Intel
