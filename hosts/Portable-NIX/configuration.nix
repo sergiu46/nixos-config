@@ -104,6 +104,7 @@
     ];
 
     # Temporary directory settings
+    tmp.useTmpfs = true; # Mount /tmp on tmpfs (recommended)
     tmp.tmpfsSize = "50%";
   };
 
