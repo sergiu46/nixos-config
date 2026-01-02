@@ -132,7 +132,7 @@
     "/tmp" = {
       fsType = "tmpfs";
       options = [
-        "size=25%"
+        "size=50%"
         "mode=1777"
       ];
     };
@@ -140,7 +140,7 @@
     "/var/lib/nix" = {
       fsType = "tmpfs";
       options = [
-        "size=20%"
+        "size=30%"
         "mode=0755"
       ];
     };
@@ -148,7 +148,7 @@
     "/home/sergiu/.cache" = {
       fsType = "tmpfs";
       options = [
-        "size=15%"
+        "size=30%"
         "mode=0700"
         "uid=1000"
         "gid=100"
@@ -158,7 +158,7 @@
     "/var/cache" = {
       fsType = "tmpfs";
       options = [
-        "size=5%"
+        "size=10%"
         "mode=0755"
       ];
     };
@@ -181,7 +181,9 @@
 
     "/root/.cache" = {
       fsType = "tmpfs";
-      options = [ "size=1%" ];
+      options = [
+        "size=1%"
+      ];
     };
 
     "/var/spool" = {
@@ -191,6 +193,16 @@
         "mode=0755"
       ];
     };
+  };
+
+  "/home/sergiu/.var/app" = {
+    fsType = "tmpfs";
+    options = [
+      "size=30%"
+      "mode=0755"
+      "uid=1000"
+      "gid=100"
+    ];
   };
 
   # Nix temp build dir
