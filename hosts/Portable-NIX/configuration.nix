@@ -68,10 +68,14 @@
 
     # Kernel sysctl tunables for better performance and responsiveness
     kernel.sysctl = {
-      "vm.dirty_background_ratio" = 5; # Start background writes earlier to avoid stutters
-      "vm.dirty_ratio" = 10; # Lower threshold for foreground writes
-      "vm.swappiness" = 10; # Prefer keeping active pages in RAM
-      "vm.vfs_cache_pressure" = 50; # Retain inode/dentry cache longer
+      # Start background writes earlier to avoid stutters
+      "vm.dirty_background_ratio" = 5;
+      # Lower threshold for foreground writes
+      "vm.dirty_ratio" = 10;
+      # Prefer keeping active pages in RAM
+      "vm.swappiness" = 10;
+      # Retain inode/dentry cache longer
+      "vm.vfs_cache_pressure" = 50;
     };
 
     # Base kernel modules (e.g., for virtualization)
@@ -83,12 +87,13 @@
     # Bootloader configuration (systemd-boot with EFI)
     loader = {
       efi = {
-        canTouchEfiVariables = false; # Prevent modification of EFI vars
+        # Prevent modification of EFI vars
+        canTouchEfiVariables = false;
         efiSysMountPoint = "/boot";
       };
       systemd-boot = {
         enable = true;
-        configurationLimit = 5; # Keep only the 5 most recent generations
+        configurationLimit = 5;
       };
     };
 
@@ -103,8 +108,8 @@
       "xfs"
     ];
 
-    # Temporary directory settings
-    tmp.useTmpfs = true; # Mount /tmp on tmpfs (recommended)
+    # Temorary on RAM
+    tmp.useTmpfs = true;
     tmp.tmpfsSize = "50%";
   };
 
@@ -114,12 +119,18 @@
       device = "/dev/disk/by-label/NIX-ROOT";
       fsType = "f2fs";
       options = [
-        "background_gc=on" # Enable background garbage collection
-        "compress_algorithm=zstd:3" # Zstd compression for better performance
-        "compress_chksum" # Checksum for compressed data
-        "discard" # Enable TRIM for SSDs
-        "noatime" # Reduce writes by not updating access times
-        "lazytime" # Lazy timestamp updates
+        # Enable background garbage collection
+        "background_gc=on"
+        # Zstd compression for better performance
+        "compress_algorithm=zstd:3"
+        # Checksum for compressed data
+        "compress_chksum"
+        # Enable TRIM for SSDs
+        "discard"
+        # Reduce writes by not updating access times
+        "noatime"
+        # Lazy timestamp updates
+        "lazytime"
       ];
     };
 
@@ -150,7 +161,6 @@
       options = [
         "size=30%"
         "mode=0777"
-
       ];
     };
 
@@ -212,6 +222,7 @@
       ];
     };
   };
+
   # Nix temp build dir
   environment.variables.NIX_BUILD_TMPDIR = "/tmp/nix-build";
 
@@ -243,29 +254,38 @@
   # Nix Package Manager Settings
   nix = {
     gc = {
-      automatic = false; # Disabled automatic GC
-      dates = "daily"; # Would run daily if enabled
+      # Disabled automatic GC
+      automatic = false;
+      # Would run daily if enabled
+      dates = "daily";
       options = "--delete-older-than 1d";
       randomizedDelaySec = "10min";
     };
 
     settings = {
-      auto-optimise-store = false; # Manual optimization preferred
-      fsync-metadata = false; # Faster but slightly less safe
-      use-xdg-base-directories = true; # Follow XDG spec for config dirs
+      # Manual optimization preferred
+      auto-optimise-store = false;
+      # Faster but slightly less safe
+      fsync-metadata = false;
+      # Follow XDG spec for config dirs
+      use-xdg-base-directories = true;
     };
   };
 
   # Services
   services = {
-    fstrim.enable = true; # Periodic TRIM for SSD health
-    blueman.enable = true; # Bluetooth manager applet
-    power-profiles-daemon.enable = true; # Power profile switching
+    # Periodic TRIM for SSD health
+    fstrim.enable = true;
+    # Bluetooth manager applet
+    blueman.enable = true;
+    # Power profile switching
+    power-profiles-daemon.enable = true;
 
+    # Generic video drivers
     xserver.videoDrivers = [
       "modesetting"
       "fbdev"
-    ]; # Generic drivers
+    ];
 
     # Volatile journal to minimize disk writes
     journald.extraConfig = ''
@@ -281,7 +301,8 @@
 
   # System Auto-Upgrade
   system.autoUpgrade = {
-    enable = false; # Currently disabled
+    # Currently disabled
+    enable = false;
     allowReboot = false;
     dates = "daily";
     flake = inputs.self.outPath;
@@ -310,16 +331,17 @@
 
     services."systemd-tmpfiles-clean".enable = true;
 
-    coredump.enable = false; # Disable coredumps to save space/writes
+    # Disable coredumps to save space/writes
+    coredump.enable = false;
   };
 
   # Swap and Memory
   zramSwap = {
-    enable = true; # Compressed swap in RAM
-    memoryPercent = 50; # Use up to 25% of RAM
+    # Compressed swap in RAM
+    enable = true;
+    memoryPercent = 50;
   };
 
-  # Documentation
   # Disable most documentation to save space and build time
   documentation = {
     enable = false;
