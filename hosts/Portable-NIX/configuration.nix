@@ -128,7 +128,27 @@
     };
 
     # Volatile storage in RAM to reduce disk writes
-    "/tmp".fsType = "tmpfs";
+    "/var/tmp" = {
+      fsType = "tmpfs";
+      options = [
+        "mode=1777"
+        "size=100M"
+      ];
+    };
+    "/var/cache" = {
+      fsType = "tmpfs";
+      options = [
+        "mode=0755"
+        "size=500M"
+      ];
+    };
+    "/var/spool" = {
+      fsType = "tmpfs";
+      options = [
+        "mode=0755"
+        "size=50M"
+      ];
+    };
     "/var/log" = {
       fsType = "tmpfs";
       options = [
@@ -239,7 +259,7 @@
   # Swap and Memory
   zramSwap = {
     enable = true; # Compressed swap in RAM
-    memoryPercent = 25; # Use up to 25% of RAM
+    memoryPercent = 50; # Use up to 25% of RAM
   };
 
   # Documentation
