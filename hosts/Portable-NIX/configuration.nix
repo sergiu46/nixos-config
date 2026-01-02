@@ -156,6 +156,13 @@
         "size=200M"
       ];
     };
+    "/var/lib/nix" = {
+      fsType = "tmpfs";
+      options = [
+        "mode=0755"
+        "size=2G"
+      ];
+    };
   };
 
   # Hardware and Firmware
