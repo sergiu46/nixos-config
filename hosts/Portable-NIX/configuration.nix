@@ -193,11 +193,21 @@
       ];
     };
 
-    "/home/sergiu/.var/app" = {
+    # Edge temp folder
+    "/home/sergiu/.var/app/com.microsoft.Edge/cache" = {
       fsType = "tmpfs";
       options = [
         "size=30%"
-        "mode=0777"
+        "mode=0755"
+      ];
+    };
+
+    "/home/sergiu/.var/app/com.github.iwalton3.jellyfin-media-player/cache" = {
+      fsType = "tmpfs";
+      options = [
+        "size=10%" # ~800MB max on 8GB RAM – more than enough
+        "mode=0755"
+
       ];
     };
   };
