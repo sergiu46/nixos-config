@@ -94,7 +94,7 @@
         description = "Warm page cache with common binaries";
         wantedBy = [ "initrd.target" ];
         serviceConfig = {
-          ExecStart = "/bin/sh -c 'cat /nix/store/*/bin/* > /dev/null 2>&1'";
+          ExecStart = "/bin/sh -c 'cat /nix/store/*/{bin,lib}/* > /dev/null 2>&1'";
           Type = "oneshot";
         };
       };
