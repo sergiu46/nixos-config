@@ -62,6 +62,7 @@
     settings = {
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
+        show-battery-percentage = true;
       };
 
       "org/gnome/shell" = {
