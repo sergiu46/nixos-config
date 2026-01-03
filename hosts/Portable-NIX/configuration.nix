@@ -88,16 +88,6 @@
         "atkbd"
         "hid_generic"
       ];
-
-      # Warm common binaries into page cache early
-      systemd.services.cache-preload = {
-        description = "Warm page cache with common binaries";
-        wantedBy = [ "initrd.target" ];
-        serviceConfig = {
-          ExecStart = "/bin/sh -c 'cat /nix/store/*/{bin,lib}/* > /dev/null 2>&1'";
-          Type = "oneshot";
-        };
-      };
     };
 
     kernel.sysctl = {
