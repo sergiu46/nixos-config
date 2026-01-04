@@ -1,11 +1,6 @@
 { pkgs, stateVersion, ... }:
 
 {
-  # Imports
-  imports = [
-    ./packages.nix
-  ];
-
   # Desktop environment
   services = {
     desktopManager.gnome.enable = true;

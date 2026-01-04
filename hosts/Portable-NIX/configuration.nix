@@ -15,6 +15,7 @@
 
     ../../modules/sync-config.nix
     ../../modules/system.nix
+    ../../modules/packages.nix
   ];
 
   # Networking

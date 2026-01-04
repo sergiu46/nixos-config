@@ -11,6 +11,7 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     ../../modules/auto-update.nix
     ../../modules/system.nix
+    ../../modules/packages.nix
   ];
 
   # Networking
