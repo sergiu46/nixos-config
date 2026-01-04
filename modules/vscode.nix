@@ -25,5 +25,5 @@ in
 
   # Writable symlink to your repo
   xdg.configFile."Code/User/settings.json".source =
-    config.lib.file.mkOutOfStoreSymlink "/home/${user}/NixOS/users/${user}/vscode/vscode-settings.json";
+    config.lib.file.mkOutOfStoreSymlink "/home/${user}/NixOS/users/${user}/vscode-settings.json";
 }

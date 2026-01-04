@@ -22,7 +22,6 @@
     hostName = "Portable-NIX";
     networkmanager.enable = true;
     useDHCP = lib.mkDefault true;
-    usePredictableInterfaceNames = false; # Simple interface names (eth0, wlan0)
   };
 
   # Nix settings and garbage collection
@@ -31,7 +30,7 @@
       automatic = true;
       dates = "daily";
       options = "--delete-older-than 1d";
-      randomizedDelaySec = "10min";
+      randomizedDelaySec = "30min";
     };
 
     settings = {
@@ -53,7 +52,7 @@
     ];
     operation = "boot";
     persistent = true;
-    randomizedDelaySec = "10min";
+    randomizedDelaySec = "30min";
   };
 
   # Bootloader, kernel, and initrd
@@ -214,7 +213,7 @@
     "/home/sergiu/.var/app/com.github.iwalton3.jellyfin-media-player/cache" = {
       fsType = "tmpfs";
       options = [
-        "size=10%"
+        "size=20%"
         "mode=0777"
       ];
     };
@@ -251,6 +250,9 @@
     fstrim.enable = true; # Periodic TRIM for SSDs
     blueman.enable = true; # Bluetooth applet
     power-profiles-daemon.enable = true; # Power profile switching
+    thermald.enable = true; # Intel thermal daemon
+    tlp.enable = false; # Disabled in favor of other power tools
+    upower.enable = true; # Battery monitoring
 
     xserver.videoDrivers = [
       "modesetting"

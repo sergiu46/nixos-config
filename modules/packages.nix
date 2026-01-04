@@ -6,7 +6,7 @@
     "ventoy-qt5-1.1.07"
   ];
 
-  # System-wide packages (Stable)
+  # System-wide packages
   environment.systemPackages = with pkgs; [
     curl
     git
@@ -37,10 +37,10 @@
     ];
 
     packages = [
-      "com.github.iwalton3.jellyfin-media-player"
       "com.microsoft.Edge"
       "org.telegram.desktop"
       "dev.deedles.Trayscale"
+      "com.github.iwalton3.jellyfin-media-player"
     ];
   };
 

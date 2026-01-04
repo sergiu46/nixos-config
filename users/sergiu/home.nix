@@ -8,7 +8,7 @@
   programs.bash.enable = true;
 
   imports = [
-    ./vscode/vscode.nix
+    ../../modules/vscode.nix
   ];
 
   home.packages = with pkgs; [

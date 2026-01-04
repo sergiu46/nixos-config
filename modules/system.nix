@@ -11,7 +11,6 @@
     desktopManager.gnome.enable = true;
     displayManager.gdm.enable = true;
     gnome.gnome-keyring.enable = true; # GNOME keyring
-    upower.enable = true; # Battery/power monitoring
   };
 
   environment.gnome.excludePackages = with pkgs; [
@@ -106,7 +105,6 @@
       "flakes"
     ];
   };
-
   nixpkgs.config.allowUnfree = true;
 
   # System state version
