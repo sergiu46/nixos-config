@@ -21,20 +21,22 @@
   ];
 
   # Mutter experimental features (for better fractional scaling, VRR, etc.)
-  programs.dconf.enable = true;
-  programs.dconf.profiles.user.databases = [
-    {
-      settings = {
-        "org/gnome/mutter" = {
-          experimental-features = [
-            "scale-monitor-framebuffer"
-            "variable-refresh-rate"
-            "xwayland-native-scaling"
-          ];
+  programs.dconf = {
+    enable = true;
+    profiles.user.databases = [
+      {
+        settings = {
+          "org/gnome/mutter" = {
+            experimental-features = [
+              "scale-monitor-framebuffer"
+              "variable-refresh-rate"
+              "xwayland-native-scaling"
+            ];
+          };
         };
-      };
-    }
-  ];
+      }
+    ];
+  };
 
   # Audio (PipeWire modern stack)
   security.rtkit.enable = true;
