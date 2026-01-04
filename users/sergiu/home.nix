@@ -15,14 +15,18 @@
     # Gnome extensions
     gnomeExtensions.system-monitor
     gnomeExtensions.alphabetical-app-grid
-    gnomeExtensions.appindicator
-    gnomeExtensions.dash-in-panel
-    gnomeExtensions.vitals
-    gnomeExtensions.desktop-icons-ng-ding
+    #gnomeExtensions.appindicator
+    #gnomeExtensions.dash-in-panel
+    #gnomeExtensions.vitals
 
     # Packages
-    bitwarden-desktop
+    #bitwarden-desktop
     ventoy-full-qt
+
+  ];
+
+  services.flatpak.packages = [
+    "com.bitwarden.desktop"
 
   ];
 
