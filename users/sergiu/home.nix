@@ -33,7 +33,7 @@
       setEnv = {
         TERM = "xterm-256color";
       };
-      identityAgent = "~/.bitwarden-ssh-agent.sock";
+      identityAgent = "~/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock";
     };
   };
 
