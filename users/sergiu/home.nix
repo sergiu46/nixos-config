@@ -25,11 +25,6 @@
 
   ];
 
-  services.flatpak.packages = [
-    "com.bitwarden.desktop"
-
-  ];
-
   # Configure the SSH Client to use bitwarden
   programs.ssh = {
     enable = true;

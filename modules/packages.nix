@@ -37,6 +37,7 @@
     ];
 
     packages = [
+      "com.bitwarden.desktop"
       "com.microsoft.Edge"
       "org.telegram.desktop"
       "dev.deedles.Trayscale"
