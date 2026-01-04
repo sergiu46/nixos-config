@@ -12,10 +12,18 @@
   ];
 
   home.packages = with pkgs; [
-    bitwarden-desktop
+    # Gnome extensions
     gnomeExtensions.system-monitor
     gnomeExtensions.alphabetical-app-grid
+    gnomeExtensions.appindicator
+    gnomeExtensions.dash-in-panel
+    gnomeExtensions.vitals
+    gnomeExtensions.desktop-icons-ng-ding
+
+    # Packages
+    bitwarden-desktop
     ventoy-full-qt
+
   ];
 
   # Configure the SSH Client to use bitwarden
