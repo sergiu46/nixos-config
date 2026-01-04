@@ -15,12 +15,8 @@
     # Gnome extensions
     gnomeExtensions.system-monitor
     gnomeExtensions.alphabetical-app-grid
-    #gnomeExtensions.appindicator
-    #gnomeExtensions.dash-in-panel
-    #gnomeExtensions.vitals
 
     # Packages
-    #bitwarden-desktop
     ventoy-full-qt
 
   ];
