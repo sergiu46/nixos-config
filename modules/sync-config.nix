@@ -7,13 +7,11 @@
     after = [ "network-online.target" ];
     wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
-
     serviceConfig = {
       Type = "oneshot";
       User = "sergiu";
       RemainAfterExit = true;
     };
-
     script = ''
       CONFIG_DIR="/home/sergiu/NixOS"
       REPO_URL="https://github.com/sergiu46/nixos-config.git"

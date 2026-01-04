@@ -70,7 +70,6 @@
   # Hardware configuration
   hardware = {
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-
     bluetooth.enable = true; # Bluetooth
   };
 
@@ -83,7 +82,6 @@
   # Services
   services = {
     xserver.videoDrivers = [ "intel" ]; # Intel iGPU
-
     blueman.enable = true; # Bluetooth manager
     libinput.enable = true; # Touchpad support
     thermald.enable = true; # Intel thermal daemon

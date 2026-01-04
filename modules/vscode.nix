@@ -15,7 +15,6 @@ in
     enable = true;
     mutableExtensionsDir = true;
     package = pkgs.vscode;
-
     profiles.default = {
       extensions = with pkgs.vscode-extensions; [
         jnoortheen.nix-ide

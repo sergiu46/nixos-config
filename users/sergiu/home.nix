@@ -1,12 +1,9 @@
 { pkgs, stateVersion, ... }:
 {
-
   home.username = "sergiu";
   home.homeDirectory = "/home/sergiu";
   home.stateVersion = stateVersion;
-
   programs.bash.enable = true;
-
   imports = [
     ../../modules/vscode.nix
   ];
@@ -15,10 +12,8 @@
     # Gnome extensions
     gnomeExtensions.system-monitor
     gnomeExtensions.alphabetical-app-grid
-
     # Packages
     ventoy-full-qt
-
   ];
 
   # Configure the SSH Client to use bitwarden
@@ -43,38 +38,35 @@
   };
 
   home.shellAliases = {
+    # Latitude
     switch-latitude = "sudo nixos-rebuild switch --flake ~/NixOS#Latitude-NIX";
     check-latitude = "nixos-rebuild build --flake ~/NixOS#Latitude-NIX";
     boot-latitude = "sudo nixos-rebuild boot --flake ~/NixOS#Latitude-NIX";
     update-latitude = "cd ~/NixOS && sudo nix flake update && sudo nixos-rebuild switch --flake ~/NixOS#Latitude-NIX";
-
+    # Portable
     switch-portable = "sudo nixos-rebuild switch --flake ~/NixOS#Portable-NIX";
     check-portable = "nixos-rebuild build --flake ~/NixOS#Portable-NIX";
     boot-portable = "sudo nixos-rebuild boot --flake ~/NixOS#Portable-NIX";
     update-portable = "cd ~/NixOS && sudo nix flake update && sudo nixos-rebuild switch --flake ~/NixOS#Portable-NIX";
-
     mount-portable = "sudo mount /dev/disk/by-label/NIX-ROOT /mnt && sudo mkdir -p /mnt/boot && sudo mount /dev/disk/by-label/NIX-BOOT /mnt/boot";
     install-portable = "sudo nixos-install --flake ~/NixOS#Portable-NIX";
-
+    # For all
     clean = "sudo nix-collect-garbage -d && nix-collect-garbage -d && nix store gc && nix store optimise";
   };
 
+  # GNOME customization
   dconf = {
     enable = true;
-
     settings = {
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
         show-battery-percentage = true;
       };
-
       "org/gnome/shell" = {
         enabled-extensions = [
           pkgs.gnomeExtensions.system-monitor.extensionUuid
           pkgs.gnomeExtensions.alphabetical-app-grid.extensionUuid
-
         ];
-
         favorite-apps = [
           "com.microsoft.Edge.desktop"
           "firefox.desktop"
@@ -90,17 +82,13 @@
       };
     };
   };
-
   qt = {
     enable = true;
-
     platformTheme = {
       name = "adwaita";
     };
-
     style = {
       name = "adwaita-dark";
     };
   };
-
 }

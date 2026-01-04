@@ -9,7 +9,6 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
   };
-
   outputs =
     {
       self,
@@ -21,7 +20,6 @@
     let
       system = "x86_64-linux";
       stateVersion = "25.11";
-
       # Common modules shared across all hosts
       commonModules = [
         nix-flatpak.nixosModules.nix-flatpak
@@ -35,6 +33,7 @@
     in
     {
       nixosConfigurations = {
+        # Latitude
         Latitude-NIX = nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit inputs stateVersion; };
@@ -44,7 +43,7 @@
             ./users/denisa/denisa.nix
           ];
         };
-
+        # Portable
         Portable-NIX = nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit inputs stateVersion; };

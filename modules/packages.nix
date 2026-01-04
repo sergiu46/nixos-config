@@ -35,7 +35,6 @@
         name = "flathub";
       }
     ];
-
     packages = [
       "com.bitwarden.desktop"
       "com.microsoft.Edge"

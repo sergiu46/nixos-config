@@ -7,7 +7,6 @@
     displayManager.gdm.enable = true;
     gnome.gnome-keyring.enable = true; # GNOME keyring
   };
-
   environment.gnome.excludePackages = with pkgs; [
     epiphany
     geary
@@ -41,7 +40,6 @@
   # Audio (PipeWire modern stack)
   security.rtkit.enable = true;
   services.pulseaudio.enable = false;
-
   services.pipewire = {
     enable = true;
     alsa.enable = true;

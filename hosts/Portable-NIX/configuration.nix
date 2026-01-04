@@ -12,7 +12,6 @@
   imports = [
     (modulesPath + "/profiles/all-hardware.nix")
     (modulesPath + "/installer/scan/not-detected.nix")
-
     ../../modules/sync-config.nix
     ../../modules/system.nix
     ../../modules/packages.nix
@@ -33,7 +32,6 @@
       options = "--delete-older-than 1d";
       randomizedDelaySec = "30min";
     };
-
     settings = {
       auto-optimise-store = false;
       fsync-metadata = false;
@@ -59,13 +57,11 @@
   # Bootloader, kernel, and initrd
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
-
     kernelModules = [
       "kvm-amd"
       "kvm-intel"
     ];
     extraModulePackages = [ ];
-
     initrd = {
       systemd.enable = true;
       kernelModules = [ ];
@@ -107,7 +103,6 @@
         efiSysMountPoint = "/boot";
       };
     };
-
     supportedFilesystems = lib.mkAfter [
       "btrfs"
       "ext4"
@@ -117,7 +112,6 @@
       "vfat"
       "xfs"
     ];
-
     tmp.useTmpfs = true;
     tmp.tmpfsSize = "50%";
   };
@@ -136,12 +130,10 @@
         "lazytime"
       ];
     };
-
     "/boot" = {
       device = "/dev/disk/by-label/NIX-BOOT";
       fsType = "vfat";
     };
-
     "/tmp" = {
       fsType = "tmpfs";
       options = [
@@ -149,7 +141,6 @@
         "mode=1777"
       ];
     };
-
     "/var/lib/nix" = {
       fsType = "tmpfs";
       options = [
@@ -157,7 +148,6 @@
         "mode=0755"
       ];
     };
-
     "/home/sergiu/.cache" = {
       fsType = "tmpfs";
       options = [
@@ -165,7 +155,6 @@
         "mode=0777"
       ];
     };
-
     "/var/cache" = {
       fsType = "tmpfs";
       options = [
@@ -173,7 +162,6 @@
         "mode=0755"
       ];
     };
-
     "/var/log" = {
       fsType = "tmpfs";
       options = [
@@ -181,7 +169,6 @@
         "mode=0755"
       ];
     };
-
     "/var/tmp" = {
       fsType = "tmpfs";
       options = [
@@ -189,12 +176,10 @@
         "mode=1777"
       ];
     };
-
     "/root/.cache" = {
       fsType = "tmpfs";
       options = [ "size=1%" ];
     };
-
     "/var/spool" = {
       fsType = "tmpfs";
       options = [
@@ -202,7 +187,6 @@
         "mode=0755"
       ];
     };
-
     "/home/sergiu/.var/app/com.microsoft.Edge/cache" = {
       fsType = "tmpfs";
       options = [
@@ -210,7 +194,6 @@
         "mode=0777"
       ];
     };
-
     "/home/sergiu/.var/app/com.github.iwalton3.jellyfin-media-player/cache" = {
       fsType = "tmpfs";
       options = [
@@ -235,10 +218,8 @@
       amd.updateMicrocode = true;
       intel.updateMicrocode = true;
     };
-
     enableAllFirmware = true;
     firmware = [ pkgs.linux-firmware ];
-
     graphics.enable = true;
     bluetooth.enable = true;
   };
@@ -254,17 +235,14 @@
     thermald.enable = true; # Intel thermal daemon
     tlp.enable = false; # Disabled in favor of other power tools
     upower.enable = true; # Battery monitoring
-
     xserver.videoDrivers = [
       "modesetting"
       "fbdev"
     ];
-
     journald.extraConfig = ''
       Storage=volatile
       RuntimeMaxUse=50M
     '';
-
     udev.extraRules = ''
       ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*", ATTR{queue/scheduler}="bfq"
     '';
@@ -280,9 +258,7 @@
         options = "mode=0755,size=20M";
       }
     ];
-
     services."systemd-tmpfiles-clean".enable = true;
-
     coredump.enable = false;
   };
 
