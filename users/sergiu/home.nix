@@ -88,7 +88,7 @@
           "com.microsoft.Edge.flextop.msedge-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop"
           "code.desktop"
           "org.gnome.Console.desktop"
-          "bitwarden.desktop"
+          "com.bitwarden.desktop.desktop"
         ];
 
       };
