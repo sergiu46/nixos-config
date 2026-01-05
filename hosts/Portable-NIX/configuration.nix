@@ -178,7 +178,7 @@
     };
     "/root/.cache" = {
       fsType = "tmpfs";
-      options = [ "64M" ];
+      options = [ "size=64M" ];
     };
     "/var/spool" = {
       fsType = "tmpfs";
