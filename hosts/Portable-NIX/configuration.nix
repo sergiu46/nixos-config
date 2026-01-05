@@ -144,21 +144,21 @@
     "/var/lib/nix" = {
       fsType = "tmpfs";
       options = [
-        "size=25%"
+        "size=50%"
         "mode=0755"
       ];
     };
     "/home/sergiu/.cache" = {
       fsType = "tmpfs";
       options = [
-        "size=25%"
+        "size=50%"
         "mode=0777"
       ];
     };
     "/var/cache" = {
       fsType = "tmpfs";
       options = [
-        "size=512M"
+        "size=50%"
         "mode=0755"
       ];
     };
@@ -172,32 +172,32 @@
     "/var/tmp" = {
       fsType = "tmpfs";
       options = [
-        "size=256M"
+        "size=50%"
         "mode=1777"
       ];
     };
     "/root/.cache" = {
       fsType = "tmpfs";
-      options = [ "size=64M" ];
+      options = [ "size=50%" ];
     };
     "/var/spool" = {
       fsType = "tmpfs";
       options = [
-        "size=64M"
+        "size=50%"
         "mode=0755"
       ];
     };
     "/home/sergiu/.var/app/com.microsoft.Edge/cache" = {
       fsType = "tmpfs";
       options = [
-        "size=20%"
+        "size=50%"
         "mode=0777"
       ];
     };
     "/home/sergiu/.var/app/com.github.iwalton3.jellyfin-media-player/cache" = {
       fsType = "tmpfs";
       options = [
-        "size=20%"
+        "size=50%"
         "mode=0777"
       ];
     };
