@@ -14,6 +14,9 @@
     gnomeExtensions.alphabetical-app-grid
     gnomeExtensions.forge
     gnomeExtensions.clipboard-indicator
+    gnomeExtensions.blur-my-shell
+    gnomeExtensions.dash-to-dock
+    gnomeExtensions.dash-to-panel
     # Packages
     ventoy-full-qt
   ];
