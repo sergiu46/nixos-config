@@ -72,6 +72,8 @@
           pkgs.gnomeExtensions.alphabetical-app-grid.extensionUuid
           pkgs.gnomeExtensions.forge.extensionUuid
           pkgs.gnomeExtensions.clipboard-indicator.extensionUuid
+          pkgs.gnomeExtensions.blur-my-shell.extensionUuid
+          pkgs.gnomeExtensions.dash-to-dock.extensionUuid
         ];
         favorite-apps = [
           "com.microsoft.Edge.desktop"
@@ -86,6 +88,10 @@
         ];
 
       };
+      "org/gnome/desktop/screensaver" = {
+        lock-enabled = false;
+      };
+
     };
   };
   qt = {
