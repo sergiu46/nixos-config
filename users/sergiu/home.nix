@@ -12,6 +12,8 @@
     # Gnome extensions
     gnomeExtensions.system-monitor
     gnomeExtensions.alphabetical-app-grid
+    gnomeExtensions.forge
+    gnomeExtensions.clipboard-indicator
     # Packages
     ventoy-full-qt
   ];
@@ -65,6 +67,8 @@
         enabled-extensions = [
           pkgs.gnomeExtensions.system-monitor.extensionUuid
           pkgs.gnomeExtensions.alphabetical-app-grid.extensionUuid
+          pkgs.gnomeExtensions.forge.extensionUuid
+          pkgs.gnomeExtensions.clipboard-indicator.extensionUuid
         ];
         favorite-apps = [
           "com.microsoft.Edge.desktop"
