@@ -144,53 +144,53 @@
     "/var/lib/nix" = {
       fsType = "tmpfs";
       options = [
-        "size=30%"
+        "size=25%"
         "mode=0755"
       ];
     };
     "/home/sergiu/.cache" = {
       fsType = "tmpfs";
       options = [
-        "size=30%"
+        "size=25%"
         "mode=0777"
       ];
     };
     "/var/cache" = {
       fsType = "tmpfs";
       options = [
-        "size=10%"
+        "size=512M"
         "mode=0755"
       ];
     };
     "/var/log" = {
       fsType = "tmpfs";
       options = [
-        "size=3%"
+        "size=128M"
         "mode=0755"
       ];
     };
     "/var/tmp" = {
       fsType = "tmpfs";
       options = [
-        "size=2%"
+        "size=256M"
         "mode=1777"
       ];
     };
     "/root/.cache" = {
       fsType = "tmpfs";
-      options = [ "size=1%" ];
+      options = [ "64M" ];
     };
     "/var/spool" = {
       fsType = "tmpfs";
       options = [
-        "size=1%"
+        "size=64M"
         "mode=0755"
       ];
     };
     "/home/sergiu/.var/app/com.microsoft.Edge/cache" = {
       fsType = "tmpfs";
       options = [
-        "size=30%"
+        "size=20%"
         "mode=0777"
       ];
     };
