@@ -19,6 +19,10 @@
     showtime
   ];
 
+  # Touchpad Scrooling
+  services.libinput.touchpad.accelProfile = "flat";
+  services.libinput.touchpad.accelSpeed = "-1.0"; # Range is -1.0 to 1.0 (negative is slower)
+
   # Mutter experimental features (for better fractional scaling, VRR, etc.)
   programs.dconf = {
     enable = true;
