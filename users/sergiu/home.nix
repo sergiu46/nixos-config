@@ -18,7 +18,7 @@
     gnomeExtensions.dash-to-dock
     gnomeExtensions.dash-to-panel
     # Packages
-    ventoy-full-qt
+    ventoy-full-gtk
   ];
 
   # Configure the SSH Client to use bitwarden
