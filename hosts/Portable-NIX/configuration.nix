@@ -148,14 +148,14 @@
         "mode=0755"
       ];
     };
-    "/home/sergiu/.cache" = {
+    "/var/cache" = {
       fsType = "tmpfs";
       options = [
         "size=50%"
-        "mode=0777"
+        "mode=0755"
       ];
     };
-    "/var/cache" = {
+    "/var/spool" = {
       fsType = "tmpfs";
       options = [
         "size=50%"
@@ -165,7 +165,7 @@
     "/var/log" = {
       fsType = "tmpfs";
       options = [
-        "size=128M"
+        "size=50%"
         "mode=0755"
       ];
     };
@@ -180,11 +180,11 @@
       fsType = "tmpfs";
       options = [ "size=50%" ];
     };
-    "/var/spool" = {
+    "/home/sergiu/.cache" = {
       fsType = "tmpfs";
       options = [
         "size=50%"
-        "mode=0755"
+        "mode=0777"
       ];
     };
     "/home/sergiu/.var/app/com.microsoft.Edge/cache" = {
