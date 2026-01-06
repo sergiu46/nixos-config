@@ -52,12 +52,8 @@
     check-portable = "nixos-rebuild build --flake ~/NixOS#Portable-NIX";
     boot-portable = "sudo nixos-rebuild boot --flake ~/NixOS#Portable-NIX";
     mount-portable = ''
-      sudo mount -t f2fs -o \
-        noatime,lazytime,background_gc=on,compress_algorithm=lz4, \
-        compress_chksum,compress_mode=fs,compress_extension=*,atgc, \
-        gc_merge,flush_merge,checkpoint_merge,inline_xattr \
-        /dev/disk/by-label/NIX-ROOT /mnt && \
-      sudo chattr -R +c /mnt && \
+      sudo mount -t f2fs -o noatime,lazytime,background_gc=on,compress_algorithm=lz4,compress_chksum,compress_mode=fs,compress_extension=*,atgc,gc_merge,flush_merge,checkpoint_merge,inline_xattr /dev/disk/by-label/NIX-ROOT /mnt && \
+      sudo chattr +c /mnt && \
       sudo mkdir -p /mnt/boot && \
       sudo mount /dev/disk/by-label/NIX-BOOT /mnt/boot
     '';
