@@ -95,7 +95,7 @@
 
   # Filesystems
 
-  # Format nix root partition with this command
+  # Format NIX-ROOT partition with this command. Set the right device at the end.
   # sudo mkfs.f2fs -f -l NIX-ROOT -O extra_attr,inode_checksum,sb_checksum,compression -o 5 /dev/sda3
   fileSystems = {
     "/" = {
