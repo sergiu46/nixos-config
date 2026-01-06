@@ -24,6 +24,14 @@
     hunspell
     hunspellDicts.en_US
     hunspellDicts.ro_RO
+    # Gnome extensions
+    gnomeExtensions.system-monitor
+    gnomeExtensions.alphabetical-app-grid
+    gnomeExtensions.forge
+    gnomeExtensions.clipboard-indicator
+    gnomeExtensions.blur-my-shell
+    gnomeExtensions.dash-to-dock
+    gnomeExtensions.dash-to-panel
   ];
 
   # Flatpak
