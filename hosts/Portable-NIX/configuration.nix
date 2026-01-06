@@ -120,70 +120,8 @@
       device = "/dev/disk/by-label/NIX-BOOT";
       fsType = "vfat";
     };
-    "/tmp" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=1777"
-      ];
-    };
-    "/var/cache" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=0755"
-      ];
-    };
-    "/var/spool" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=0755"
-      ];
-    };
-    "/var/log" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=0755"
-      ];
-    };
-    "/var/tmp" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=1777"
-      ];
-    };
-    "/root/.cache" = {
-      fsType = "tmpfs";
-      options = [ "size=50%" ];
-    };
-    "/home/sergiu/.cache" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=0777"
-      ];
-    };
-    "/home/sergiu/.var/app/com.microsoft.Edge/cache" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=0777"
-      ];
-    };
-    "/home/sergiu/.var/app/com.github.iwalton3.jellyfin-media-player/cache" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=0777"
-      ];
-    };
-  };
 
-  # Nix build temporary directory
-  environment.variables.NIX_BUILD_TMPDIR = "/tmp/nix-build";
+  };
 
   # ZRAM swap
   zramSwap = {
