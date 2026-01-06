@@ -37,7 +37,7 @@
             ];
           };
           "org/gnome/shell/extensions/clipboard-indicator" = {
-            application-exclude-list = [ "com.bitwarden.desktop" ];
+            blacklist-resources = [ "com.bitwarden.desktop" ];
           };
         };
       }
