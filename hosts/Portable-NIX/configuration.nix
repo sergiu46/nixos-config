@@ -105,16 +105,16 @@
         "noatime"
         "lazytime"
         "background_gc=on"
-        "compress_algorithm=zstd:3"
+        "compress_algorithm=lz4"
         "compress_chksum"
-        "compress_mode=user" # Allows you to use chattr +c or compress everything
-        "compress_extension=*" # Try to compress all files by default
+        "compress_mode=fs"
+        "compress_extension=*"
         "atgc"
         "gc_merge"
         "flush_merge"
         "checkpoint_merge"
         "inline_xattr"
-        "discard" # Remove this if 'lsblk -D' shows DISC-MAX as 0B
+        "discard"
       ];
     };
     "/boot" = {
