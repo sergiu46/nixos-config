@@ -14,6 +14,8 @@
     ../../modules/sync-config.nix
     ../../modules/system.nix
     ../../modules/packages.nix
+    ../../modules/tmpfs.nix
+
   ];
 
   # Networking
@@ -88,8 +90,6 @@
   # Create folders for tmpfs
   systemd.tmpfiles.rules = [
     # Create the base folders
-    "d /home/sergiu/.var 0700 sergiu users - -"
-    "d /home/sergiu/.var/app 0700 sergiu users - -"
     "d /home/sergiu/.cache/flatpak 0700 sergiu users - -"
 
     # Telegram Symlinks
@@ -136,66 +136,7 @@
       device = "/dev/disk/by-label/NIX-BOOT";
       fsType = "vfat";
     };
-    "/tmp" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=1777"
-      ];
-    };
-    "/var/cache" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=0755"
-      ];
-    };
-    "/var/spool" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=0755"
-      ];
-    };
-    "/var/log" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=0755"
-      ];
-    };
-    "/var/tmp" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=1777"
-      ];
-    };
-    "/root/.cache" = {
-      fsType = "tmpfs";
-      options = [ "size=50%" ];
-    };
-    "/home/sergiu/.cache" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=0777"
-      ];
-    };
-    "/home/sergiu/.var/app/com.microsoft.Edge/cache" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=0777"
-      ];
-    };
-    "/home/sergiu/.var/app/com.github.iwalton3.jellyfin-media-player/cache" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=0777"
-      ];
-    };
+
   };
 
   # Nix build temporary directory
