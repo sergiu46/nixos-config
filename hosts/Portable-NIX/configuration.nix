@@ -103,8 +103,14 @@
     "L+ /home/sergiu/.var/app/com.github.iwalton3.jellyfin-media-player/cache - - - - /home/sergiu/.cache/flatpak/jellyfin"
   ];
 
-  # Filesystems
+  # Fatpak config
+  system.activationScripts.flatpak-cache-permissions = {
+    text = ''
+      ${pkgs.flatpak}/bin/flatpak override --user --filesystem=/home/sergiu/.cache/flatpak:create
+    '';
+  };
 
+  # Filesystems
   # Format NIX-ROOT partition with this command. Set the right device at the end.
   # sudo mkfs.f2fs -f -l NIX-ROOT -O extra_attr,inode_checksum,sb_checksum,compression -o 5 /dev/sda3
   fileSystems = {
@@ -186,14 +192,6 @@
 
   # Nix build temporary directory
   environment.variables.NIX_BUILD_TMPDIR = "/tmp/nix-build";
-
-  # Fatpak config
-  services.flatpak.enable = true;
-  system.activationScripts.flatpak-cache-permissions = {
-    text = ''
-      ${pkgs.flatpak}/bin/flatpak override --user --filesystem=/home/sergiu/.cache/flatpak:create
-    '';
-  };
 
   # ZRAM swap
   zramSwap = {
