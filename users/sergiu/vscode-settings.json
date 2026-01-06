@@ -20,5 +20,6 @@
   "update.mode": "none",
   "git.autofetch": true,
   "workbench.startupEditor": "none",
-  "explorer.confirmDragAndDrop": false
+  "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false
 }
