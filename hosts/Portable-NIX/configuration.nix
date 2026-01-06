@@ -211,11 +211,18 @@
   environment.variables.NIX_BUILD_TMPDIR = "/tmp/nix-build";
 
   # Disable trash
-  programs.dconf.settings = {
-    "org/gnome/nautilus/preferences" = {
-      confirm-trash = true; # ask before deleting
-      enable-delete = true; # enables permanent delete
-    };
+  programs.dconf = {
+    enable = true;
+    profiles.user.databases = [
+      {
+        settings = {
+          "org/gnome/nautilus/preferences" = {
+            confirm-trash = true; # ask before deleting
+            enable-delete = true; # enables permanent delete
+          };
+        };
+      }
+    ];
   };
 
   # ZRAM swap
