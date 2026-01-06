@@ -10,7 +10,7 @@
   services.psd.enable = true;
 
   systemd.tmpfiles.rules = [
-    "d /var/cache/nix-build 0755 nixbld nixbld - -"
+    "d /var/cache/nix-build 0755 root root - -"
   ];
 
   fileSystems = {
@@ -21,7 +21,7 @@
         "nosuid"
         "nodev"
         "relatime"
-        "size=2G"
+        "size=50%"
         "mode=1777"
       ];
     };
