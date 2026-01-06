@@ -94,17 +94,27 @@
   ];
 
   # Filesystems
+
+  # Format nix root partition with this command
+  # sudo mkfs.f2fs -f -O extra_attr,inode_checksum,sb_checksum,compression,atgc -p 5 /dev/sdX3
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/NIX-ROOT";
       fsType = "f2fs";
       options = [
-        "background_gc=on"
-        "compress_algorithm=zstd:3"
-        "compress_chksum"
-        "discard"
         "noatime"
         "lazytime"
+        "background_gc=on"
+        "compress_algorithm=zstd:6"
+        "compress_chksum"
+        "compress_mode=user" # Allows you to use chattr +c or compress everything
+        "compress_extension=*" # Try to compress all files by default
+        "atgc"
+        "gc_merge"
+        "flush_merge"
+        "checkpoint_merge"
+        "inline_xattr"
+        "discard" # Remove this if 'lsblk -D' shows DISC-MAX as 0B
       ];
     };
     "/boot" = {
