@@ -2,7 +2,6 @@
   pkgs,
   lib,
   modulesPath,
-  inputs,
   stateVersion,
   ...
 }:
