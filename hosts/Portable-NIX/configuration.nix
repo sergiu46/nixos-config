@@ -87,10 +87,18 @@
 
   # Create folders for tmpfs
   systemd.tmpfiles.rules = [
-    "d /home/sergiu/.var 0755 sergiu users - -"
-    "d /home/sergiu/.var/app 0755 sergiu users - -"
-    "d /home/sergiu/.var/app/com.microsoft.Edge 0755 sergiu users - -"
-    "d /home/sergiu/.var/app/com.github.iwalton3.jellyfin-media-player 0755 sergiu users - -"
+    # Create the base folder inside the RAM-mounted .cache
+    "d /home/sergiu/.cache/flatpak 0700 sergiu users - -"
+
+    # Telegram Symlinks
+    "L+ /home/sergiu/.var/app/org.telegram.desktop/cache - - - - /home/sergiu/.cache/flatpak/telegram"
+    "L+ /home/sergiu/.var/app/org.telegram.desktop/data/TelegramDesktop/tdata/user_data/cache - - - - /home/sergiu/.cache/flatpak/telegram-user"
+
+    # Edge Symlinks
+    "L+ /home/sergiu/.var/app/com.microsoft.Edge/cache - - - - /home/sergiu/.cache/flatpak/edge"
+
+    # Jellyfin Symlinks
+    "L+ /home/sergiu/.var/app/com.github.iwalton3.jellyfin-media-player/cache - - - - /home/sergiu/.cache/flatpak/jellyfin"
   ];
 
   # Filesystems
@@ -120,6 +128,18 @@
       device = "/dev/disk/by-label/NIX-BOOT";
       fsType = "vfat";
     };
+
+    "/home/sergiu/.cache" = {
+      device = "tmpfs";
+      fsType = "tmpfs";
+      options = [
+        "size=50%"
+        "mode=0777"
+        "nosuid"
+        "nodev"
+      ];
+    };
+
     "/tmp" = {
       fsType = "tmpfs";
       options = [
@@ -159,31 +179,19 @@
       fsType = "tmpfs";
       options = [ "size=50%" ];
     };
-    "/home/sergiu/.cache" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=0777"
-      ];
-    };
-    "/home/sergiu/.var/app/com.microsoft.Edge/cache" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=0777"
-      ];
-    };
-    "/home/sergiu/.var/app/com.github.iwalton3.jellyfin-media-player/cache" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=0777"
-      ];
-    };
+
   };
 
   # Nix build temporary directory
   environment.variables.NIX_BUILD_TMPDIR = "/tmp/nix-build";
+
+  # Fatpak config
+  # services.flatpak.enable = true;
+  # system.activationScripts.flatpak-cache-permissions = {
+  #   text = ''
+  #     ${pkgs.flatpak}/bin/flatpak override --user --filesystem=/home/sergiu/.cache/flatpak:create
+  #   '';
+  # };
 
   # ZRAM swap
   zramSwap = {
