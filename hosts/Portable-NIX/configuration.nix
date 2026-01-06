@@ -88,6 +88,8 @@
   # Create folders for tmpfs
   systemd.tmpfiles.rules = [
     # Create the base folder inside the RAM-mounted .cache
+    "d /home/sergiu/.var 0700 sergiu users - -"
+    "d /home/sergiu/.var/app 0700 sergiu users - -"
     "d /home/sergiu/.cache/flatpak 0700 sergiu users - -"
 
     # Telegram Symlinks
@@ -186,12 +188,12 @@
   environment.variables.NIX_BUILD_TMPDIR = "/tmp/nix-build";
 
   # Fatpak config
-  # services.flatpak.enable = true;
-  # system.activationScripts.flatpak-cache-permissions = {
-  #   text = ''
-  #     ${pkgs.flatpak}/bin/flatpak override --user --filesystem=/home/sergiu/.cache/flatpak:create
-  #   '';
-  # };
+  services.flatpak.enable = true;
+  system.activationScripts.flatpak-cache-permissions = {
+    text = ''
+      ${pkgs.flatpak}/bin/flatpak override --user --filesystem=/home/sergiu/.cache/flatpak:create
+    '';
+  };
 
   # ZRAM swap
   zramSwap = {
