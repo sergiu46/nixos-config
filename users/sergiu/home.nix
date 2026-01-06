@@ -75,6 +75,10 @@
         color-scheme = "prefer-dark";
         show-battery-percentage = true;
       };
+      "org/gnome/settings-daemon/plugins/power" = {
+        sleep-inactive-ac-type = "suspend";
+        sleep-inactive-ac-timeout = 7200;
+      };
       "org/gnome/shell" = {
         enabled-extensions = [
           pkgs.gnomeExtensions.system-monitor.extensionUuid
