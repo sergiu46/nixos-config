@@ -87,7 +87,7 @@
 
   # Create folders for tmpfs
   systemd.tmpfiles.rules = [
-    # Create the base folder inside the RAM-mounted .cache
+    # Create the base folders
     "d /home/sergiu/.var 0700 sergiu users - -"
     "d /home/sergiu/.var/app 0700 sergiu users - -"
     "d /home/sergiu/.cache/flatpak 0700 sergiu users - -"
