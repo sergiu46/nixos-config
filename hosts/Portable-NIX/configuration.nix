@@ -87,14 +87,30 @@
 
   # Create folders for tmpfs
   systemd.tmpfiles.rules = [
-    "d /home/sergiu/.var 0755 sergiu users - -"
-    "d /home/sergiu/.var/app 0755 sergiu users - -"
-    "d /home/sergiu/.var/app/com.microsoft.Edge 0755 sergiu users - -"
-    "d /home/sergiu/.var/app/com.github.iwalton3.jellyfin-media-player 0755 sergiu users - -"
+    # Create the base folders
+    "d /home/sergiu/.var 0700 sergiu users - -"
+    "d /home/sergiu/.var/app 0700 sergiu users - -"
+    "d /home/sergiu/.cache/flatpak 0700 sergiu users - -"
+
+    # Telegram Symlinks
+    "L+ /home/sergiu/.var/app/org.telegram.desktop/cache - - - - /home/sergiu/.cache/flatpak/telegram"
+    "L+ /home/sergiu/.var/app/org.telegram.desktop/data/TelegramDesktop/tdata/user_data/cache - - - - /home/sergiu/.cache/flatpak/telegram-user"
+
+    # Edge Symlinks
+    "L+ /home/sergiu/.var/app/com.microsoft.Edge/cache - - - - /home/sergiu/.cache/flatpak/edge"
+
+    # Jellyfin Symlinks
+    "L+ /home/sergiu/.var/app/com.github.iwalton3.jellyfin-media-player/cache - - - - /home/sergiu/.cache/flatpak/jellyfin"
   ];
 
-  # Filesystems
+  # Fatpak config
+  system.activationScripts.flatpak-cache-permissions = {
+    text = ''
+      ${pkgs.flatpak}/bin/flatpak override --user --filesystem=/home/sergiu/.cache/flatpak:create
+    '';
+  };
 
+  # Filesystems
   # Format NIX-ROOT partition with this command. Set the right device at the end.
   # sudo mkfs.f2fs -f -l NIX-ROOT -O extra_attr,inode_checksum,sb_checksum,compression -o 5 /dev/sda3
   fileSystems = {
@@ -120,8 +136,70 @@
       device = "/dev/disk/by-label/NIX-BOOT";
       fsType = "vfat";
     };
-
+    "/tmp" = {
+      fsType = "tmpfs";
+      options = [
+        "size=50%"
+        "mode=1777"
+      ];
+    };
+    "/var/cache" = {
+      fsType = "tmpfs";
+      options = [
+        "size=50%"
+        "mode=0755"
+      ];
+    };
+    "/var/spool" = {
+      fsType = "tmpfs";
+      options = [
+        "size=50%"
+        "mode=0755"
+      ];
+    };
+    "/var/log" = {
+      fsType = "tmpfs";
+      options = [
+        "size=50%"
+        "mode=0755"
+      ];
+    };
+    "/var/tmp" = {
+      fsType = "tmpfs";
+      options = [
+        "size=50%"
+        "mode=1777"
+      ];
+    };
+    "/root/.cache" = {
+      fsType = "tmpfs";
+      options = [ "size=50%" ];
+    };
+    "/home/sergiu/.cache" = {
+      fsType = "tmpfs";
+      options = [
+        "size=50%"
+        "mode=0777"
+      ];
+    };
+    "/home/sergiu/.var/app/com.microsoft.Edge/cache" = {
+      fsType = "tmpfs";
+      options = [
+        "size=50%"
+        "mode=0777"
+      ];
+    };
+    "/home/sergiu/.var/app/com.github.iwalton3.jellyfin-media-player/cache" = {
+      fsType = "tmpfs";
+      options = [
+        "size=50%"
+        "mode=0777"
+      ];
+    };
   };
+
+  # Nix build temporary directory
+  environment.variables.NIX_BUILD_TMPDIR = "/tmp/nix-build";
 
   # ZRAM swap
   zramSwap = {
