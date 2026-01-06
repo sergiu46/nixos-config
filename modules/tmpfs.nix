@@ -14,13 +14,13 @@
   ];
 
   fileSystems = {
-    "/tmp" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=1777"
-      ];
-    };
+    # "/tmp" = {
+    #   fsType = "tmpfs";
+    #   options = [
+    #     "size=50%"
+    #     "mode=1777"
+    #   ];
+    # };
 
     "/home/sergiu/.cache" = {
       device = "tmpfs";
