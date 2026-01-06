@@ -16,22 +16,34 @@
       ];
     };
 
-    "/var/tmp" = {
+    "/home/sergiu/.cache" = {
       device = "tmpfs";
       fsType = "tmpfs";
       options = [
+        "nosuid"
+        "nodev"
+        "relatime"
+        "size=2G"
         "mode=1777"
-        "size=25%"
       ];
     };
 
-    "/home/sergiu/.cache" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=0777"
-      ];
-    };
+    # "/var/tmp" = {
+    #   device = "tmpfs";
+    #   fsType = "tmpfs";
+    #   options = [
+    #     "mode=1777"
+    #     "size=25%"
+    #   ];
+    # };
+
+    # "/home/sergiu/.cache" = {
+    #   fsType = "tmpfs";
+    #   options = [
+    #     "size=50%"
+    #     "mode=0777"
+    #   ];
+    # };
 
     "/var/log" = {
       fsType = "tmpfs";
@@ -41,11 +53,11 @@
       ];
     };
 
-    "/nix/var/nix/db" = {
-      device = "tmpfs";
-      fsType = "tmpfs";
-      options = [ "size=512M" ];
-    };
+    # "/nix/var/nix/db" = {
+    #   device = "tmpfs";
+    #   fsType = "tmpfs";
+    #   options = [ "size=512M" ];
+    # };
 
   };
 
