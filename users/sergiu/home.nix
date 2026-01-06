@@ -51,16 +51,7 @@
     switch-portable = "sudo nixos-rebuild switch --flake ~/NixOS#Portable-NIX";
     check-portable = "nixos-rebuild build --flake ~/NixOS#Portable-NIX";
     boot-portable = "sudo nixos-rebuild boot --flake ~/NixOS#Portable-NIX";
-    mount-portable = ''
-      sudo mount -t f2fs -o \
-        noatime,lazytime,background_gc=on,compress_algorithm=zstd:6, \
-        compress_chksum,compress_mode=user,atgc,gc_merge,flush_merge, \
-        checkpoint_merge,inline_xattr \
-        /dev/disk/by-label/NIX-ROOT /mnt && \
-      sudo chattr -R +c /mnt && \
-      sudo mkdir -p /mnt/boot && \
-      sudo mount /dev/disk/by-label/NIX-BOOT /mnt/boot
-    '';
+    mount-portable = "sudo mount -t f2fs -o noatime,lazytime,background_gc=on,compress_algorithm=zstd:6,compress_chksum,compress_mode=user,atgc,gc_merge,flush_merge,checkpoint_merge,inline_xattr /dev/disk/by-label/NIX-ROOT /mnt && sudo chattr -R +c /mnt && sudo mkdir -p /mnt/boot && sudo mount /dev/disk/by-label/NIX-BOOT /mnt/boot";
     install-portable = "sudo nixos-install --flake ~/NixOS#Portable-NIX";
     # For all
     clean = "sudo nix-collect-garbage -d && nix-collect-garbage -d && nix store gc && nix store optimise";

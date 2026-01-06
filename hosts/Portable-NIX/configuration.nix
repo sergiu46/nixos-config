@@ -96,7 +96,7 @@
   # Filesystems
 
   # Format nix root partition with this command
-  # sudo mkfs.f2fs -f -O extra_attr,inode_checksum,sb_checksum,compression,atgc -p 5 /dev/sdX3
+  # sudo mkfs.f2fs -f -l NIX-ROOT -O extra_attr,inode_checksum,sb_checksum,compression -o 5 /dev/sda3
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/NIX-ROOT";
