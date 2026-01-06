@@ -134,10 +134,6 @@
       device = "/dev/disk/by-label/NIX-BOOT";
       fsType = "vfat";
     };
-    "/home" = {
-      device = "/dev/disk/by-label/Ventoy";
-      fsType = "exfat";
-    };
     "/tmp" = {
       fsType = "tmpfs";
       options = [
