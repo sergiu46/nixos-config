@@ -24,36 +24,6 @@
     useDHCP = lib.mkDefault true;
   };
 
-  # Nix settings and garbage collection
-  nix = {
-    gc = {
-      automatic = true;
-      dates = "daily";
-      options = "--delete-older-than 1d";
-      randomizedDelaySec = "30min";
-    };
-    settings = {
-      auto-optimise-store = false;
-      fsync-metadata = false;
-      use-xdg-base-directories = true;
-    };
-  };
-
-  # System auto-upgrade (flake-based)
-  system.autoUpgrade = {
-    enable = false;
-    allowReboot = false;
-    dates = "daily";
-    flake = inputs.self.outPath;
-    flags = [
-      "--refresh"
-      "-L"
-    ];
-    operation = "boot";
-    persistent = true;
-    randomizedDelaySec = "30min";
-  };
-
   # Bootloader, kernel, and initrd
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
