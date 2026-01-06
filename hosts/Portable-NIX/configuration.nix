@@ -85,6 +85,14 @@
     tmp.tmpfsSize = "50%";
   };
 
+  # Create folders for tmpfs
+  systemd.tmpfiles.rules = [
+    "d /home/sergiu/.var 0755 sergiu users - -"
+    "d /home/sergiu/.var/app 0755 sergiu users - -"
+    "d /home/sergiu/.var/app/com.microsoft.Edge 0755 sergiu users - -"
+    "d /home/sergiu/.var/app/com.github.iwalton3.jellyfin-media-player 0755 sergiu users - -"
+  ];
+
   # Filesystems
   fileSystems = {
     "/" = {
