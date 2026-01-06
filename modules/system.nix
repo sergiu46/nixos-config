@@ -36,6 +36,9 @@
               "xwayland-native-scaling"
             ];
           };
+          "org/gnome/shell/extensions/clipboard-indicator" = {
+            application-exclude-list = [ "com.bitwarden.desktop" ];
+          };
         };
       }
     ];

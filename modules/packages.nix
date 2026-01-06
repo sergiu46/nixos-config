@@ -53,7 +53,13 @@
   };
 
   # Firefox
-  programs.firefox.enable = true;
+  programs.firefox = {
+    enable = true;
+    preferences = {
+      "browser.shell.checkDefaultBrowser" = false;
+      "browser.shell.skipDefaultBrowserCheckOnFirstRun" = true;
+    };
+  };
 
   #Tailscale
   services.tailscale.enable = true;
