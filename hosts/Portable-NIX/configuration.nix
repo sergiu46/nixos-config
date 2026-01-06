@@ -138,7 +138,7 @@
   };
 
   # Nix build temporary directory
-  environment.variables.NIX_BUILD_TMPDIR = "/tmp/nix-build";
+  # environment.variables.NIX_BUILD_TMPDIR = "/tmp/nix-build";
 
   # ZRAM swap
   zramSwap = {
@@ -173,13 +173,13 @@
       "modesetting"
       "fbdev"
     ];
-    journald.extraConfig = ''
-      Storage=volatile
-      RuntimeMaxUse=50M
-    '';
-    udev.extraRules = ''
-      ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*", ATTR{queue/scheduler}="bfq"
-    '';
+    # journald.extraConfig = ''
+    #   Storage=volatile
+    #   RuntimeMaxUse=50M
+    # '';
+    # udev.extraRules = ''
+    #   ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*", ATTR{queue/scheduler}="bfq"
+    # '';
   };
 
   # Systemd customizations

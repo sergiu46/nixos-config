@@ -4,10 +4,16 @@
   boot.tmp.tmpfsSize = "50%";
 
   nix.settings.auto-optimise-store = true;
-  nix.settings.build-dir = "/tmp";
+  nix.settings.build-dir = "/tmp/nix-build";
+
+  services.journald.extraConfig = "Storage=volatile";
+  services.psd.enable = true;
+
+  systemd.tmpfiles.rules = [
+    "d /tmp/nix-build 0755 nixbld nixbld - -"
+  ];
 
   fileSystems = {
-
     "/tmp" = {
       fsType = "tmpfs";
       options = [
@@ -27,37 +33,6 @@
         "mode=1777"
       ];
     };
-
-    # "/var/tmp" = {
-    #   device = "tmpfs";
-    #   fsType = "tmpfs";
-    #   options = [
-    #     "mode=1777"
-    #     "size=25%"
-    #   ];
-    # };
-
-    # "/home/sergiu/.cache" = {
-    #   fsType = "tmpfs";
-    #   options = [
-    #     "size=50%"
-    #     "mode=0777"
-    #   ];
-    # };
-
-    "/var/log" = {
-      fsType = "tmpfs";
-      options = [
-        "size=10%"
-        "mode=0755"
-      ];
-    };
-
-    # "/nix/var/nix/db" = {
-    #   device = "tmpfs";
-    #   fsType = "tmpfs";
-    #   options = [ "size=512M" ];
-    # };
 
   };
 
