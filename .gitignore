@@ -4,7 +4,7 @@ result-*
 
 # Flake lock (usually you WANT to track this, but if you don't, 
 # you won't have reproducible builds. Keep it commented out!)
-# flake.lock
+flake.lock
 
 # Secrets (Highly recommended if you start using them)
 # If you ever create a 'secrets.nix' or a 'secrets/' folder, 
@@ -17,7 +17,3 @@ secrets/
 *.swp
 *~
 .DS_Store
-
-# Persistent hardware info that might change per-install
-# (Only ignore this if you prefer to generate it fresh every time)
-# hardware-configuration.nix

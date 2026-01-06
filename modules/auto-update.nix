@@ -22,7 +22,8 @@
     flake = inputs.self.outPath;
     flags = [
       "--refresh"
-      "-L"
+      "--recreate-lock-file"
+
     ];
     operation = "boot";
     persistent = true;
