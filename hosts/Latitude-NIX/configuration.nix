@@ -12,6 +12,7 @@
     ../../modules/auto-update.nix
     ../../modules/system.nix
     ../../modules/packages.nix
+    ../../modules/tmpfs.nix
   ];
 
   # Networking
