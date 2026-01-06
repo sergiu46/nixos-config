@@ -114,7 +114,6 @@
         "flush_merge"
         "checkpoint_merge"
         "inline_xattr"
-        "discard"
       ];
     };
     "/boot" = {
@@ -126,13 +125,6 @@
       options = [
         "size=50%"
         "mode=1777"
-      ];
-    };
-    "/var/lib/nix" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=0755"
       ];
     };
     "/var/cache" = {
