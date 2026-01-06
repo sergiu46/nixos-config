@@ -14,7 +14,7 @@
       fsType = "tmpfs";
       options = [
         "mode=1777"
-        "size=4G"
+        "size=25%"
       ];
     };
 
@@ -27,14 +27,6 @@
     };
 
     "/var/log" = {
-      fsType = "tmpfs";
-      options = [
-        "size=50%"
-        "mode=0755"
-      ];
-    };
-
-    "/var/spool" = {
       fsType = "tmpfs";
       options = [
         "size=50%"
