@@ -83,8 +83,6 @@
       "vfat"
       "xfs"
     ];
-    tmp.useTmpfs = true;
-    tmp.tmpfsSize = "50%";
   };
 
   # Create folders for tmpfs

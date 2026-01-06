@@ -1,4 +1,11 @@
 {
+
+  boot.tmp.useTmpfs = true;
+  boot.tmp.tmpfsSize = "50%";
+
+  nix.settings.auto-optimise-store = true;
+  nix.settings.build-dir = "/tmp";
+
   fileSystems = {
 
     "/tmp" = {
@@ -29,7 +36,7 @@
     "/var/log" = {
       fsType = "tmpfs";
       options = [
-        "size=50%"
+        "size=10%"
         "mode=0755"
       ];
     };
@@ -42,5 +49,4 @@
 
   };
 
-  nix.settings.auto-optimise-store = true;
 }
