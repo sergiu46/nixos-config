@@ -105,7 +105,7 @@
         "noatime"
         "lazytime"
         "background_gc=on"
-        "compress_algorithm=zstd:6"
+        "compress_algorithm=zstd:3"
         "compress_chksum"
         "compress_mode=user" # Allows you to use chattr +c or compress everything
         "compress_extension=*" # Try to compress all files by default
