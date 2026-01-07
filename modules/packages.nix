@@ -47,7 +47,6 @@
       "com.bitwarden.desktop"
       "com.microsoft.Edge"
       "org.telegram.desktop"
-
       "com.github.iwalton3.jellyfin-media-player"
     ];
   };
