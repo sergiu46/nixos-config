@@ -88,7 +88,6 @@
           "org.gnome.Nautilus.desktop"
           "com.github.iwalton3.jellyfin-media-player.desktop"
           "org.telegram.desktop.desktop"
-          "com.microsoft.Edge.flextop.msedge-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop"
           "code.desktop"
           "org.gnome.Console.desktop"
           "com.bitwarden.desktop.desktop"
