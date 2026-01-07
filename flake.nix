@@ -30,6 +30,7 @@
               unstable = import nixpkgs-unstable {
                 system = prev.system;
                 config.allowUnfree = true;
+                allowInsecurePredicate = (pkg: true);
               };
             })
           ];
