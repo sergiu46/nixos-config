@@ -25,6 +25,10 @@
     # Telegram Media Cache (The largest folder)
     "d /tmp/telegram-media-cache 0700 sergiu users - -"
     "L+ /home/sergiu/.var/app/org.telegram.desktop/data/TelegramDesktop/tdata/user_data/media_cache - - - - /tmp/telegram-media-cache"
+
+    # Clean up partial Flatpak downloads older than 1 day
+    "q /var/lib/flatpak/repo/tmp - - - 1d"
+    "q /home/sergiu/.local/share/flatpak/repo/tmp - - - 1d"
   ];
 
   fileSystems = {

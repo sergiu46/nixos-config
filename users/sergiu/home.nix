@@ -51,6 +51,14 @@
     switch-portable = "sudo nixos-rebuild switch --flake ~/NixOS#Portable-NIX";
     check-portable = "nixos-rebuild build --flake ~/NixOS#Portable-NIX";
     boot-portable = "sudo nixos-rebuild boot --flake ~/NixOS#Portable-NIX";
+    # Install Portable
+    format-portable = ''
+      lsblk -pn -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINT | grep part && \
+      echo -n "Type the device to format (e.g. /dev/sda3): " && \
+      read dev && \
+      sudo umount -l "$dev" 2>/dev/null || true && \
+      sudo mkfs.f2fs -f -l NIX-ROOT -O extra_attr,inode_checksum,sb_checksum,compression -o 5 "$dev"
+    '';
     mount-portable = ''
       sudo mount -t f2fs -o noatime,lazytime,background_gc=on,compress_algorithm=lz4,compress_chksum,compress_mode=fs,compress_extension=*,atgc,gc_merge,flush_merge,checkpoint_merge,inline_xattr /dev/disk/by-label/NIX-ROOT /mnt && \
       sudo chattr +c /mnt && \
