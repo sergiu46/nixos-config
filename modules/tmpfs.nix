@@ -10,7 +10,9 @@
   services.psd.enable = true;
 
   systemd.tmpfiles.rules = [
-    "d /var/cache/nix-build 0755 root root - -"
+    # Edge
+    "d /tmp/edge-cache 0700 sergiu users - -"
+    "L+ /home/sergiu/.var/app/com.microsoft.Edge/cache - - - - /tmp/edge-cache"
   ];
 
   fileSystems = {
