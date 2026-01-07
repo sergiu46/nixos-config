@@ -1,11 +1,6 @@
 { pkgs, ... }:
 
 {
-  # Insecure packages
-  nixpkgs.config.permittedInsecurePackages = [
-    "ventoy-gtk3-1.1.10"
-  ];
-
   # System-wide packages
   environment.systemPackages = with pkgs; [
     curl
@@ -38,6 +33,10 @@
   # Flatpak
   services.flatpak = {
     enable = true;
+    uninstallUnused = true;
+    update = {
+      onActivation = true;
+    };
     remotes = [
       {
         location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
