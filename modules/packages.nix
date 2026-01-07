@@ -47,7 +47,7 @@
       "com.bitwarden.desktop"
       "com.microsoft.Edge"
       "org.telegram.desktop"
-      #"dev.deedles.Trayscale"
+
       "com.github.iwalton3.jellyfin-media-player"
     ];
   };
@@ -63,4 +63,5 @@
 
   #Tailscale
   # services.tailscale.enable = true;
+  #"dev.deedles.Trayscale"
 }
