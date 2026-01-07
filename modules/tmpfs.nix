@@ -13,6 +13,14 @@
     # Edge
     "d /tmp/edge-cache 0700 sergiu users - -"
     "L+ /home/sergiu/.var/app/com.microsoft.Edge/cache - - - - /tmp/edge-cache"
+
+    # Telegram Cache
+    "d /tmp/telegram-cache 0700 sergiu users - -"
+    "L+ /home/sergiu/.var/app/org.telegram.desktop/cache - - - - /tmp/telegram-cache"
+
+    # Telegram Media Cache (The largest folder)
+    "d /tmp/telegram-media-cache 0700 sergiu users - -"
+    "L+ /home/sergiu/.var/app/org.telegram.desktop/data/TelegramDesktop/tdata/user_data/media_cache - - - - /tmp/telegram-media-cache"
   ];
 
   fileSystems = {
