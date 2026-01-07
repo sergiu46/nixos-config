@@ -10,9 +10,12 @@
   services.psd.enable = true;
 
   systemd.tmpfiles.rules = [
+    # Create main dirs
     "d /home/sergiu 0700 sergiu users - -"
     "d /home/sergiu/.var 0700 sergiu users - -"
-    "d /home/sergiu/.local 0700 sergiu users - -"
+
+    # Fix permissions
+    "Z /home/sergiu/.var    0700 sergiu users  -    -"
 
     # Edge
     "d /tmp/edge-cache 0700 sergiu users - -"
@@ -30,9 +33,6 @@
     "d /tmp/telegram-media-cache 0700 sergiu users - -"
     "L+ /home/sergiu/.var/app/org.telegram.desktop/data/TelegramDesktop/tdata/user_data/media_cache - - - - /tmp/telegram-media-cache"
 
-    # Clean up partial Flatpak downloads older than 1 day
-    "q /var/lib/flatpak/repo/tmp - - - 1d"
-    "q /home/sergiu/.local/share/flatpak/repo/tmp - - - 1d"
   ];
 
   fileSystems = {
