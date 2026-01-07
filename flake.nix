@@ -2,13 +2,14 @@
   description = "My NixOS systems with flakes, Home Manager, and declarative Flatpaks";
 
   inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-flatpak.url = "github:gmodena/nix-flatpak";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+
   };
   outputs =
     {
@@ -41,9 +42,9 @@
 
       # Common modules shared across all hosts
       commonModules = [
+        overlayModule
         nix-flatpak.nixosModules.nix-flatpak
         home-manager.nixosModules.home-manager
-        overlayModule
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
