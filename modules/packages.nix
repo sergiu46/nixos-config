@@ -19,6 +19,7 @@
     wget
     vlc
     mkpasswd
+    microsoft-edge
     # Libre office
     libreoffice-qt
     hunspell
@@ -45,7 +46,6 @@
     ];
     packages = [
       "com.bitwarden.desktop"
-      "com.microsoft.Edge"
       "org.telegram.desktop"
       "com.github.iwalton3.jellyfin-media-player"
     ];
