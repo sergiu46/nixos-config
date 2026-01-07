@@ -10,6 +10,10 @@
   services.psd.enable = true;
 
   systemd.tmpfiles.rules = [
+    "d /home/sergiu 0700 sergiu users - -"
+    "d /home/sergiu/.var 0700 sergiu users - -"
+    "d /home/sergiu/.local 0700 sergiu users - -"
+
     # Edge
     "d /tmp/edge-cache 0700 sergiu users - -"
     "L+ /home/sergiu/.var/app/com.microsoft.Edge/cache - - - - /tmp/edge-cache"
