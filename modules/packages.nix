@@ -3,7 +3,7 @@
 {
   # Insecure packages
   nixpkgs.config.permittedInsecurePackages = [
-    "ventoy-gtk3-1.1.07"
+    "ventoy-gtk3-1.1.10"
   ];
 
   # System-wide packages
@@ -19,7 +19,7 @@
     wget
     vlc
     mkpasswd
-    microsoft-edge
+    unstable.microsoft-edge
     # Libre office
     libreoffice-qt
     hunspell

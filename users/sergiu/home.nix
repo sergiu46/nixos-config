@@ -10,7 +10,7 @@
 
   home.packages = with pkgs; [
     # Packages
-    ventoy-full-gtk
+    unstable.ventoy-full-gtk
   ];
 
   # Configure the SSH Client to use bitwarden
