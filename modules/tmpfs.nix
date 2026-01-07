@@ -14,6 +14,10 @@
     "d /tmp/edge-cache 0700 sergiu users - -"
     "L+ /home/sergiu/.var/app/com.microsoft.Edge/cache - - - - /tmp/edge-cache"
 
+    # Jellyfin
+    "d /tmp/jellyfin-cache 0700 sergiu users - -"
+    "L+ /home/sergiu/.var/app/com.github.iwalton3.jellyfin-media-player/cache - - - - /tmp/jellyfin-cache"
+
     # Telegram Cache
     "d /tmp/telegram-cache 0700 sergiu users - -"
     "L+ /home/sergiu/.var/app/org.telegram.desktop/cache - - - - /tmp/telegram-cache"
