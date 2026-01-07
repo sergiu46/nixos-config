@@ -98,9 +98,6 @@
       "org/gnome/desktop/screensaver" = {
         lock-enabled = false;
       };
-      "org/gnome/mutter/window-rules" = {
-        rules = [ "wm-class=Bitwarden maximize=true" ];
-      };
     };
   };
   qt = {
