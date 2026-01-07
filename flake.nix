@@ -8,11 +8,13 @@
     };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
   };
   outputs =
     {
       self,
       nixpkgs,
+      nixpkgs-unstable,
       home-manager,
       nix-flatpak,
       ...
@@ -20,10 +22,25 @@
     let
       system = "x86_64-linux";
       stateVersion = "25.11";
+      overlayModule = (
+        { ... }:
+        {
+          nixpkgs.overlays = [
+            (final: prev: {
+              unstable = import nixpkgs-unstable {
+                system = prev.system;
+                config.allowUnfree = true;
+              };
+            })
+          ];
+        }
+      );
+
       # Common modules shared across all hosts
       commonModules = [
         nix-flatpak.nixosModules.nix-flatpak
         home-manager.nixosModules.home-manager
+        overlayModule
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
