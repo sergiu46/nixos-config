@@ -6,6 +6,7 @@
     systemd-boot.configurationLimit = 5;
   };
 
+  # Git settings for auto-updater
   programs.git = {
     enable = true;
     config = {
@@ -17,14 +18,6 @@
         directory = "/home/sergiu/NixOS";
       };
     };
-  };
-
-  # Automatic garbage collection
-  nix.gc = {
-    automatic = true;
-    dates = "daily";
-    options = "--delete-older-than 7d";
-    randomizedDelaySec = "10min";
   };
 
   # Automatic system upgrades
@@ -41,6 +34,14 @@
     ];
     operation = "boot";
     persistent = true;
+    randomizedDelaySec = "10min";
+  };
+
+  # Automatic garbage collection
+  nix.gc = {
+    automatic = true;
+    dates = "daily";
+    options = "--delete-older-than 7d";
     randomizedDelaySec = "10min";
   };
 
