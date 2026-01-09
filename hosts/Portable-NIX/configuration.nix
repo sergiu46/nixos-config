@@ -173,6 +173,18 @@
     nixos.enable = false;
   };
 
+  # Disable TPM
+  boot.blacklistedKernelModules = [
+    "tpm"
+    "tpm_tis"
+    "tpm_tis_core"
+    "tpm_crb"
+  ];
+  systemd.tpm2.enable = false;
+  boot.initrd.systemd.tpm2.enable = false;
+  systemd.units."dev-tpmrm0.device".enable = false;
+  security.tpm2.enable = false;
+
   # System state version
   system.stateVersion = stateVersion;
 }
