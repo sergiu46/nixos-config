@@ -83,7 +83,6 @@
         enabled-extensions = [
           pkgs.gnomeExtensions.system-monitor.extensionUuid
           pkgs.gnomeExtensions.alphabetical-app-grid.extensionUuid
-          pkgs.gnomeExtensions.clipboard-indicator.extensionUuid
           pkgs.gnomeExtensions.blur-my-shell.extensionUuid
         ];
         favorite-apps = [
