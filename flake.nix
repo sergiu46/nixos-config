@@ -9,8 +9,8 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
   };
+
   outputs =
     {
       self,
@@ -29,7 +29,7 @@
           nixpkgs.overlays = [
             (final: prev: {
               unstable = import nixpkgs-unstable {
-                system = prev.system;
+                inherit system;
                 config = {
                   allowUnfree = true;
                   allowInsecurePredicate = (pkg: true);
@@ -46,6 +46,7 @@
         nix-flatpak.nixosModules.nix-flatpak
         home-manager.nixosModules.home-manager
         {
+          nixpkgs.hostPlatform = system;
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.extraSpecialArgs = { inherit stateVersion; };
@@ -56,7 +57,6 @@
       nixosConfigurations = {
         # Latitude
         Latitude-NIX = nixpkgs.lib.nixosSystem {
-          inherit system;
           specialArgs = { inherit inputs stateVersion; };
           modules = commonModules ++ [
             ./hosts/Latitude-NIX/configuration.nix
@@ -66,7 +66,6 @@
         };
         # Portable
         Portable-NIX = nixpkgs.lib.nixosSystem {
-          inherit system;
           specialArgs = { inherit inputs stateVersion; };
           modules = commonModules ++ [
             ./hosts/Portable-NIX/configuration.nix
