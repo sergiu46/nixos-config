@@ -23,6 +23,7 @@
     hostName = "Portable-NIX";
     networkmanager.enable = true;
     useDHCP = lib.mkDefault true;
+    usePredictableInterfaceNames = false;
   };
 
   # Bootloader, kernel, and initrd
@@ -129,6 +130,7 @@
     firmware = [ pkgs.linux-firmware ];
     graphics.enable = true;
     bluetooth.enable = true;
+    enableRedistributableFirmware = true;
   };
 
   # Power management
@@ -184,6 +186,7 @@
   boot.initrd.systemd.tpm2.enable = false;
   systemd.units."dev-tpmrm0.device".enable = false;
   security.tpm2.enable = false;
+  systemd.services.tailscaled.environment.TS_ENCRYPT_STATE = "false";
 
   # System state version
   system.stateVersion = stateVersion;
