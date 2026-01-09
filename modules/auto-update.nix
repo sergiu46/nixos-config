@@ -5,8 +5,6 @@
   boot.loader = {
     systemd-boot.configurationLimit = 5;
   };
-  # Safe directories for
-  nix.settings.safe-directories = [ "/home/sergiu/NixOS" ];
 
   programs.git = {
     enable = true;
