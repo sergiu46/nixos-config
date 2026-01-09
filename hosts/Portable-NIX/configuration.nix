@@ -166,10 +166,10 @@
 
   # Add hardware acceleration for various vendors
   hardware.graphics.extraPackages = with pkgs; [
-    intel-media-driver
-    intel-vaapi-driver
-    libva-vdpau-driver
-    libvdpau-va-gl
+    intel-media-driver # For newer Intel (Broadwell+)
+    intel-vaapi-driver # REPLACEMENT for vaapiIntel (For older Intel)
+    libva-vdpau-driver # REPLACEMENT for vaapiVdpau (For Nvidia/Generic)
+    libvdpau-va-gl # Bridges VDPAU to VAAPI
   ];
 
   # Disable documentation to save space and build time
