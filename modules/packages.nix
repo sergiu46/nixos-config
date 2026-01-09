@@ -3,18 +3,6 @@
 {
   # System-wide packages
   environment.systemPackages = with pkgs; [
-    curl
-    git
-    htop
-    parted
-    gparted
-    f2fs-tools
-    tree
-    wget
-    vlc
-    mkpasswd
-    unstable.microsoft-edge
-    unstable.ventoy-full-gtk
     # Libre office
     libreoffice-qt
     hunspell
@@ -28,6 +16,21 @@
     gnomeExtensions.blur-my-shell
     gnomeExtensions.dash-to-dock
     gnomeExtensions.dash-to-panel
+    # Stable packages
+    curl
+    git
+    htop
+    parted
+    gparted
+    f2fs-tools
+    tree
+    wget
+    vlc
+    mkpasswd
+    # Unstable packages
+    unstable.microsoft-edge
+    unstable.ventoy-full-gtk
+
   ];
 
   # Flatpak
