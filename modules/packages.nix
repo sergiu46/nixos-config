@@ -63,6 +63,6 @@
     };
   };
 
-  #Tailscale
+  # Tailscale
   services.tailscale.enable = true;
 }
