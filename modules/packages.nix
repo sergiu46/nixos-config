@@ -27,6 +27,7 @@
     wget
     vlc
     mkpasswd
+    trayscale
     # Unstable packages
     unstable.microsoft-edge
     unstable.ventoy-full-gtk
@@ -63,6 +64,5 @@
   };
 
   #Tailscale
-  # services.tailscale.enable = true;
-  #"dev.deedles.Trayscale"
+  services.tailscale.enable = true;
 }
