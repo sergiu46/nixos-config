@@ -22,6 +22,7 @@
   networking = {
     hostName = "Portable-NIX";
     networkmanager.enable = true;
+    networkmanager.connectionConfig."connection.stable-id" = "\${CONNECTION}/\${BOOT}";
     useDHCP = lib.mkDefault true;
     usePredictableInterfaceNames = false;
   };
@@ -33,6 +34,7 @@
       "kvm-amd"
       "kvm-intel"
     ];
+    kernelParams = [ "initcall_parallel=1" ];
     extraModulePackages = [ ];
     initrd = {
       systemd.enable = true;
@@ -147,23 +149,17 @@
     xserver.videoDrivers = [
       "modesetting"
       "fbdev"
+      "vesa"
     ];
-
   };
 
-  # Systemd customizations
-  systemd = {
-    mounts = [
-      {
-        where = "/var/lib/systemd";
-        what = "tmpfs";
-        type = "tmpfs";
-        options = "mode=0755,size=20M";
-      }
-    ];
-    services."systemd-tmpfiles-clean".enable = true;
-    coredump.enable = false;
-  };
+  # Add hardware acceleration for various vendors
+  hardware.graphics.extraPackages = with pkgs; [
+    intel-media-driver
+    intel-vaapi-driver
+    libva-vdpau-driver
+    libvdpau-va-gl
+  ];
 
   # Disable documentation to save space and build time
   documentation = {
