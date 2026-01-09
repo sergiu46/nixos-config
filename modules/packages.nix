@@ -50,7 +50,7 @@
     packages = [
       "com.bitwarden.desktop"
       "org.telegram.desktop"
-      "com.github.iwalton3.jellyfin-media-player"
+      "org.jellyfin.JellyfinDesktop"
     ];
   };
 
