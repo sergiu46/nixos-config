@@ -8,11 +8,6 @@
     ../../modules/vscode.nix
   ];
 
-  home.packages = with pkgs; [
-    # Packages
-    unstable.ventoy-full-gtk
-  ];
-
   # Configure the SSH Client to use bitwarden
   programs.ssh = {
     enable = true;

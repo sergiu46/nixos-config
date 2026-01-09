@@ -5,7 +5,6 @@
   environment.systemPackages = with pkgs; [
     curl
     git
-    gparted
     htop
     parted
     gparted
@@ -15,6 +14,7 @@
     vlc
     mkpasswd
     unstable.microsoft-edge
+    unstable.ventoy-full-gtk
     # Libre office
     libreoffice-qt
     hunspell
