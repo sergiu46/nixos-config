@@ -34,7 +34,10 @@
       "kvm-amd"
       "kvm-intel"
     ];
-    kernelParams = [ "initcall_parallel=1" ];
+    kernelParams = [
+      "initcall_parallel=1"
+      "scsi_mod.use_blk_mq=1"
+    ];
     extraModulePackages = [ ];
     initrd = {
       systemd.enable = true;
@@ -61,10 +64,13 @@
     };
 
     kernel.sysctl = {
-      "vm.dirty_background_ratio" = 5;
-      "vm.dirty_ratio" = 10;
-      "vm.swappiness" = 10;
-      "vm.vfs_cache_pressure" = 50;
+      # 1. Background write triggers (Lower is better for slow USB)
+      "vm.dirty_background_bytes" = 16777216; # 16MB
+      "vm.dirty_bytes" = 33554432; # 32MB
+      # 2. Swappiness (Higher is better when using ZRAM)
+      "vm.swappiness" = 100;
+      # 3. Cache Pressure (Increase to keep RAM free)
+      "vm.vfs_cache_pressure" = 100;
     };
 
     loader = {
@@ -119,7 +125,8 @@
   # ZRAM swap
   zramSwap = {
     enable = true;
-    memoryPercent = 50;
+    algorithm = "zstd";
+    memoryPercent = 60;
   };
 
   # Hardware and firmware
@@ -146,11 +153,15 @@
     thermald.enable = true; # Intel thermal daemon
     tlp.enable = false; # Disabled in favor of other power tools
     upower.enable = true; # Battery monitoring
+    locate.enable = false;
     xserver.videoDrivers = [
       "modesetting"
       "fbdev"
       "vesa"
     ];
+    udev.extraRules = ''
+      ACTION=="add|change", KERNEL=="sd[a-z]*|mmcblk[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="bfq"
+    '';
   };
 
   # Add hardware acceleration for various vendors
