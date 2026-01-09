@@ -37,6 +37,7 @@
     kernelParams = [
       "initcall_parallel=1"
       "scsi_mod.use_blk_mq=1"
+      "pcie_aspm=off"
     ];
     extraModulePackages = [ ];
     initrd = {
@@ -103,7 +104,7 @@
       options = [
         "noatime"
         "lazytime"
-        "background_gc=on"
+        "background_gc=sync"
         "compress_algorithm=lz4"
         "compress_chksum"
         "compress_mode=fs"
@@ -127,6 +128,7 @@
     enable = true;
     algorithm = "zstd";
     memoryPercent = 60;
+    priority = 100;
   };
 
   # Hardware and firmware
@@ -150,10 +152,11 @@
     fstrim.enable = true; # Periodic TRIM for SSDs
     blueman.enable = true; # Bluetooth applet
     power-profiles-daemon.enable = true; # Power profile switching
-    thermald.enable = true; # Intel thermal daemon
+    thermald.enable = false; # Intel thermal daemon
     tlp.enable = false; # Disabled in favor of other power tools
     upower.enable = true; # Battery monitoring
     locate.enable = false;
+    haveged.enable = true;
     xserver.videoDrivers = [
       "modesetting"
       "fbdev"
