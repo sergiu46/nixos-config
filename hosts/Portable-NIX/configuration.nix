@@ -192,9 +192,14 @@
     "tpm_tis_core"
     "tpm_crb"
   ];
-  systemd.tpm2.enable = false;
+
+  # Disable TPM services
+  systemd = {
+    tpm2.enable = false;
+    units."dev-tpmrm0.device".enable = false;
+    services.tailscaled.environment.TS_ENCRYPT_STATE = "false";
+  };
   boot.initrd.systemd.tpm2.enable = false;
-  systemd.units."dev-tpmrm0.device".enable = false;
   security.tpm2.enable = false;
 
   # System state version
