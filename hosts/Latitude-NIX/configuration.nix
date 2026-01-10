@@ -21,6 +21,8 @@
   # Nixpkgs
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
+  #boot.initrd.kernelModules = [ "i915" ]; # Force Intel graphics to load early
+
   # Bootloader and kernel
   boot = {
     loader = {
@@ -35,6 +37,7 @@
     initrd = {
       kernelModules = [ ];
       availableKernelModules = [
+        "i915"
         "ahci"
         "nvme"
         "rtsx_pci_sdmmc"
@@ -72,6 +75,14 @@
   hardware = {
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     bluetooth.enable = true; # Bluetooth
+    graphics = {
+      enable = true;
+      extraPackages = with pkgs; [
+        intel-media-driver # For Broadwell (5th gen) and newer
+        intel-vaapi-driver # For older Intel CPUs
+        libvdpau-va-gl # Bridges VDPAU to VAAPI
+      ];
+    };
   };
 
   # Power management (laptop-specific)
@@ -82,11 +93,17 @@
 
   # Services
   services = {
-    xserver.videoDrivers = [ "intel" ]; # Intel iGPU
+    xserver.videoDrivers = [ "modesetting" ]; # Intel iGPU
     blueman.enable = true; # Bluetooth manager
     libinput.enable = true; # Touchpad support
     thermald.enable = true; # Intel thermal daemon
     tlp.enable = false; # Disabled in favor of other power tools
     upower.enable = true; # Battery monitoring
   };
+
+  # Ensure the environment knows to use these drivers
+  environment.sessionVariables = {
+    LIBVA_DRIVER_NAME = "iHD"; # Forces the newer intel-media-driver
+  };
+
 }
