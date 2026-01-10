@@ -94,7 +94,7 @@
           "microsoft-edge.desktop"
           "firefox.desktop"
           "org.gnome.Nautilus.desktop"
-          "com.github.iwalton3.jellyfin-media-player.desktop"
+          "com.jellyfin.jellyfindesktop.desktop"
           "org.telegram.desktop.desktop"
           "code.desktop"
           "org.gnome.Console.desktop"
