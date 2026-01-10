@@ -4,7 +4,7 @@
   # System-wide packages
   environment.systemPackages = with pkgs; [
     # Libre office
-    libreoffice-qt
+    libreoffice-fresh
     hunspell
     hunspellDicts.en_US
     hunspellDicts.ro_RO
