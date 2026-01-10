@@ -4,7 +4,7 @@
   # System-wide packages
   environment.systemPackages = with pkgs; [
     # Libre office
-    libreoffice-fresh
+    libreoffice
     hunspell
     hunspellDicts.en_US
     hunspellDicts.ro_RO
@@ -60,6 +60,11 @@
     preferences = {
       "browser.shell.checkDefaultBrowser" = false;
       "browser.shell.skipDefaultBrowserCheckOnFirstRun" = true;
+      "browser.startup.homepage" = "about:newtab";
+
+      # Custom Toolbar Layout: Back, Forward, Reload, Home, URL bar, Account, Extensions, Menu
+      "browser.uiCustomization.state" =
+        "{\"placements\":{\"nav-bar\":[\"back-button\",\"forward-button\",\"stop-reload-button\",\"home-button\",\"urlbar-container\",\"fxa-toolbar-menu-button\",\"unified-extensions-button\",\"PanelUI-menu-button\"],\"TabsToolbar\":[\"tabbrowser-tabs\",\"new-tab-button\",\"alltabs-button\"],\"PersonalToolbar\":[\"personal-bookmarks\"]},\"currentVersion\":20}";
     };
   };
 
