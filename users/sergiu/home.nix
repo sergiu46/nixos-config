@@ -55,7 +55,14 @@
     '';
     install-portable = "sudo nixos-install --flake ~/NixOS#Portable-NIX";
     # For all
-    clean = "sudo nix-collect-garbage -d && nix-collect-garbage -d && nix store gc && nix store optimise";
+    clean = ''
+      sudo nix-collect-garbage -d && \
+      nix-collect-garbage -d && \
+      nix store gc && \
+      nix store optimise && \
+      flatpak uninstall --unused -y && \
+      flatpak repair
+    '';
     update = "cd ~/NixOS && sudo nix flake update";
   };
 
