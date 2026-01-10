@@ -18,13 +18,23 @@
 
   ];
 
-  # Networking
+  # Networking & Privacy (Ghost Mode)
   networking = {
     hostName = "Portable-NIX";
-    networkmanager.enable = true;
-    networkmanager.connectionConfig."connection.stable-id" = "\${CONNECTION}/\${BOOT}";
     useDHCP = lib.mkDefault true;
+    # Disable predictable names so wifi is always 'wlan0' regardless of hardware
     usePredictableInterfaceNames = false;
+    networkmanager = {
+      enable = true;
+      # Makes connection IDs unique to each boot to avoid tracking
+      connectionConfig."connection.stable-id" = "\${CONNECTION}/\${BOOT}";
+      # MAC Address Randomization (Privacy)
+      wifi = {
+        scanRandMacAddress = true; # Randomize MAC during scanning
+        macAddress = "random"; # Randomize MAC when connected
+      };
+      ethernet.macAddress = "random";
+    };
   };
 
   # Bootloader, kernel, and initrd
@@ -130,6 +140,7 @@
     memoryPercent = 60;
     priority = 100;
   };
+  swapDevices = [ ];
 
   # Hardware and firmware
   hardware = {
@@ -164,6 +175,7 @@
     ];
     udev.extraRules = ''
       ACTION=="add|change", KERNEL=="sd[a-z]*|mmcblk[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="bfq"
+      SUBSYSTEM=="block", ATTRS{removable}=="0", ENV{UDISKS_IGNORE}="1"
     '';
   };
 
@@ -185,6 +197,18 @@
     nixos.enable = false;
   };
 
+  # Systemd Customizations
+  systemd = {
+    mounts = [
+      {
+        where = "/var/lib/systemd";
+        what = "tmpfs";
+        type = "tmpfs";
+        options = "mode=0755,size=20M";
+      }
+    ];
+  };
+
   # Disable TPM
   boot.blacklistedKernelModules = [
     "tpm"
@@ -192,8 +216,6 @@
     "tpm_tis_core"
     "tpm_crb"
   ];
-
-  # Disable TPM services
   systemd = {
     tpm2.enable = false;
     units."dev-tpmrm0.device".enable = false;
