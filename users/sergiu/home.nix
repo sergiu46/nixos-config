@@ -77,6 +77,9 @@
         color-scheme = "prefer-dark";
         show-battery-percentage = true;
       };
+      "org/gnome/desktop/screensaver" = {
+        lock-enabled = false;
+      };
       "org/gnome/settings-daemon/plugins/power" = {
         sleep-inactive-ac-type = "suspend";
         sleep-inactive-ac-timeout = 7200;
@@ -97,20 +100,7 @@
           "org.gnome.Console.desktop"
           "com.bitwarden.desktop.desktop"
         ];
-
       };
-      "org/gnome/desktop/screensaver" = {
-        lock-enabled = false;
-      };
-    };
-  };
-  qt = {
-    enable = true;
-    platformTheme = {
-      name = "adwaita";
-    };
-    style = {
-      name = "adwaita-dark";
     };
   };
 }
