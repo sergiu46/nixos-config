@@ -32,7 +32,7 @@
     unstable.microsoft-edge
     unstable.ventoy-full-gtk
     unstable.telegram-desktop
-    unstable.bitwarden
+    unstable.bitwarden-desktop
   ];
 
   # Flatpak
