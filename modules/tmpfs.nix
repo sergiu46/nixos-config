@@ -7,7 +7,7 @@
   nix.settings.sandbox = true;
   nix.settings.auto-optimise-store = false;
   nix.settings.build-dir = "/var/cache/nix-build";
-  systemd.services.nix-daemon.environment.TMPDIR = "/tmp";
+  systemd.services.nix-daemon.environment.TMPDIR = "/var/cache/nix-build";
 
   services.psd.enable = true;
   services.journald.extraConfig = ''
@@ -54,6 +54,16 @@
         "nosuid"
         "nodev"
         "size=100M"
+        "mode=0755"
+      ];
+    };
+    "/var/lib/dhcpcd" = {
+      device = "tmpfs";
+      fsType = "tmpfs";
+      options = [
+        "nosuid"
+        "nodev"
+        "size=10M"
         "mode=0755"
       ];
     };
