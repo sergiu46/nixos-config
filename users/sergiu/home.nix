@@ -56,12 +56,13 @@
     install-portable = "sudo nixos-install --flake ~/NixOS#Portable-NIX";
     # For all
     clean = ''
-      sudo nix-collect-garbage -d && \
-      nix-collect-garbage -d && \
+      sudo nix-env -p /nix/var/nix/profiles/system --delete-generations +2 && \
+      nix-env --delete-generations +2 && \
+      sudo nix-collect-garbage && \
       nix store gc && \
       nix store optimise && \
-      flatpak uninstall --unused -y && \
-      flatpak repair
+      sudo flatpak uninstall --unused -y && \
+      sudo flatpak repair
     '';
     update = "cd ~/NixOS && sudo nix flake update";
   };
