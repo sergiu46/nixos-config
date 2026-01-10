@@ -16,7 +16,7 @@
       setEnv = {
         TERM = "xterm-256color";
       };
-      identityAgent = "~/.bitwarden-ssh-agent.sock";
+      identityAgent = "~/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock";
     };
   };
 
@@ -78,7 +78,6 @@
       package = pkgs.adwaita-qt;
     };
   };
-
   # GNOME customization
   dconf = {
     enable = true;
@@ -108,10 +107,9 @@
           "org.telegram.desktop.desktop"
           "code.desktop"
           "org.gnome.Console.desktop"
-          "bitwarden.desktop"
+          "com.bitwarden.desktop.desktop"
         ];
       };
     };
   };
-
 }
