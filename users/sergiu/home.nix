@@ -65,6 +65,8 @@
       sudo flatpak repair
     '';
     update = "cd ~/NixOS && sudo nix flake update";
+    # GNOME Favorite apps
+    favorites = "gsettings get org.gnome.shell favorite-apps";
   };
 
   # GNOME customization
