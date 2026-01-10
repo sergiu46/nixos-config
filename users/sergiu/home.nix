@@ -30,14 +30,11 @@
   };
 
   home.shellAliases = {
-    # Latitude
-    switch-latitude = "sudo nixos-rebuild switch --flake ~/NixOS#Latitude-NIX";
-    check-latitude = "nixos-rebuild build --flake ~/NixOS#Latitude-NIX";
-    boot-latitude = "sudo nixos-rebuild boot --flake ~/NixOS#Latitude-NIX";
-    # Portable
-    switch-portable = "sudo nixos-rebuild switch --flake ~/NixOS#Portable-NIX";
-    check-portable = "nixos-rebuild build --flake ~/NixOS#Portable-NIX";
-    boot-portable = "sudo nixos-rebuild boot --flake ~/NixOS#Portable-NIX";
+    # Build commands
+    check = "nixos-rebuild build --flake ~/NixOS#$(hostname)";
+    switch = "sudo nixos-rebuild switch --flake ~/NixOS#$(hostname)";
+    boot = "sudo nixos-rebuild boot --flake ~/NixOS#$(hostname)";
+
     # Install Portable
     format-portable = ''
       lsblk -pn -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINT | grep part && \
