@@ -51,6 +51,7 @@
     ];
     extraModulePackages = [ ];
     initrd = {
+      checkJournalingFS = true; # Forces check of F2FS/Ext4 at boot
       systemd.enable = true;
       kernelModules = [ ];
       availableKernelModules = [
@@ -199,6 +200,9 @@
 
   # Systemd Customizations
   systemd = {
+    coredump.enable = false; # Prevent giant debug files on crash
+    targets.hibernate.enable = false;
+    targets.hybrid-sleep.enable = false;
     mounts = [
       {
         where = "/var/lib/systemd";
