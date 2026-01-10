@@ -69,6 +69,16 @@
     favorites = "gsettings get org.gnome.shell favorite-apps";
   };
 
+  # QT dark theme
+  qt = {
+    enable = true;
+    platformTheme.name = "gtk3";
+    style = {
+      name = "adwaita-dark";
+      package = pkgs.adwaita-qt;
+    };
+  };
+
   # GNOME customization
   dconf = {
     enable = true;
@@ -103,4 +113,5 @@
       };
     };
   };
+
 }
