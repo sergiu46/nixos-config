@@ -82,7 +82,7 @@
       # 2. Swappiness (Higher is better when using ZRAM)
       "vm.swappiness" = 100;
       # 3. Cache Pressure (Increase to keep RAM free)
-      "vm.vfs_cache_pressure" = 100;
+      "vm.vfs_cache_pressure" = 50;
     };
 
     loader = {
