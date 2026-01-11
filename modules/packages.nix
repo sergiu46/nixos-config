@@ -63,11 +63,26 @@
       "browser.shell.skipDefaultBrowserCheckOnFirstRun" = true;
       "browser.startup.homepage" = "about:newtab";
 
-      # Enable hardware acceleration
-      "media.hardware-video-decoding.force-enabled" = true;
+      # # Enable hardware acceleration
+      # "media.hardware-video-decoding.force-enabled" = true;
+      # "media.ffmpeg.vaapi.enabled" = true;
+      # "widget.dmabuf.force-enabled" = true; # Essential for Wayland
+      # "gfx.webrender.all" = true; # Force GPU compositing
+
+      # Enable VA-API (Hardware Acceleration)
       "media.ffmpeg.vaapi.enabled" = true;
-      "widget.dmabuf.force-enabled" = true; # Essential for Wayland
-      "gfx.webrender.all" = true; # Force GPU compositing
+      "media.rdd-ffmpeg.enabled" = true;
+
+      # Force GPU rendering
+      "gfx.webrender.all" = true;
+      "layers.acceleration.force-enabled" = true;
+
+      # Wayland specific (Ignored on X11, so safe to keep)
+      "widget.dmabuf.force-enabled" = true;
+
+      # Performance tweaks for older CPUs
+      "dom.webgpu.enabled" = true;
+      "media.navigator.mediadatadecoder_vpx_enabled" = true;
 
       # Custom Toolbar Layout: Back, Forward, Reload, Home, URL bar, Account, Extensions, Menu
       "browser.uiCustomization.state" =
