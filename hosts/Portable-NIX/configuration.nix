@@ -182,12 +182,18 @@
     '';
   };
 
-  # Add hardware acceleration for various vendors
   hardware.graphics.extraPackages = with pkgs; [
-    intel-media-driver # For newer Intel (Broadwell+)
-    intel-vaapi-driver # REPLACEMENT for vaapiIntel (For older Intel)
-    libva-vdpau-driver # REPLACEMENT for vaapiVdpau (For Nvidia/Generic)
-    libvdpau-va-gl # Bridges VDPAU to VAAPI
+    # --- Intel ---
+    intel-media-driver # Modern Intel
+    intel-vaapi-driver # Older Intel
+    # --- NVIDIA (Crucial Addition) ---
+    nvidia-vaapi-driver # Firefox requires this specifically for NVDEC support
+    # --- AMD (Crucial Addition) ---
+    # AMD uses Mesa for VA-API, but some codecs need these helpers
+    libva
+    vulkan-loader
+    # --- VDPAU/VAAPI Bridge ---
+    libvdpau-va-gl
   ];
 
   # Disable documentation to save space and build time

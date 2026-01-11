@@ -62,6 +62,12 @@
       "browser.shell.skipDefaultBrowserCheckOnFirstRun" = true;
       "browser.startup.homepage" = "about:newtab";
 
+      # Enable hardware acceleration
+      "media.hardware-video-decoding.force-enabled" = true;
+      "media.ffmpeg.vaapi.enabled" = true;
+      "widget.dmabuf.force-enabled" = true; # Essential for Wayland
+      "gfx.webrender.all" = true; # Force GPU compositing
+
       # Custom Toolbar Layout: Back, Forward, Reload, Home, URL bar, Account, Extensions, Menu
       "browser.uiCustomization.state" =
         "{\"placements\":{\"nav-bar\":[\"back-button\",\"forward-button\",\"stop-reload-button\",\"home-button\",\"urlbar-container\",\"fxa-toolbar-menu-button\",\"unified-extensions-button\",\"PanelUI-menu-button\"],\"TabsToolbar\":[\"tabbrowser-tabs\",\"new-tab-button\",\"alltabs-button\"],\"PersonalToolbar\":[\"personal-bookmarks\"]},\"currentVersion\":20}";
