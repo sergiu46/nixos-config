@@ -26,6 +26,7 @@
     tree
     wget
     vlc
+    ffmpeg
     mkpasswd
     trayscale
     # Unstable packages
