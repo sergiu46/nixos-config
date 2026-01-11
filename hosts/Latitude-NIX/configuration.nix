@@ -81,6 +81,8 @@
         intel-media-driver # For Broadwell (5th gen) and newer
         intel-vaapi-driver # For older Intel CPUs
         libvdpau-va-gl # Bridges VDPAU to VAAPI
+        libva-utils
+
       ];
     };
   };
@@ -104,6 +106,7 @@
   # Ensure the environment knows to use these drivers
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = "iHD"; # Forces the newer intel-media-driver
+    MOZ_ENABLE_WAYLAND = "1";
   };
 
 }
