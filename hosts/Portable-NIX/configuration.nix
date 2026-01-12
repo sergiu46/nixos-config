@@ -110,7 +110,7 @@
   # sudo mkfs.f2fs -f -l NIX-ROOT -O extra_attr,inode_checksum,sb_checksum,compression -o 5 /dev/sda3
   fileSystems = {
     "/" = {
-      device = "/dev/disk/by-label/NIX-ROOT";
+      device = "/dev/disk/by-label/Portable-NIX";
       fsType = "f2fs";
       options = [
         "noatime"
@@ -128,7 +128,7 @@
       ];
     };
     "/boot" = {
-      device = "/dev/disk/by-label/NIX-BOOT";
+      device = "/dev/disk/by-label/NIXEFI";
       fsType = "vfat";
     };
 

@@ -41,13 +41,13 @@
       echo -n "Type the device to format (e.g. /dev/sda3): " && \
       read dev && \
       sudo umount -l "$dev" 2>/dev/null || true && \
-      sudo mkfs.f2fs -f -l NIX-ROOT -O extra_attr,inode_checksum,sb_checksum,compression -o 5 "$dev"
+      sudo mkfs.f2fs -f -l Portable-NIX -O extra_attr,inode_checksum,sb_checksum,compression -o 5 "$dev"
     '';
     mount-portable = ''
-      sudo mount -t f2fs -o noatime,lazytime,background_gc=sync,compress_algorithm=lz4,compress_chksum,compress_mode=fs,compress_extension=*,atgc,gc_merge,flush_merge,checkpoint_merge,inline_xattr /dev/disk/by-label/NIX-ROOT /mnt && \
+      sudo mount -t f2fs -o noatime,lazytime,background_gc=sync,compress_algorithm=lz4,compress_chksum,compress_mode=fs,compress_extension=*,atgc,gc_merge,flush_merge,checkpoint_merge,inline_xattr /dev/disk/by-label/Portable-NIX /mnt && \
       sudo chattr +c /mnt && \
       sudo mkdir -p /mnt/boot && \
-      sudo mount /dev/disk/by-label/NIX-BOOT /mnt/boot
+      sudo mount /dev/disk/by-label/NIXEFI /mnt/boot
     '';
     umount-portable = ''
       sudo umount /mnt/boot && \
