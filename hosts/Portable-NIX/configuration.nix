@@ -167,6 +167,7 @@
     upower.enable = true;
     haveged.enable = true;
     thermald.enable = true;
+    libinput.enable = true;
     tlp.enable = false;
     locate.enable = false;
 
