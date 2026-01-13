@@ -44,6 +44,10 @@
     ];
   };
 
+  environment.sessionVariables = {
+    QT_QPA_PLATFORM = "xcb";
+  };
+
   # Audio (PipeWire modern stack)
   security.rtkit.enable = true;
   services.pulseaudio.enable = false;

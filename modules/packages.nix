@@ -36,7 +36,7 @@
     unstable.microsoft-edge
     unstable.ventoy-full-gtk
     unstable.telegram-desktop
-
+    unstable.jellyfin-desktop
   ];
 
   # Flatpak
@@ -54,7 +54,6 @@
     ];
     packages = [
       "com.bitwarden.desktop"
-      "org.jellyfin.JellyfinDesktop"
     ];
   };
 
