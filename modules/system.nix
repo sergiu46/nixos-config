@@ -36,14 +36,12 @@
               "xwayland-native-scaling"
             ];
           };
-          "org/gnome/shell/extensions/clipboard-indicator" = {
-            blacklist-resources = [ "com.bitwarden.desktop" ];
-          };
         };
       }
     ];
   };
 
+  # Fix jellyfin desktop borders
   environment.sessionVariables = {
     QT_QPA_PLATFORM = "xcb";
   };
