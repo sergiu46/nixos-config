@@ -26,9 +26,12 @@
     tree
     wget
     vlc
-    ffmpeg
+    ffmpeg-full
     mkpasswd
     trayscale
+    intel-gpu-tools
+    libva-utils
+    mpv
     # Unstable packages
     unstable.microsoft-edge
     unstable.ventoy-full-gtk
@@ -55,7 +58,6 @@
     ];
   };
 
-  # Firefox
   programs.firefox = {
     enable = true;
     preferences = {
@@ -63,23 +65,7 @@
       "browser.shell.skipDefaultBrowserCheckOnFirstRun" = true;
       "browser.startup.homepage" = "about:newtab";
       "browser.startup.page" = 3;
-
-      # Enable VA-API (Hardware Acceleration)
-      "media.ffmpeg.vaapi.enabled" = true;
-      "media.rdd-ffmpeg.enabled" = true;
-
-      # Force GPU rendering
-      "gfx.webrender.all" = true;
-      "layers.acceleration.force-enabled" = true;
-
-      # Wayland specific (Ignored on X11, so safe to keep)
-      "widget.dmabuf.force-enabled" = true;
-
-      # Performance tweaks for older CPUs
-      "dom.webgpu.enabled" = true;
-      "media.navigator.mediadatadecoder_vpx_enabled" = true;
     };
-
   };
 
   # Tailscale
