@@ -18,20 +18,18 @@
     gnomeExtensions.dash-to-panel
     # Stable packages
     curl
+    wget
+    tree
     git
-    htop
     parted
     gparted
     f2fs-tools
-    tree
-    wget
     vlc
-    ffmpeg-full
     mkpasswd
     trayscale
+    ffmpeg-full
     intel-gpu-tools
     libva-utils
-    mpv
     # Unstable packages
     unstable.microsoft-edge
     unstable.ventoy-full-gtk
