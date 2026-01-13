@@ -37,15 +37,13 @@
     unstable.ventoy-full-gtk
     unstable.telegram-desktop
     unstable.jellyfin-desktop
+    unstable.bitwarden-desktop
   ];
 
   # Flatpak
   services.flatpak = {
     enable = true;
     uninstallUnused = true;
-    update = {
-      onActivation = true;
-    };
     remotes = [
       {
         location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
@@ -53,7 +51,8 @@
       }
     ];
     packages = [
-      "com.bitwarden.desktop"
+      # flatpak packages
+
     ];
   };
 

@@ -16,7 +16,7 @@
       setEnv = {
         TERM = "xterm-256color";
       };
-      identityAgent = "~/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock";
+      identityAgent = "~/.bitwarden-ssh-agent.sock";
     };
   };
 
@@ -107,7 +107,7 @@
           "org.telegram.desktop.desktop"
           "code.desktop"
           "org.gnome.Console.desktop"
-          "com.bitwarden.desktop.desktop"
+          "bitwarden.desktop"
         ];
       };
     };
