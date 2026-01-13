@@ -7,7 +7,6 @@
 }:
 
 {
-  # Imports
   imports = [
     (modulesPath + "/profiles/all-hardware.nix")
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -15,45 +14,27 @@
     ../../modules/system.nix
     ../../modules/packages.nix
     ../../modules/tmpfs.nix
-
   ];
 
-  # Networking & Privacy (Ghost Mode)
-  networking = {
-    hostName = "Portable-NIX";
-    useDHCP = lib.mkDefault true;
-    # Disable predictable names so wifi is always 'wlan0' regardless of hardware
-    usePredictableInterfaceNames = false;
-    networkmanager = {
-      enable = true;
-      # Makes connection IDs unique to each boot to avoid tracking
-      connectionConfig."connection.stable-id" = "\${CONNECTION}/\${BOOT}";
-      # MAC Address Randomization (Privacy)
-      wifi = {
-        scanRandMacAddress = true; # Randomize MAC during scanning
-        macAddress = "random"; # Randomize MAC when connected
-      };
-      ethernet.macAddress = "random";
-    };
-  };
-
-  # Bootloader, kernel, and initrd
+  # --- Boot & Kernel ---
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
+    # Load KVM modules for both vendors so virtualization works everywhere
     kernelModules = [
       "kvm-amd"
       "kvm-intel"
     ];
     kernelParams = [
-      "initcall_parallel=1"
-      "scsi_mod.use_blk_mq=1"
-      "pcie_aspm=off"
+      "initcall_parallel=1" # Faster boot
+      "scsi_mod.use_blk_mq=1" # Multi-queue for storage
     ];
-    extraModulePackages = [ ];
+
     initrd = {
-      checkJournalingFS = true; # Forces check of F2FS/Ext4 at boot
+      checkJournalingFS = true;
       systemd.enable = true;
-      kernelModules = [ ];
+      # Disable TPM
+      systemd.tpm2.enable = false;
+      # Broad hardware support for the USB stick to boot anywhere
       availableKernelModules = [
         "ahci"
         "ehci_pci"
@@ -75,39 +56,41 @@
       ];
     };
 
+    # Optimized for running off a slow USB stick
     kernel.sysctl = {
-      # 1. Background write triggers (Lower is better for slow USB)
       "vm.dirty_background_bytes" = 16777216; # 16MB
       "vm.dirty_bytes" = 33554432; # 32MB
-      # 2. Swappiness (Higher is better when using ZRAM)
-      "vm.swappiness" = 100;
-      # 3. Cache Pressure (Increase to keep RAM free)
-      "vm.vfs_cache_pressure" = 50;
+      "vm.swappiness" = 100; # Aggressively use ZRAM
+      "vm.vfs_cache_pressure" = 50; # Keep directory structure in RAM
     };
 
     loader = {
-      systemd-boot = {
-        enable = true;
-      };
+      systemd-boot.enable = true;
       efi = {
         canTouchEfiVariables = false;
         efiSysMountPoint = "/boot";
       };
     };
+
     supportedFilesystems = lib.mkAfter [
       "btrfs"
       "ext4"
       "f2fs"
       "ntfs"
-      "squashfs"
       "vfat"
       "xfs"
     ];
+
+    # Disable TPM modules
+    blacklistedKernelModules = [
+      "tpm"
+      "tpm_tis"
+      "tpm_tis_core"
+      "tpm_crb"
+    ];
   };
 
-  # Filesystems
-  # Format NIX-ROOT partition with this command. Set the right device at the end.
-  # sudo mkfs.f2fs -f -l NIX-ROOT -O extra_attr,inode_checksum,sb_checksum,compression -o 5 /dev/sda3
+  # --- Filesystems ---
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/Portable-NIX";
@@ -125,92 +108,96 @@
         "flush_merge"
         "checkpoint_merge"
         "inline_xattr"
+        "discard"
       ];
     };
     "/boot" = {
       device = "/dev/disk/by-label/NIXEFI";
       fsType = "vfat";
     };
-
   };
 
-  # ZRAM swap
+  # --- Networking & Privacy ---
+  networking = {
+    hostName = "Portable-NIX";
+    useDHCP = lib.mkDefault true;
+    networkmanager = {
+      enable = true;
+      connectionConfig."connection.stable-id" = "\${CONNECTION}/\${BOOT}";
+      wifi = {
+        scanRandMacAddress = true;
+        macAddress = "random";
+      };
+      ethernet.macAddress = "random";
+    };
+  };
+
+  # --- ZRAM (RAM Compression) ---
   zramSwap = {
     enable = true;
     algorithm = "zstd";
-    memoryPercent = 60;
+    memoryPercent = 50;
     priority = 100;
   };
-  swapDevices = [ ];
 
-  # Hardware and firmware
+  # --- Hardware & Graphics ---
   hardware = {
-    cpu = {
-      amd.updateMicrocode = true;
-      intel.updateMicrocode = true;
-    };
+    cpu.amd.updateMicrocode = true;
+    cpu.intel.updateMicrocode = true;
     enableAllFirmware = true;
-    firmware = [ pkgs.linux-firmware ];
-    graphics.enable = true;
+    graphics = {
+      enable = true;
+      extraPackages = with pkgs; [
+        intel-media-driver
+        intel-vaapi-driver
+        libva
+        vulkan-loader
+        libvdpau-va-gl
+      ];
+    };
     bluetooth.enable = true;
     enableRedistributableFirmware = true;
   };
 
-  # Power management
-  powerManagement.enable = true;
-
-  # Services
+  # --- Services ---
   services = {
-    fstrim.enable = true; # Periodic TRIM for SSDs
-    blueman.enable = true; # Bluetooth applet
-    power-profiles-daemon.enable = true; # Power profile switching
-    thermald.enable = false; # Intel thermal daemon
-    tlp.enable = false; # Disabled in favor of other power tools
-    upower.enable = true; # Battery monitoring
-    locate.enable = false;
+    fstrim.enable = true;
+    blueman.enable = true;
+    power-profiles-daemon.enable = true;
+    upower.enable = true;
     haveged.enable = true;
+    thermald.enable = true;
+    tlp.enable = false;
+    locate.enable = false;
+
+    # Universal Video Drivers
     xserver.videoDrivers = [
       "modesetting"
       "fbdev"
       "vesa"
     ];
+
     udev.extraRules = ''
-      # BFQ for all non-rotational drives (USB, SSD, NVMe)
+      # BFQ for USB/SSD
       ACTION=="add|change", KERNEL=="sd[a-z]*|mmcblk[0-9]*|nvme[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="bfq"
-      # Hide host partitions
+      # Ghost Mode: Hide internal drives of the host machine
       SUBSYSTEM=="block", ATTRS{removable}=="0", ENV{UDISKS_IGNORE}="1"
     '';
   };
 
-  hardware.graphics.extraPackages = with pkgs; [
-    # --- Intel ---
-    intel-media-driver # Modern Intel
-    intel-vaapi-driver # Older Intel
-    # --- NVIDIA (Crucial Addition) ---
-    nvidia-vaapi-driver # Firefox requires this specifically for NVDEC support
-    # --- AMD (Crucial Addition) ---
-    # AMD uses Mesa for VA-API, but some codecs need these helpers
-    libva
-    vulkan-loader
-    # --- VDPAU/VAAPI Bridge ---
-    libvdpau-va-gl
-  ];
+  # --- Security & Systemd ---
+  security.tpm2.enable = false;
 
-  # Disable documentation to save space and build time
-  documentation = {
-    enable = false;
-    dev.enable = false;
-    doc.enable = false;
-    info.enable = false;
-    man.enable = false;
-    nixos.enable = false;
-  };
-
-  # Systemd Customizations
   systemd = {
-    coredump.enable = false; # Prevent giant debug files on crash
+    coredump.enable = false;
     targets.hibernate.enable = false;
     targets.hybrid-sleep.enable = false;
+
+    # TPM Disable
+    tpm2.enable = false;
+    units."dev-tpmrm0.device".enable = false;
+    services.tailscaled.environment.TS_ENCRYPT_STATE = "false";
+
     mounts = [
       {
         where = "/var/lib/systemd";
@@ -221,21 +208,7 @@
     ];
   };
 
-  # Disable TPM
-  boot.blacklistedKernelModules = [
-    "tpm"
-    "tpm_tis"
-    "tpm_tis_core"
-    "tpm_crb"
-  ];
-  systemd = {
-    tpm2.enable = false;
-    units."dev-tpmrm0.device".enable = false;
-    services.tailscaled.environment.TS_ENCRYPT_STATE = "false";
-  };
-  boot.initrd.systemd.tpm2.enable = false;
-  security.tpm2.enable = false;
-
-  # System state version
+  documentation.enable = false;
+  powerManagement.enable = true;
   system.stateVersion = stateVersion;
 }
