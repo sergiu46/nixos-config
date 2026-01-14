@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   modulesPath,
   pkgs,
@@ -71,7 +70,8 @@
 
   # Hardware configuration
   hardware = {
-    cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    cpu.intel.updateMicrocode = true;
+    enableRedistributableFirmware = true;
     bluetooth.enable = true; # Bluetooth
     graphics = {
       enable = true;
