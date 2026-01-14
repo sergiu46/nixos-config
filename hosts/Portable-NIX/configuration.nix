@@ -122,7 +122,7 @@
     useDHCP = lib.mkDefault true;
     networkmanager = {
       enable = true;
-      connectionConfig."connection.stable-id" = "\${CONNECTION}/\${BOOT}";
+      connectionConfig."connection.stable-id" = "\${CONNECTION}";
       wifi = {
         scanRandMacAddress = true;
         macAddress = "random";
