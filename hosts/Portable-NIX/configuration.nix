@@ -139,35 +139,53 @@
     priority = 100;
   };
 
-  # --- Hardware & Graphics ---
   hardware = {
     cpu.amd.updateMicrocode = true;
     cpu.intel.updateMicrocode = true;
     enableAllFirmware = true;
+    enableRedistributableFirmware = true;
+
+    # Graphics Acceleration
     graphics = {
       enable = true;
+      enable32Bit = true; # Check 1: This must be INSIDE graphics
       extraPackages = with pkgs; [
+        # Intel
+        intel-media-driver # Modern Intel (Broadwell+)
+        intel-vaapi-driver # Older Intel
+        libvdpau-va-gl # VDPAU wrapper
+        libva # Base LibVA
+
+        # AMD
+        amdvlk # AMD Vulkan
+        rocmPackages.clr.icd # OpenCL for AMD
+      ];
+
+      # 32-bit support (Steam, Wine)
+      extraPackages32 = with pkgs.pkgsi686Linux; [
         intel-media-driver
         intel-vaapi-driver
-        libva
-        vulkan-loader
         libvdpau-va-gl
+        amdvlk
       ];
     };
-    enableRedistributableFirmware = true;
   };
 
-  # --- Services ---
   services = {
     haveged.enable = true;
-    locate.enable = false; # Disable locate indexing
+    locate.enable = false;
+    xserver.wacom.enable = true; # Wacom tablet support
 
     # Universal Video Drivers
+    # Order matters! Specific drivers first, fallbacks last.
     xserver.videoDrivers = [
-      "modesetting"
-      "fbdev"
-      "vesa"
+      "amdgpu" # Modern AMD
+      "radeon" # Older AMD (optional but good for very old PCs)
+      "nouveau" # Nvidia Open Source
+      "modesetting" # Intel & Generic fallback
+      "fbdev" # Last resort
     ];
+
     udev.extraRules = ''
       # BFQ for USB/SSD
       ACTION=="add|change", KERNEL=="sd[a-z]*|mmcblk[0-9]*|nvme[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="bfq"
@@ -175,6 +193,14 @@
       SUBSYSTEM=="block", ATTRS{removable}=="0", ENV{UDISKS_IGNORE}="1"
     '';
   };
+
+  # extra firmware packages
+  environment.systemPackages = with pkgs; [
+    # Firmware
+    linux-firmware
+    alsa-firmware
+    sof-firmware
+  ];
 
   # --- Security & Systemd ---
   security.tpm2.enable = false;
