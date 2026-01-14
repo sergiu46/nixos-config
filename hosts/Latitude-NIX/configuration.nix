@@ -21,8 +21,6 @@
   # Nixpkgs
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
-  #boot.initrd.kernelModules = [ "i915" ]; # Force Intel graphics to load early
-
   # Bootloader and kernel
   boot = {
     loader = {

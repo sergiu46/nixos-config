@@ -108,7 +108,6 @@
         "flush_merge"
         "checkpoint_merge"
         "inline_xattr"
-        "discard"
       ];
     };
     "/boot" = {
