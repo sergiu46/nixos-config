@@ -223,6 +223,7 @@
     ];
   };
 
+  nix.settings.auto-optimise-store = true;
   documentation.enable = false;
   system.stateVersion = stateVersion;
 }
