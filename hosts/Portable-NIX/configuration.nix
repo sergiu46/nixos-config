@@ -120,6 +120,7 @@
   networking = {
     hostName = "Portable-NIX";
     useDHCP = lib.mkDefault true;
+    usePredictableInterfaceNames = false;
     networkmanager = {
       enable = true;
       connectionConfig."connection.stable-id" = "\${CONNECTION}";
