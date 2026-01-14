@@ -157,7 +157,6 @@
         libva # Base LibVA
 
         # AMD
-        amdvlk # AMD Vulkan
         rocmPackages.clr.icd # OpenCL for AMD
       ];
 
@@ -166,7 +165,6 @@
         intel-media-driver
         intel-vaapi-driver
         libvdpau-va-gl
-        amdvlk
       ];
     };
   };
@@ -223,7 +221,6 @@
     ];
   };
 
-  nix.settings.auto-optimise-store = true;
   documentation.enable = false;
   system.stateVersion = stateVersion;
 }
