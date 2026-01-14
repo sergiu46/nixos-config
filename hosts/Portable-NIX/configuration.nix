@@ -155,21 +155,13 @@
         libvdpau-va-gl
       ];
     };
-    bluetooth.enable = true;
     enableRedistributableFirmware = true;
   };
 
   # --- Services ---
   services = {
-    fstrim.enable = true;
-    blueman.enable = true;
-    power-profiles-daemon.enable = true;
-    upower.enable = true;
     haveged.enable = true;
-    thermald.enable = true;
-    libinput.enable = true;
-    tlp.enable = false;
-    locate.enable = false;
+    locate.enable = false; # Disable locate indexing
 
     # Universal Video Drivers
     xserver.videoDrivers = [
@@ -177,7 +169,6 @@
       "fbdev"
       "vesa"
     ];
-
     udev.extraRules = ''
       # BFQ for USB/SSD
       ACTION=="add|change", KERNEL=="sd[a-z]*|mmcblk[0-9]*|nvme[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="bfq"
@@ -193,12 +184,10 @@
     coredump.enable = false;
     targets.hibernate.enable = false;
     targets.hybrid-sleep.enable = false;
-
     # TPM Disable
     tpm2.enable = false;
     units."dev-tpmrm0.device".enable = false;
     services.tailscaled.environment.TS_ENCRYPT_STATE = "false";
-
     mounts = [
       {
         where = "/var/lib/systemd";
@@ -210,6 +199,5 @@
   };
 
   documentation.enable = false;
-  powerManagement.enable = true;
   system.stateVersion = stateVersion;
 }

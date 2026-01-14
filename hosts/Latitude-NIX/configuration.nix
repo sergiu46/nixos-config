@@ -87,26 +87,15 @@
     };
   };
 
-  # Power management (laptop-specific)
-  powerManagement = {
-    enable = true;
-    cpuFreqGovernor = "balanced"; # CPU frequency scaling
-  };
-
   # Services
   services = {
     xserver.videoDrivers = [ "modesetting" ]; # Intel iGPU
-    blueman.enable = true; # Bluetooth manager
-    libinput.enable = true; # Touchpad support
-    thermald.enable = true; # Intel thermal daemon
-    tlp.enable = false; # Disabled in favor of other power tools
-    upower.enable = true; # Battery monitoring
   };
 
   # Ensure the environment knows to use these drivers
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = "iHD"; # Forces the newer intel-media-driver
-    MOZ_ENABLE_WAYLAND = "1";
+
   };
 
 }

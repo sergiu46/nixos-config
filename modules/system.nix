@@ -1,12 +1,26 @@
 { pkgs, stateVersion, ... }:
 
 {
-  # Desktop environment
+  # Services
   services = {
-    desktopManager.gnome.enable = true;
-    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true; # GNOME Desktop
+    displayManager.gdm.enable = true; # GDM Display Manager
     gnome.gnome-keyring.enable = true; # GNOME keyring
+    fstrim.enable = true; # Enable periodic TRIM for SSDs
+    blueman.enable = true; # Bluetooth manager
+    power-profiles-daemon.enable = true; # Power profiles for laptops
+    thermald.enable = true; # Intel Thermal management
+    libinput.enable = true; # Input device management
+    upower.enable = true; # Power management
+    tlp.enable = false; # Disable TLP (conflicts with power-profiles-daemon)
   };
+
+  hardware = {
+    bluetooth.enable = true; # Enable Bluetooth
+  };
+
+  powerManagement.enable = true; # Enable power management
+
   environment.gnome.excludePackages = with pkgs; [
     epiphany
     geary
@@ -41,9 +55,11 @@
     ];
   };
 
-  # Fix jellyfin desktop borders
+  # Session variables for Wayland support
   environment.sessionVariables = {
-    QT_QPA_PLATFORM = "xcb";
+    QT_QPA_PLATFORM = "xcb"; # Force Qt apps to use X11 backend
+    NIXOS_OZONE_WL = "1"; # Enable Ozone/Wayland for Chromium-based browsers
+    MOZ_ENABLE_WAYLAND = "1"; # Enable Wayland for Firefox
   };
 
   # Audio (PipeWire modern stack)
