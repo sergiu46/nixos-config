@@ -13,11 +13,11 @@
     libinput.enable = true; # Input device management
     upower.enable = true; # Power management
     tlp.enable = false; # Disable TLP (conflicts with power-profiles-daemon)
-    wirelessRegulatoryDatabase = true;
   };
 
   hardware = {
     bluetooth.enable = true; # Enable Bluetooth
+    wirelessRegulatoryDatabase = true;
   };
 
   powerManagement.enable = true; # Enable power management
