@@ -13,11 +13,11 @@
     libinput.enable = true; # Input device management
     upower.enable = true; # Power management
     tlp.enable = false; # Disable TLP (conflicts with power-profiles-daemon)
-    wirelessRegulatoryDatabase = true;
   };
 
   hardware = {
     bluetooth.enable = true; # Enable Bluetooth
+    wirelessRegulatoryDatabase = true;
   };
 
   powerManagement.enable = true; # Enable power management
@@ -37,6 +37,12 @@
   # Touchpad Scrooling
   services.libinput.touchpad.accelProfile = "flat";
   services.libinput.touchpad.accelSpeed = "-1.0"; # Range is -1.0 to 1.0 (negative is slower)
+  services.udev.extraHwdb = ''
+    # Match ANY device name
+    evdev:name:*:*
+     LIBINPUT_ATTR_RESOLUTION_H=50
+     LIBINPUT_ATTR_RESOLUTION_V=50
+  '';
 
   # Mutter experimental features (for better fractional scaling, VRR, etc.)
   programs.dconf = {
@@ -121,10 +127,13 @@
 
   # Nix settings
   nix = {
-    settings.experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
+    settings = {
+      download-buffer-size = 500000000; # ~500MB
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+    };
   };
   nixpkgs.config.allowUnfree = true;
 

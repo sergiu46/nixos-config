@@ -120,9 +120,10 @@
   networking = {
     hostName = "Portable-NIX";
     useDHCP = lib.mkDefault true;
+    usePredictableInterfaceNames = false;
     networkmanager = {
       enable = true;
-      connectionConfig."connection.stable-id" = "\${CONNECTION}/\${BOOT}";
+      connectionConfig."connection.stable-id" = "\${CONNECTION}";
       wifi = {
         scanRandMacAddress = true;
         macAddress = "random";
@@ -157,7 +158,6 @@
         libva # Base LibVA
 
         # AMD
-        amdvlk # AMD Vulkan
         rocmPackages.clr.icd # OpenCL for AMD
       ];
 
@@ -166,7 +166,6 @@
         intel-media-driver
         intel-vaapi-driver
         libvdpau-va-gl
-        amdvlk
       ];
     };
   };
@@ -223,7 +222,6 @@
     ];
   };
 
-  nix.settings.auto-optimise-store = true;
   documentation.enable = false;
   system.stateVersion = stateVersion;
 }
