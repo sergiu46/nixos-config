@@ -19,6 +19,7 @@
     # Stable packages
     curl
     wget
+    traceroute
     tree
     git
     parted
