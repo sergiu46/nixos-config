@@ -49,8 +49,8 @@
         name = "flathub";
       }
     ];
+    # flatpak packages
     packages = [
-      # flatpak packages
 
     ];
   };
@@ -60,7 +60,6 @@
     preferences = {
       "browser.shell.checkDefaultBrowser" = false;
       "browser.shell.skipDefaultBrowserCheckOnFirstRun" = true;
-      "browser.startup.homepage" = "about:newtab";
       # Hardware acceleration
       "media.ffmpeg.vaapi.enabled" = true;
       "media.rdd-ffmpeg.enabled" = true;
