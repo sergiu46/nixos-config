@@ -35,13 +35,11 @@
   ];
 
   # Touchpad Scrooling
-  services.libinput.touchpad.accelProfile = "flat";
-  services.libinput.touchpad.accelSpeed = "-1.0"; # Range is -1.0 to 1.0 (negative is slower)
   services.udev.extraHwdb = ''
-    # Match ANY device name
-    evdev:name:*:*
-     LIBINPUT_ATTR_RESOLUTION_H=50
-     LIBINPUT_ATTR_RESOLUTION_V=50
+    # Match any device name containing "Alps"
+    evdev:name:*Alps*:*
+     LIBINPUT_ATTR_RESOLUTION_H=124
+     LIBINPUT_ATTR_RESOLUTION_V=124
   '';
 
   # Mutter experimental features (for better fractional scaling, VRR, etc.)
