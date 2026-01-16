@@ -65,6 +65,7 @@
     QT_QPA_PLATFORM = "xcb"; # Force Qt apps to use X11 backend
     NIXOS_OZONE_WL = "1"; # Enable Ozone/Wayland for Chromium-based browsers
     MOZ_ENABLE_WAYLAND = "1"; # Enable Wayland for Firefox
+    MOZ_DISABLE_RDD_SANDBOX = "1"; # Disable Firefox RDD sandbox for Wayland compatibility
   };
 
   # Audio (PipeWire modern stack)

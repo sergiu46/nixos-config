@@ -61,7 +61,11 @@
       "browser.shell.checkDefaultBrowser" = false;
       "browser.shell.skipDefaultBrowserCheckOnFirstRun" = true;
       "browser.startup.homepage" = "about:newtab";
-      "browser.startup.page" = 3;
+      # Hardware acceleration
+      "media.ffmpeg.vaapi.enabled" = true;
+      "media.rdd-ffmpeg.enabled" = true;
+      "media.navigator.mediadatadecoder_vpx_enabled" = true;
+      "gfx.webrender.all" = true; # Force Hardware WebRender
     };
   };
 
