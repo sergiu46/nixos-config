@@ -56,13 +56,10 @@
     install-portable = "sudo nixos-install --flake ~/NixOS#Portable-NIX";
     # For all
     clean = ''
-      sudo nix-env -p /nix/var/nix/profiles/system --delete-generations +2 && \
-      nix-env --delete-generations +2 && \
-      sudo nix-collect-garbage && \
-      nix store gc && \
+      sudo nix-collect-garbage -d && \
+      nix-collect-garbage -d && \
       nix store optimise && \
-      sudo flatpak uninstall --unused -y && \
-      sudo flatpak repair
+      flatpak uninstall --unused -y
     '';
     update = "cd ~/NixOS && sudo nix flake update";
     # GNOME Favorite apps
