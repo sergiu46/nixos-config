@@ -97,9 +97,9 @@
           pkgs.gnomeExtensions.blur-my-shell.extensionUuid
         ];
         favorite-apps = [
-          "microsoft-edge.desktop"
-          "firefox.desktop"
           "org.gnome.Nautilus.desktop"
+          "firefox.desktop"
+          "microsoft-edge.desktop"
           "org.jellyfin.JellyfinDesktop.desktop"
           "org.telegram.desktop.desktop"
           "code.desktop"
