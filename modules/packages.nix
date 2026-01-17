@@ -19,6 +19,7 @@
     # Stable packages
     curl
     wget
+    jq
     traceroute
     tree
     git
