@@ -59,7 +59,8 @@
       sudo nix-collect-garbage -d && \
       nix-collect-garbage -d && \
       nix store optimise && \
-      flatpak uninstall --unused -y
+      flatpak uninstall --unused -y && \
+      boot
     '';
     update = "cd ~/NixOS && sudo nix flake update";
     # GNOME Favorite apps
