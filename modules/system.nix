@@ -18,7 +18,8 @@
     fstrim.enable = true; # Enable periodic TRIM for SSDs
     blueman.enable = true; # Bluetooth manager
     libinput.enable = true; # Input device management
-
+    geoclue2.enable = true; # Enable location
+    automatic-time-timedatectl.enable = true; # Set time based on location
   };
 
   hardware = {
@@ -121,7 +122,6 @@
 
   # Timezone and hardware clock (to match dual-boot Windows)
   time = {
-    timeZone = "Europe/Bucharest";
     hardwareClockInLocalTime = true;
   };
 
@@ -148,15 +148,14 @@
   };
 
   # Nix settings
-  nix = {
-    settings = {
-      download-buffer-size = 500000000; # ~500MB
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-    };
+  nix.settings = {
+    download-buffer-size = 500000000; # ~500MB
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
   };
+
   nixpkgs.config.allowUnfree = true;
 
   # System state version

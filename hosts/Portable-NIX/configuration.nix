@@ -158,7 +158,6 @@
         intel-vaapi-driver # Older Intel
         libvdpau-va-gl # VDPAU wrapper
         libva # Base LibVA
-
         # AMD
         rocmPackages.clr.icd # OpenCL for AMD
       ];
@@ -173,8 +172,8 @@
   };
 
   services = {
-    haveged.enable = true;
-    locate.enable = false;
+    haveged.enable = true; # randomize service
+    locate.enable = false; # disable file indexing
     xserver.wacom.enable = true; # Wacom tablet support
 
     # Universal Video Drivers
