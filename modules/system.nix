@@ -3,16 +3,22 @@
 {
   # Services
   services = {
+    # Desktop manager
     desktopManager.gnome.enable = true; # GNOME Desktop
     displayManager.gdm.enable = true; # GDM Display Manager
     gnome.gnome-keyring.enable = true; # GNOME keyring
-    fstrim.enable = true; # Enable periodic TRIM for SSDs
-    blueman.enable = true; # Bluetooth manager
+
+    # Power management
     power-profiles-daemon.enable = true; # Power profiles for laptops
-    thermald.enable = true; # Intel Thermal management
-    libinput.enable = true; # Input device management
+    thermald.enable = false; # Intel Thermal management
     upower.enable = true; # Power management
     tlp.enable = false; # Disable TLP (conflicts with power-profiles-daemon)
+
+    # Other services
+    fstrim.enable = true; # Enable periodic TRIM for SSDs
+    blueman.enable = true; # Bluetooth manager
+    libinput.enable = true; # Input device management
+
   };
 
   hardware = {
