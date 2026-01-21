@@ -18,8 +18,7 @@
     fstrim.enable = true; # Enable periodic TRIM for SSDs
     blueman.enable = true; # Bluetooth manager
     libinput.enable = true; # Input device management
-    geoclue2.enable = true; # Enable location
-    localtimed.enable = true; # Set time based on location
+
   };
 
   hardware = {
@@ -66,18 +65,26 @@
      LIBINPUT_ATTR_RESOLUTION_V=124
   '';
 
-  # Mutter experimental features (for better fractional scaling, VRR, etc.)
+  # dconf
   programs.dconf = {
     enable = true;
     profiles.user.databases = [
       {
         settings = {
+          # Display & Performance Features
           "org/gnome/mutter" = {
             experimental-features = [
               "scale-monitor-framebuffer"
               "variable-refresh-rate"
               "xwayland-native-scaling"
             ];
+          };
+          # auto timezone
+          "org/gnome/desktop/datetime" = {
+            automatic-timezone = true;
+          };
+          "org/gnome/system/location" = {
+            enabled = true;
           };
         };
       }
