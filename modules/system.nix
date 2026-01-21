@@ -10,7 +10,7 @@
 
     # Power management
     power-profiles-daemon.enable = true; # Power profiles for laptops
-    thermald.enable = false; # Intel Thermal management
+    thermald.enable = true; # Intel Thermal management
     upower.enable = true; # Power management
     tlp.enable = false; # Disable TLP (conflicts with power-profiles-daemon)
 
@@ -24,6 +24,18 @@
   hardware = {
     bluetooth.enable = true; # Enable Bluetooth
     wirelessRegulatoryDatabase = true;
+  };
+
+  # Start display manager after
+  systemd.services.display-manager = {
+    after = [
+      "power-profiles-daemon.service"
+      "upower.service"
+    ];
+    wants = [
+      "power-profiles-daemon.service"
+      "upower.service"
+    ];
   };
 
   powerManagement.enable = true; # Enable power management

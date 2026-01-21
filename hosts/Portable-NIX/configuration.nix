@@ -222,14 +222,6 @@
         options = "mode=0755,size=20M";
       }
     ];
-    services.display-manager = {
-      after = [
-        "power-profiles-daemon.service"
-        "upower.service"
-      ];
-      wants = [ "power-profiles-daemon.service" ];
-    };
-
   };
 
   documentation.enable = false;
