@@ -19,7 +19,7 @@
     blueman.enable = true; # Bluetooth manager
     libinput.enable = true; # Input device management
     geoclue2.enable = true; # Enable location
-    automatic-time-zoned.enable = true; # Set time based on location
+    localtimed.enable = true; # Set time based on location
   };
 
   hardware = {
