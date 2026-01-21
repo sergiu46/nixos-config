@@ -34,6 +34,7 @@
     check = "nixos-rebuild build --flake ~/NixOS#$(hostname)";
     switch = "sudo nixos-rebuild switch --flake ~/NixOS#$(hostname)";
     boot = "sudo nixos-rebuild boot --flake ~/NixOS#$(hostname)";
+    update = "cd ~/NixOS && sudo nix flake update && boot";
 
     # Install Portable
     format-portable = ''
@@ -62,7 +63,6 @@
       flatpak uninstall --unused -y && \
       boot
     '';
-    update = "cd ~/NixOS && sudo nix flake update";
     # GNOME Favorite apps
     favorites = "gsettings get org.gnome.shell favorite-apps";
   };
