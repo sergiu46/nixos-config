@@ -29,12 +29,17 @@
   # Start display manager after
   systemd.services.display-manager = {
     after = [
+      "systemd-user-sessions.service"
       "power-profiles-daemon.service"
       "upower.service"
+      "bluetooth.service"
+      "network-online.target"
     ];
     wants = [
       "power-profiles-daemon.service"
       "upower.service"
+      "bluetooth.service"
+      "network-online.target"
     ];
   };
 
