@@ -101,7 +101,7 @@
         "noatime"
         "lazytime"
         "background_gc=sync"
-        "compress_algorithm=lz4"
+        "compress_algorithm=zstd:6"
         "compress_chksum"
         "compress_mode=fs"
         "compress_extension=*"
@@ -110,6 +110,8 @@
         "flush_merge"
         "checkpoint_merge"
         "inline_xattr"
+        "inline_data"
+        "inline_dentry"
       ];
     };
     "/boot" = {
