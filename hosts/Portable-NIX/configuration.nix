@@ -100,8 +100,7 @@
       options = [
         "noatime"
         "lazytime"
-        "background_gc=sync"
-        "compress_algorithm=zstd:6"
+        "compress_algorithm=zstd:3"
         "compress_chksum"
         "compress_mode=fs"
         "compress_extension=*"
@@ -109,6 +108,8 @@
         "gc_merge"
         "flush_merge"
         "checkpoint_merge"
+        "active_logs=2"
+        "reserve_root=16384"
         "inline_xattr"
         "inline_data"
         "inline_dentry"
