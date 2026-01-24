@@ -130,6 +130,7 @@
   # Timezone and hardware clock (to match dual-boot Windows)
   time = {
     hardwareClockInLocalTime = true;
+    timeZone = "Europe/Bucharest";
   };
 
   # Keyboard layout
