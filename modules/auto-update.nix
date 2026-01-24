@@ -10,7 +10,6 @@
     flags = [
       "--refresh"
       "--update-input"
-      "nixpkgs"
       "--commit-lock-file"
     ];
     operation = "boot";
