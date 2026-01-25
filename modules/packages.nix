@@ -32,6 +32,7 @@
     ffmpeg-full
     intel-gpu-tools
     libva-utils
+    libinput
     # Unstable packages
     unstable.microsoft-edge
     unstable.ventoy-full-gtk
