@@ -61,8 +61,8 @@
   services.udev.extraHwdb = ''
     # Match any device name containing "Alps"
     evdev:name:*Alps*:*
-     LIBINPUT_ATTR_RESOLUTION_H=180
-     LIBINPUT_ATTR_RESOLUTION_V=180
+     LIBINPUT_ATTR_RESOLUTION_H=240
+     LIBINPUT_ATTR_RESOLUTION_V=240
   '';
 
   # dconf
