@@ -99,8 +99,8 @@
         ];
         favorite-apps = [
           "org.gnome.Nautilus.desktop"
-          "firefox.desktop"
           "microsoft-edge.desktop"
+          "firefox.desktop"
           "org.jellyfin.JellyfinDesktop.desktop"
           "org.telegram.desktop.desktop"
           "code.desktop"
