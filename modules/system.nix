@@ -35,13 +35,11 @@
       "bluetooth.service"
       "network-online.target"
       "dbus.service"
-      "display-manager.service"
     ];
     wants = [
       "power-profiles-daemon.service"
       "upower.service"
       "bluetooth.service"
-      "network-online.target"
     ];
   };
 
@@ -63,8 +61,8 @@
   services.udev.extraHwdb = ''
     # Match any device name containing "Alps"
     evdev:name:*Alps*:*
-     LIBINPUT_ATTR_RESOLUTION_H=240
-     LIBINPUT_ATTR_RESOLUTION_V=240
+     LIBINPUT_ATTR_RESOLUTION_H=600
+     LIBINPUT_ATTR_RESOLUTION_V=600
   '';
 
   # dconf

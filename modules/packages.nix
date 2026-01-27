@@ -20,6 +20,7 @@
     curl
     wget
     jq
+    file
     traceroute
     tree
     git
