@@ -39,6 +39,7 @@
     unstable.telegram-desktop
     unstable.jellyfin-desktop
     unstable.bitwarden-desktop
+    unstable.nextcloud-client
   ];
 
   # Flatpak

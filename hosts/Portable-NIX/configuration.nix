@@ -64,6 +64,7 @@
       "vm.dirty_bytes" = 33554432; # 32MB
       "vm.swappiness" = 100; # Aggressively use ZRAM
       "vm.vfs_cache_pressure" = 50; # Keep directory structure in RAM
+      "kernel.core_pattern" = "|/bin/false"; # Disable core dump
     };
 
     loader = {
