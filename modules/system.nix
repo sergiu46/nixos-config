@@ -36,7 +36,6 @@
       "network-online.target"
       "dbus.service"
       "display-manager.service"
-      "dev-dri-card0.device"
     ];
     wants = [
       "power-profiles-daemon.service"
@@ -44,8 +43,6 @@
       "bluetooth.service"
       "network-online.target"
     ];
-    bindsTo = [ "dev-dri-card0.device" ];
-
   };
 
   powerManagement.enable = true; # Enable power management
