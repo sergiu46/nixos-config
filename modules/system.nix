@@ -25,21 +25,17 @@
     bluetooth.enable = true; # Enable Bluetooth
     wirelessRegulatoryDatabase = true;
   };
-
   # Start display manager after
   systemd.services.display-manager = {
     after = [
       "systemd-user-sessions.service"
       "power-profiles-daemon.service"
       "upower.service"
-      "bluetooth.service"
-      "network-online.target"
       "dbus.service"
     ];
     wants = [
       "power-profiles-daemon.service"
       "upower.service"
-      "bluetooth.service"
     ];
   };
 
@@ -61,8 +57,8 @@
   services.udev.extraHwdb = ''
     # Match any device name containing "Alps"
     evdev:name:*Alps*:*
-     LIBINPUT_ATTR_RESOLUTION_H=600
-     LIBINPUT_ATTR_RESOLUTION_V=600
+     LIBINPUT_ATTR_RESOLUTION_H=1500
+     LIBINPUT_ATTR_RESOLUTION_V=1500
   '';
 
   # dconf
