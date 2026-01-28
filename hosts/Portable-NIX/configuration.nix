@@ -108,6 +108,7 @@
         "atgc"
         "gc_merge"
         "flush_merge"
+        "discard"
         "checkpoint_merge"
         "active_logs=2"
         "reserve_root=16384"
