@@ -101,7 +101,7 @@
       options = [
         "noatime"
         "lazytime"
-        "compress_algorithm=zstd:3"
+        "compress_algorithm=zstd"
         "compress_chksum"
         "compress_mode=fs"
         "compress_extension=*"
