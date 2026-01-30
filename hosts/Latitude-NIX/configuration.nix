@@ -8,7 +8,7 @@
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    ./ext4.nix
+    ./btrfs.nix
     ../../modules/auto-update.nix
     ../../modules/system.nix
     ../../modules/packages.nix
