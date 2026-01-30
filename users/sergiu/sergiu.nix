@@ -1,5 +1,6 @@
 { ... }:
 {
+  users.users.root.hashedPassword = "!";
   users.users.sergiu = {
     isNormalUser = true;
     extraGroups = [
