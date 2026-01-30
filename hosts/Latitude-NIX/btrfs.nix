@@ -1,44 +1,37 @@
 { ... }:
 
+let
+  devicePath = "/dev/disk/by-label/NixOS";
+  btrfsOpts = [
+    "noatime"
+    "compress=zstd:1"
+    "ssd"
+    "discard=async"
+  ];
+in
 {
   fileSystems."/" = {
-    device = "/dev/disk/by-label/nixos";
+    device = devicePath;
     fsType = "btrfs";
-    options = [
-      "subvol=@"
-      "compress=zstd:1"
-      "noatime"
-    ];
+    options = [ "subvol=@" ] ++ btrfsOpts;
   };
 
   fileSystems."/home" = {
-    device = "/dev/disk/by-label/nixos";
+    device = devicePath;
     fsType = "btrfs";
-    options = [
-      "subvol=@home"
-      "compress=zstd:1"
-      "noatime"
-    ];
+    options = [ "subvol=@home" ] ++ btrfsOpts;
   };
 
   fileSystems."/nix" = {
-    device = "/dev/disk/by-label/nixos";
+    device = devicePath;
     fsType = "btrfs";
-    options = [
-      "subvol=@nix"
-      "compress=zstd:1"
-      "noatime"
-    ];
+    options = [ "subvol=@nix" ] ++ btrfsOpts;
   };
 
   fileSystems."/var/log" = {
-    device = "/dev/disk/by-label/nixos";
+    device = devicePath;
     fsType = "btrfs";
-    options = [
-      "subvol=@log"
-      "compress=zstd:1"
-      "noatime"
-    ];
+    options = [ "subvol=@log" ] ++ btrfsOpts;
   };
 
   fileSystems."/boot" = {
