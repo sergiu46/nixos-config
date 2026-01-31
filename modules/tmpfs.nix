@@ -3,13 +3,17 @@
   # Use tmpfs for /tmp
   boot.tmp.useTmpfs = true;
   boot.tmp.tmpfsSize = "50%";
+  boot.tmp.cleanOnBoot = true;
 
   # Nix Build Optimization (In RAM)
   nix.settings = {
     sandbox = true;
-    auto-optimise-store = true;
+    auto-optimise-store = false;
     # Align Nix build directory with our tmpfs mount below
     build-dir = "/var/cache/nix-build";
+    keep-outputs = true;
+    keep-derivations = true;
+    builders-use-substitutes = true;
   };
 
   # Ensure the Nix Daemon uses the RAM-backed build directory
@@ -42,10 +46,11 @@
     "/var/cache/nix-build" = {
       device = "tmpfs";
       fsType = "tmpfs";
+      neededForBoot = true;
       options = [
         "nosuid"
         "nodev"
-        "size=50%"
+        "size=80%"
         "mode=0755"
       ];
     };
@@ -54,6 +59,7 @@
     "/var/log" = {
       device = "tmpfs";
       fsType = "tmpfs";
+      neededForBoot = true;
       options = [
         "nosuid"
         "nodev"
