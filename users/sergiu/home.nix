@@ -45,7 +45,7 @@
       sudo mkfs.f2fs -f -l Portable-NIX -O extra_attr,inode_checksum,sb_checksum,compression -o 5 "$dev"
     '';
     mount-portable = ''
-      sudo mount -t f2fs -o noatime,lazytime,compress_algorithm=zstd,compress_chksum,compress_mode=fs,compress_extension=*,atgc,gc_merge,flush_merge,discard,checkpoint_merge,active_logs=2,reserve_root=16384,inline_xattr,inline_data,inline_dentry /dev/disk/by-label/Portable-NIX /mnt && \
+      sudo mount -t f2fs -o noatime,lazytime,compress_algorithm=zstd:1,compress_chksum,compress_mode=fs,compress_extension=*,atgc,gc_merge,flush_merge,discard=async,checkpoint_merge,active_logs=2,reserve_root=16384,inline_xattr,inline_data,inline_dentry /dev/disk/by-label/Portable-NIX /mnt && \
       sudo chattr +c /mnt && \
       sudo mkdir -p /mnt/boot && \
       sudo mount /dev/disk/by-label/NIXEFI /mnt/boot
