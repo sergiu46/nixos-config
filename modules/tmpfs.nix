@@ -8,12 +8,9 @@
   # Nix Build Optimization (In RAM)
   nix.settings = {
     sandbox = true;
-    auto-optimise-store = false;
+    auto-optimise-store = true;
     # Align Nix build directory with our tmpfs mount below
     build-dir = "/var/cache/nix-build";
-    keep-outputs = true;
-    keep-derivations = true;
-    builders-use-substitutes = true;
   };
 
   # Ensure the Nix Daemon uses the RAM-backed build directory
