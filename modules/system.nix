@@ -19,6 +19,12 @@
     blueman.enable = true; # Bluetooth manager
     libinput.enable = true; # Input device management
 
+    logind.extraConfig = ''
+      IdleAction=poweroff
+      IdleActionSec=6h
+      CriticalPowerAction=poweroff
+    '';
+
   };
 
   hardware = {
