@@ -36,6 +36,18 @@
     boot = "sudo nixos-rebuild boot --flake ~/NixOS#$(hostname)";
     update = "cd ~/NixOS && sudo nix flake update && boot";
 
+    # Clean
+    clean = ''
+      sudo nix-collect-garbage -d && \
+      nix-collect-garbage -d && \
+      nix store optimise && \
+      flatpak uninstall --unused -y && \
+      boot
+    '';
+
+    # GNOME Favorite apps
+    favorites = "gsettings get org.gnome.shell favorite-apps";
+
     # Install Portable
     format-portable = ''
       lsblk -pn -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINT | grep part && \
@@ -45,7 +57,7 @@
       sudo mkfs.f2fs -f -l Portable-NIX -O extra_attr,inode_checksum,sb_checksum,compression -o 5 "$dev"
     '';
     mount-portable = ''
-      sudo mkdir -p /mnts && \
+      sudo mkdir -p /mnt && \
       sudo mount -t f2fs -o noatime,lazytime,compress_algorithm=zstd:1,compress_chksum,compress_mode=fs,compress_extension=*,atgc,gc_merge,flush_merge,discard,checkpoint_merge,active_logs=2,reserve_root=16384,inline_xattr,inline_data,inline_dentry /dev/disk/by-label/Portable-NIX /mnt && \
       sudo chattr +c /mnt && \
       sudo mkdir -p /mnt/boot && \
@@ -56,16 +68,7 @@
       sudo umount /mnt
     '';
     install-portable = "echo 'Start: ' $(date +%T); sudo nixos-install --flake ~/NixOS#Portable-NIX; echo 'Finish: ' $(date +%T)";
-    # For all
-    clean = ''
-      sudo nix-collect-garbage -d && \
-      nix-collect-garbage -d && \
-      nix store optimise && \
-      flatpak uninstall --unused -y && \
-      boot
-    '';
-    # GNOME Favorite apps
-    favorites = "gsettings get org.gnome.shell favorite-apps";
+
   };
 
   # QT dark theme
