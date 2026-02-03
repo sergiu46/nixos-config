@@ -1,31 +1,24 @@
-{ ... }:
+{ userVars, ... }:
 
-let
-  devicePath = "/dev/disk/by-label/NixOS";
-  btrfsOpts = [
-    "noatime"
-    "compress=zstd:1"
-    "ssd"
-    "discard=async"
-  ];
-in
 {
+  # PERMANENT SYSTEM MOUNTS
   fileSystems."/" = {
-    device = devicePath;
+    device = "/dev/disk/by-label/${userVars.btrfs.label}";
     fsType = "btrfs";
-    options = [ "subvol=@" ] ++ btrfsOpts;
+    options = [ "subvol=@" ] ++ userVars.btrfs.optsList;
   };
 
   fileSystems."/home" = {
-    device = devicePath;
+    device = "/dev/disk/by-label/${userVars.btrfs.label}";
     fsType = "btrfs";
-    options = [ "subvol=@home" ] ++ btrfsOpts;
+    options = [ "subvol=@home" ] ++ userVars.btrfs.optsList;
   };
 
   fileSystems."/nix" = {
-    device = devicePath;
+    device = "/dev/disk/by-label/${userVars.btrfs.label}";
     fsType = "btrfs";
-    options = [ "subvol=@nix" ] ++ btrfsOpts;
+    options = [ "subvol=@nix" ] ++ userVars.btrfs.optsList;
+    neededForBoot = true;
   };
 
 }

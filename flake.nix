@@ -23,6 +23,7 @@
     let
       system = "x86_64-linux";
       stateVersion = "25.11";
+      userVars = import ./vars.nix;
       overlayModule = (
         { ... }:
         {
@@ -57,7 +58,7 @@
       nixosConfigurations = {
         # Latitude
         Latitude-NIX = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs stateVersion; };
+          specialArgs = { inherit inputs stateVersion userVars; };
           modules = commonModules ++ [
             ./hosts/Latitude-NIX/configuration.nix
             ./users/sergiu/sergiu.nix
@@ -66,7 +67,7 @@
         };
         # Portable
         Portable-NIX = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs stateVersion; };
+          specialArgs = { inherit inputs stateVersion userVars; };
           modules = commonModules ++ [
             ./hosts/Portable-NIX/configuration.nix
             ./users/sergiu/sergiu.nix

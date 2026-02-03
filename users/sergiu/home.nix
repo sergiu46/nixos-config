@@ -1,4 +1,10 @@
-{ pkgs, stateVersion, ... }:
+{
+  pkgs,
+  stateVersion,
+  userVars,
+  ...
+}:
+
 {
   home.username = "sergiu";
   home.homeDirectory = "/home/sergiu";
@@ -8,29 +14,8 @@
     ../../modules/vscode.nix
   ];
 
-  # Configure the SSH Client to use bitwarden
-  programs.ssh = {
-    enable = true;
-    enableDefaultConfig = false;
-    matchBlocks."*" = {
-      setEnv = {
-        TERM = "xterm-256color";
-      };
-      identityAgent = "~/.bitwarden-ssh-agent.sock";
-    };
-  };
-
-  # Git setup
-  programs.git = {
-    enable = true;
-    settings = {
-      user.name = "Sergiu";
-      user.email = "sergiu@example.com";
-    };
-  };
-
   home.shellAliases = {
-    # Build commands
+    # SYSTEM BUILD & CLEAN
     check = "nixos-rebuild build --flake ~/NixOS#$(hostname)";
     switch = "sudo nixos-rebuild switch --flake ~/NixOS#$(hostname)";
     boot = "sudo nixos-rebuild boot --flake ~/NixOS#$(hostname)";
@@ -45,41 +30,55 @@
       boot
     '';
 
-    # GNOME Favorite apps
-    favorites = "gsettings get org.gnome.shell favorite-apps";
-
-    # Install Portable
-    format-portable = ''
-      lsblk -pn -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINT | grep part && \
-      echo -n "Type the device to format (e.g. /dev/sda3): " && \
+    # BTRFS (System Drive)
+    format-btrfs = ''
+      lsblk -pn -o NAME,SIZE,TYPE,FSTYPE,LABEL | grep part && \
+      echo -n "Target device for Btrfs: " && \
       read dev && \
-      sudo umount -l "$dev" 2>/dev/null || true && \
-      sudo mkfs.f2fs -f -l Portable-NIX -O extra_attr,inode_checksum,sb_checksum,compression -o 5 "$dev"
+      [ -b "$dev" ] && \
+      read -p "REALLY wipe $dev and label it '${userVars.btrfs.label}'? (y/N): " CONFIRM && \
+      [ "$CONFIRM" == "y" ] && \
+      sudo mkfs.btrfs -L "${userVars.btrfs.label}" -f "$dev" && \
+      sudo mount "$dev" /mnt && \
+      sudo btrfs subvolume create /mnt/@ && \
+      sudo btrfs subvolume create /mnt/@home && \
+      sudo btrfs subvolume create /mnt/@nix && \
+      sudo umount /mnt && \
+      echo "Btrfs initialized."
     '';
+
+    mount-btrfs = ''
+      sudo mount -t btrfs -o subvol=@,${userVars.btrfs.optsString} /dev/disk/by-label/${userVars.btrfs.label} /mnt && \
+      sudo mkdir -p /mnt/{home,nix,boot} && \
+      sudo mount -t btrfs -o subvol=@home,${userVars.btrfs.optsString} /dev/disk/by-label/${userVars.btrfs.label} /mnt/home && \
+      sudo mount -t btrfs -o subvol=@nix,${userVars.btrfs.optsString} /dev/disk/by-label/${userVars.btrfs.label} /mnt/nix
+    '';
+
+    umount-btrfs = "sudo umount -R /mnt && echo 'Btrfs unmounted.'";
+
+    # F2FS (Portable Drive)
+    format-portable = ''
+      echo -n "Device for F2FS: " && \
+      read dev && \
+      [ -b "$dev" ] && \
+      read -p "REALLY wipe $dev and label it '${userVars.btrfs.label}'? (y/N): " CONFIRM && \
+      [ "$CONFIRM" == "y" ] && \
+      sudo mkfs.f2fs -f -l "${userVars.f2fs.label}" -O extra_attr,inode_checksum,sb_checksum,compression -o 5 "$dev"
+    '';
+
     mount-portable = ''
       sudo mkdir -p /mnt && \
-      sudo mount -t f2fs -o noatime,lazytime,compress_algorithm=zstd:1,compress_chksum,compress_mode=fs,compress_extension=*,atgc,gc_merge,flush_merge,discard,checkpoint_merge,active_logs=2,reserve_root=16384,inline_xattr,inline_data,inline_dentry /dev/disk/by-label/Portable-NIX /mnt && \
+      sudo mount -t f2fs -o ${userVars.f2fs.optsString} /dev/disk/by-label/${userVars.f2fs.label} /mnt && \
       sudo chattr +c /mnt && \
       sudo mkdir -p /mnt/boot && \
       sudo mount /dev/disk/by-label/NIXEFI /mnt/boot
     '';
-    umount-portable = ''
-      sudo umount /mnt/boot && \
-      sudo umount /mnt
-    '';
-    install-portable = "echo 'Start: ' $(date +%T); sudo nixos-install --flake ~/NixOS#Portable-NIX; echo 'Finish: ' $(date +%T)";
 
+    umount-portable = "sudo umount /mnt/boot && sudo umount /mnt && echo 'Portable unmounted.'";
+
+    install-portable = "echo 'Start: ' $(date +%T); sudo nixos-install --flake ~/NixOS#${userVars.portableName}; echo 'Finish: ' $(date +%T)";
   };
 
-  # QT dark theme
-  qt = {
-    enable = true;
-    platformTheme.name = "gtk3";
-    style = {
-      name = "adwaita-dark";
-      package = pkgs.adwaita-qt;
-    };
-  };
   # GNOME customization
   dconf = {
     enable = true;
@@ -114,4 +113,36 @@
       };
     };
   };
+
+  # QT dark theme
+  qt = {
+    enable = true;
+    platformTheme.name = "gtk3";
+    style = {
+      name = "adwaita-dark";
+      package = pkgs.adwaita-qt;
+    };
+  };
+
+  # Configure the SSH Client to use bitwarden
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+    matchBlocks."*" = {
+      setEnv = {
+        TERM = "xterm-256color";
+      };
+      identityAgent = "~/.bitwarden-ssh-agent.sock";
+    };
+  };
+
+  # Git setup
+  programs.git = {
+    enable = true;
+    settings = {
+      user.name = "Sergiu";
+      user.email = "sergiu@example.com";
+    };
+  };
+
 }

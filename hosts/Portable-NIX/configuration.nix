@@ -3,6 +3,7 @@
   lib,
   modulesPath,
   stateVersion,
+  userVars,
   ...
 }:
 
@@ -97,27 +98,11 @@
   # --- Filesystems ---
   fileSystems = {
     "/" = {
-      device = "/dev/disk/by-label/Portable-NIX";
+      device = "/dev/disk/by-label/${userVars.f2fs.label}";
       fsType = "f2fs";
-      options = [
-        "noatime"
-        "lazytime"
-        "compress_algorithm=zstd:1"
-        "compress_chksum"
-        "compress_mode=fs"
-        "compress_extension=*"
-        "atgc"
-        "gc_merge"
-        "flush_merge"
-        "discard"
-        "checkpoint_merge"
-        "active_logs=2"
-        "reserve_root=16384"
-        "inline_xattr"
-        "inline_data"
-        "inline_dentry"
-      ];
+      options = userVars.f2fs.optsList;
     };
+
     "/boot" = {
       device = "/dev/disk/by-label/NIXEFI";
       fsType = "vfat";
@@ -126,7 +111,7 @@
 
   # --- Networking & Privacy ---
   networking = {
-    hostName = "Portable-NIX";
+    hostName = userVars.portableName;
     useDHCP = lib.mkDefault true;
     usePredictableInterfaceNames = false;
     networkmanager = {
