@@ -64,6 +64,7 @@
       [ -b "$dev" ] && \
       read -p "REALLY wipe $dev and label it '${userVars.f2fs.label}'? (y/N): " CONFIRM && \
       [ "$CONFIRM" == "y" ] && \
+      sudo umount -l "$dev" 2>/dev/null || true && \
       sudo mkfs.f2fs -f -l "${userVars.f2fs.label}" -O extra_attr,inode_checksum,sb_checksum,compression -o 5 "$dev"
     '';
 
