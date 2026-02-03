@@ -58,6 +58,7 @@
 
     # F2FS (Portable Drive)
     format-portable = ''
+      lsblk -pn -o NAME,SIZE,TYPE,FSTYPE,LABEL | grep part && \
       echo -n "Device for F2FS: " && \
       read dev && \
       [ -b "$dev" ] && \
