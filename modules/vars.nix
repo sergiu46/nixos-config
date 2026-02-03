@@ -2,8 +2,6 @@
 
 rec {
 
-  efiLabel = (lib.toUpper (builtins.substring 0 4 configName)) + "EFI";
-
   # Btrfs Master Settings (Internal Drive)
   btrfs = {
     label = configName;
@@ -40,4 +38,8 @@ rec {
     ];
     optsString = builtins.concatStringsSep "," f2fs.optsList;
   };
+
+  # Portable boot label
+  efiLabel = (lib.toUpper (builtins.substring 0 4 configName)) + "EFI";
+
 }

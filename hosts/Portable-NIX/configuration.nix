@@ -16,6 +16,7 @@
     ../../modules/system.nix
     ../../modules/packages.nix
     ../../modules/tmpfs.nix
+    ../../modules/disable-tpm.nix
   ];
 
   # --- Boot & Kernel ---
@@ -37,8 +38,6 @@
     initrd = {
       checkJournalingFS = true;
       systemd.enable = true;
-      # Disable TPM
-      systemd.tpm2.enable = false;
       # Broad hardware support for the USB stick to boot anywhere
       availableKernelModules = [
         "ahci"
@@ -85,14 +84,6 @@
       "ntfs"
       "vfat"
       "xfs"
-    ];
-
-    # Disable TPM modules
-    blacklistedKernelModules = [
-      "tpm"
-      "tpm_tis"
-      "tpm_tis_core"
-      "tpm_crb"
     ];
   };
 
@@ -194,16 +185,10 @@
     sof-firmware
   ];
 
-  # --- Security & Systemd ---
-  security.tpm2.enable = false;
-
   systemd = {
     coredump.enable = false;
     targets.hibernate.enable = false;
     targets.hybrid-sleep.enable = false;
-    # TPM Disable
-    tpm2.enable = false;
-    units."dev-tpmrm0.device".enable = false;
     services.tailscaled.environment.TS_ENCRYPT_STATE = "false";
     mounts = [
       {
