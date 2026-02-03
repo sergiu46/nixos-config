@@ -140,6 +140,34 @@
             ];
           };
 
+        # ADATA-NIX
+        ADATA-NIX =
+          let
+            pName = "ADATA-NIX";
+            currentVars = import ./modules/vars.nix {
+              inherit (nixpkgs) lib;
+              configName = pName;
+            };
+          in
+          nixpkgs.lib.nixosSystem {
+            specialArgs = {
+              inherit inputs stateVersion;
+              configName = pName;
+              userVars = currentVars;
+            };
+            modules = commonModules ++ [
+              {
+                home-manager.extraSpecialArgs = {
+                  inherit stateVersion;
+                  configName = pName;
+                  userVars = currentVars;
+                };
+              }
+              ./hosts/Portable-NIX/configuration.nix
+              ./users/sergiu/sergiu.nix
+            ];
+          };
+
       };
     };
 }
