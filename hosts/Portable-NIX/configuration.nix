@@ -105,7 +105,7 @@
     };
 
     "/boot" = {
-      device = "/dev/disk/by-label/NIXEFI";
+      device = "/dev/disk/by-label/${userVars.efiLabel}";
       fsType = "vfat";
     };
   };
