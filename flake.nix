@@ -88,7 +88,10 @@
         Samsung-NIX =
           let
             pName = "Samsung-NIX";
-            currentVars = import ./modules/vars.nix { configName = pName; };
+            currentVars = import ./modules/vars.nix {
+              inherit (nixpkgs) lib;
+              configName = pName;
+            };
           in
           nixpkgs.lib.nixosSystem {
             specialArgs = {
@@ -113,7 +116,10 @@
         Kingston-NIX =
           let
             pName = "Kingston-NIX";
-            currentVars = import ./modules/vars.nix { configName = pName; };
+            currentVars = import ./modules/vars.nix {
+              inherit (nixpkgs) lib;
+              configName = pName;
+            };
           in
           nixpkgs.lib.nixosSystem {
             specialArgs = {
