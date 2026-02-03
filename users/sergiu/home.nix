@@ -130,24 +130,57 @@
 
     # F2FS (Portable Drive)
     format-portable() {
-      lsblk -pn -o NAME,SIZE,TYPE,FSTYPE,LABEL | grep part
-      read -p "Device for F2FS: " dev
+      lsblk -pn -o NAME,SIZE,TYPE,FSTYPE,LABEL | grep -E "part|disk"
+      echo ""
+
+      read -p "Target BOOT partition (e.g., /dev/sdb1): " dev_boot
+      read -p "Target ROOT partition (e.g., /dev/sdb2): " dev_root
       read -p "Enter Config Name (e.g., Kingston-NIX): " name
-      [ -b "$dev" ] && \
-      read -p "REALLY wipe $dev and label it '$name'? (y/N): " CONFIRM && \
-      [ "$CONFIRM" == "y" ] && \
-      sudo umount -l "$dev" 2>/dev/null || true && \
-      sudo mkfs.f2fs -f -l "$name" -O extra_attr,inode_checksum,sb_checksum,compression -o 5 "$dev"
+      
+      local efi_name=$(echo "''${name:0:4}" | tr '[:lower:]' '[:upper:]')EFI
+      local root_name="$name"
+
+      if [ -b "$dev_boot" ] && [ -b "$dev_root" ]; then
+        echo "--------------------------------------------------"
+        echo "PREPARING DRIVE FOR: $name"
+        echo "BOOT: $dev_boot -> FAT32 (Label: $efi_name, Flags: boot, esp)"
+        echo "ROOT: $dev_root -> F2FS  (Label: $root_name)"
+        echo "--------------------------------------------------"
+        read -p "REALLY wipe these partitions? (y/N): " CONFIRM
+        
+        if [ "$CONFIRM" == "y" ]; then
+          sudo umount -l "$dev_boot" "$dev_root" 2>/dev/null || true
+          
+          echo "Formatting Boot partition as FAT32..."
+          sudo mkfs.fat -F 32 -n "$efi_name" "$dev_boot"
+          
+          local disk=$(echo "$dev_boot" | sed 's/[0-9]*$//')
+          local part_num=$(echo "$dev_boot" | grep -o '[0-9]*$')
+          echo "Setting ESP and Boot flags on $disk partition $part_num..."
+          sudo parted "$disk" set "$part_num" esp on
+          sudo parted "$disk" set "$part_num" boot on
+          
+          echo "Formatting Root partition as F2FS..."
+          sudo mkfs.f2fs -f -l "$root_name" -O extra_attr,inode_checksum,sb_checksum,compression -o 5 "$dev_root"
+          
+          echo "--------------------------------------------------"
+          echo "Success! You can now run: mount-portable (select $name)"
+        fi
+      else
+        echo "Error: Partition devices not found. Check your paths."
+      fi
     }
 
     mount-portable() {
-      read -p "Enter Label Name to mount: " name
-      sudo mkdir -p /mnt && \
+      read -p "Enter Config Name to mount (e.g., Kingston-NIX): " name
+      local efi_name=$(echo "''${name:0:4}" | tr '[:lower:]' '[:upper:]')EFI
+      
+      sudo mkdir -p /mnt
       sudo mount -t f2fs -o ${userVars.f2fs.optsString} /dev/disk/by-label/"$name" /mnt && \
       sudo chattr +c /mnt && \
       sudo mkdir -p /mnt/boot && \
-      sudo mount /dev/disk/by-label/NIXEFI /mnt/boot
-      echo "Portable $name mounted."
+      sudo mount /dev/disk/by-label/"$efi_name" /mnt/boot
+      echo "Mounted $name and $efi_name to /mnt"
     }
 
     install-system() {
@@ -157,5 +190,4 @@
       echo "Finish: $(date +%T)"
     }
   '';
-
 }

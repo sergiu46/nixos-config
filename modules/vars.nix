@@ -2,6 +2,10 @@
 
 rec {
 
+  lib = import <nixpkgs/lib>;
+
+  efiLabel = (lib.toUpper (builtins.substring 0 4 configName)) + "EFI";
+
   # Btrfs Master Settings (Internal Drive)
   btrfs = {
     label = configName;
