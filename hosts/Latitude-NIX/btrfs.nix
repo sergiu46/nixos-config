@@ -34,13 +34,4 @@ in
     options = [ "subvol=@log" ] ++ btrfsOpts;
   };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/4804-E951";
-    fsType = "vfat";
-    options = [
-      "fmask=0077"
-      "dmask=0077"
-    ];
-  };
-
 }
