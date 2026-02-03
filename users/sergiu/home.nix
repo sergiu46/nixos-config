@@ -48,6 +48,7 @@
     '';
 
     mount-btrfs = ''
+      sudo mkdir -p /mnt && \
       sudo mount -t btrfs -o subvol=@,${userVars.btrfs.optsString} /dev/disk/by-label/${userVars.btrfs.label} /mnt && \
       sudo mkdir -p /mnt/{home,nix,boot} && \
       sudo mount -t btrfs -o subvol=@home,${userVars.btrfs.optsString} /dev/disk/by-label/${userVars.btrfs.label} /mnt/home && \
