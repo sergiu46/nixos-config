@@ -23,7 +23,7 @@
     let
       system = "x86_64-linux";
       stateVersion = "25.11";
-      userVars = import ./vars.nix;
+      userVars = import ./modules/vars.nix;
       overlayModule = (
         { ... }:
         {
@@ -50,7 +50,7 @@
           nixpkgs.hostPlatform = system;
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = { inherit stateVersion; };
+          home-manager.extraSpecialArgs = { inherit stateVersion userVars; };
         }
       ];
     in
