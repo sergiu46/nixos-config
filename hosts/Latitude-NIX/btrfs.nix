@@ -28,10 +28,4 @@ in
     options = [ "subvol=@nix" ] ++ btrfsOpts;
   };
 
-  fileSystems."/var/log" = {
-    device = devicePath;
-    fsType = "btrfs";
-    options = [ "subvol=@log" ] ++ btrfsOpts;
-  };
-
 }
