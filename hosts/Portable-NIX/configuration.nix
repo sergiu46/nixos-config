@@ -4,6 +4,7 @@
   modulesPath,
   stateVersion,
   userVars,
+  configName,
   ...
 }:
 
@@ -111,7 +112,7 @@
 
   # --- Networking & Privacy ---
   networking = {
-    hostName = userVars.portableName;
+    hostName = configName;
     useDHCP = lib.mkDefault true;
     usePredictableInterfaceNames = false;
     networkmanager = {

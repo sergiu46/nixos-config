@@ -2,7 +2,7 @@
   lib,
   modulesPath,
   pkgs,
-  userVars,
+  configName,
   ...
 }:
 
@@ -18,7 +18,7 @@
   ];
 
   # Networking
-  networking.hostName = userVars.latitudeName; # Hostname
+  networking.hostName = configName; # Hostname
 
   # Nixpkgs
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

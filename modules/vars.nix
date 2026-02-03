@@ -1,11 +1,10 @@
+{ configName, ... }:
+
 rec {
-  # Hostnames / Machine Names
-  portableName = "Portable-NIX";
-  latitudeName = "Latitude-NIX";
 
   # Btrfs Master Settings (Internal Drive)
   btrfs = {
-    label = latitudeName;
+    label = configName;
     optsList = [
       "noatime"
       "compress=zstd:1"
@@ -18,7 +17,7 @@ rec {
 
   # F2FS Master Settings (External/Portable Drive)
   f2fs = {
-    label = portableName; # Reference the name above
+    label = configName;
     optsList = [
       "noatime"
       "lazytime"
