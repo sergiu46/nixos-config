@@ -57,7 +57,7 @@
     {
       nixosConfigurations = {
         # Latitude
-        Latitude-NIX = nixpkgs.lib.nixosSystem {
+        "${userVars.latitudeName}" = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs stateVersion userVars; };
           modules = commonModules ++ [
             ./hosts/Latitude-NIX/configuration.nix
@@ -66,7 +66,7 @@
           ];
         };
         # Portable
-        Portable-NIX = nixpkgs.lib.nixosSystem {
+        "${userVars.portableName}" = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs stateVersion userVars; };
           modules = commonModules ++ [
             ./hosts/Portable-NIX/configuration.nix
