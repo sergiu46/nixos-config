@@ -81,7 +81,7 @@
   };
 
   home.shellAliases = {
-    # SYSTEM BUILD & CLEAN
+    # SYSTEM BUILD
     check = "nixos-rebuild build --flake ~/NixOS#$(hostname)";
     switch = "sudo nixos-rebuild switch --flake ~/NixOS#$(hostname)";
     boot = "sudo nixos-rebuild boot --flake ~/NixOS#$(hostname)";
@@ -89,10 +89,12 @@
 
     # Clean
     clean = ''
-      sudo nix-collect-garbage -d && \
-      nix-collect-garbage -d && \
-      nix store optimise && \
-      flatpak uninstall --unused -y && \
+      sudo bash -c "
+        nix-collect-garbage --delete-older-than 1d && \
+        nix store optimise && \
+        flatpak uninstall --unused -y
+      " && \
+      nix-collect-garbage --delete-older-than 1d && \
       boot
     '';
 
@@ -107,7 +109,7 @@
       read -p "Target device for Btrfs: " dev
       read -p "Enter Config Name (e.g., Latitude-NIX): " name
       [ -b "$dev" ] && \
-      read -p "REALLY wipe $dev and label it '$name'? (y/N): " CONFIRM && \
+      read -p "REALLY wipe $dev and label it '$name'? (y/n): " CONFIRM && \
       [ "$CONFIRM" == "y" ] && \
       sudo mkfs.btrfs -L "$name" -f "$dev" && \
       sudo mount "$dev" /mnt && \
@@ -135,7 +137,7 @@
 
       read -p "Target BOOT partition (e.g., /dev/sdb1): " dev_boot
       read -p "Target ROOT partition (e.g., /dev/sdb2): " dev_root
-      read -p "Enter Config Name (e.g., Kingston-NIX): " name
+      read -p "Enter Config Name (e.g., Samsung-NIX): " name
       
       local efi_name=$(echo "''${name:0:4}" | tr '[:lower:]' '[:upper:]')EFI
       local root_name="$name"
@@ -146,7 +148,7 @@
         echo "BOOT: $dev_boot -> FAT32 (Label: $efi_name, Flags: boot, esp)"
         echo "ROOT: $dev_root -> F2FS  (Label: $root_name)"
         echo "--------------------------------------------------"
-        read -p "REALLY wipe these partitions? (y/N): " CONFIRM
+        read -p "REALLY wipe these partitions? (y/n): " CONFIRM
         
         if [ "$CONFIRM" == "y" ]; then
           sudo umount -l "$dev_boot" "$dev_root" 2>/dev/null || true
@@ -172,7 +174,7 @@
     }
 
     mount-portable() {
-      read -p "Enter Config Name to mount (e.g., Kingston-NIX): " name
+      read -p "Enter Config Name to mount (e.g., Samsung-NIX): " name
       local efi_name=$(echo "''${name:0:4}" | tr '[:lower:]' '[:upper:]')EFI
       
       sudo mkdir -p /mnt
@@ -183,8 +185,8 @@
       echo "Mounted $name and $efi_name to /mnt"
     }
 
-    install-system() {
-      read -p "Enter Flake Host Name (e.g., Kingston-NIX): " name
+    install-nix() {
+      read -p "Enter Flake Host Name (e.g., Samsung-NIX): " name
       echo "Start: $(date +%T)"
       sudo nixos-install --flake ~/NixOS#"$name"
       echo "Finish: $(date +%T)"
