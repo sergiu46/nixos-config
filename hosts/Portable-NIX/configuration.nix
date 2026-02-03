@@ -189,7 +189,6 @@
     coredump.enable = false;
     targets.hibernate.enable = false;
     targets.hybrid-sleep.enable = false;
-    services.tailscaled.environment.TS_ENCRYPT_STATE = "false";
     mounts = [
       {
         where = "/var/lib/systemd";
@@ -198,6 +197,8 @@
         options = "mode=0755,size=20M";
       }
     ];
+    # Disable TPM for tailscale
+    services.tailscaled.environment.TS_ENCRYPT_STATE = "false";
   };
 
   documentation.enable = false;
