@@ -5,7 +5,7 @@ rec {
 
   # Btrfs Master Settings (Internal Drive)
   btrfs = {
-    label = "NixOS";
+    label = latitudeName;
     optsList = [
       "noatime"
       "compress=zstd:1"
