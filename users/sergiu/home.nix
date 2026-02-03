@@ -132,7 +132,7 @@
     format-portable() {
       lsblk -pn -o NAME,SIZE,TYPE,FSTYPE,LABEL | grep part
       read -p "Device for F2FS: " dev
-      read -p "Enter Label Name (e.g., Kingston-NIX): " name
+      read -p "Enter Config Name (e.g., Kingston-NIX): " name
       [ -b "$dev" ] && \
       read -p "REALLY wipe $dev and label it '$name'? (y/N): " CONFIRM && \
       [ "$CONFIRM" == "y" ] && \
