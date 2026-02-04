@@ -11,7 +11,7 @@
     gnomeExtensions.blur-my-shell
     gnomeExtensions.dash-to-dock
     gnomeExtensions.dash-to-panel
-    # Shell    
+    # Shell
     curl
     wget
     jq

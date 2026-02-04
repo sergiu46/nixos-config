@@ -1,4 +1,11 @@
-{ inputs, system, stateVersion, configName, userVars, ... }:
+{
+  inputs,
+  system,
+  stateVersion,
+  configName,
+  userVars,
+  ...
+}:
 
 {
   imports = [
@@ -11,9 +18,9 @@
     (final: prev: {
       unstable = import inputs.nixpkgs-unstable {
         inherit system;
-        config = { 
-          allowUnfree = true; 
-          allowInsecurePredicate = (pkg: true); 
+        config = {
+          allowUnfree = true;
+          allowInsecurePredicate = (pkg: true);
         };
       };
     })

@@ -2,13 +2,31 @@
 
 let
   # Define the lists here so we can use them in the strings below
-  btrfsOpts = [ "noatime" "compress=zstd:1" "ssd" "discard=async" "space_cache=v2" ];
-  
+  btrfsOpts = [
+    "noatime"
+    "compress=zstd:1"
+    "ssd"
+    "discard=async"
+    "space_cache=v2"
+  ];
+
   f2fsOpts = [
-    "noatime" "lazytime" "compress_algorithm=zstd:1" "compress_chksum"
-    "compress_mode=fs" "compress_extension=*" "atgc" "gc_merge"
-    "flush_merge" "discard" "checkpoint_merge" "active_logs=2"
-    "reserve_root=16384" "inline_xattr" "inline_data" "inline_dentry"
+    "noatime"
+    "lazytime"
+    "compress_algorithm=zstd:1"
+    "compress_chksum"
+    "compress_mode=fs"
+    "compress_extension=*"
+    "atgc"
+    "gc_merge"
+    "flush_merge"
+    "discard"
+    "checkpoint_merge"
+    "active_logs=2"
+    "reserve_root=16384"
+    "inline_xattr"
+    "inline_data"
+    "inline_dentry"
   ];
 in
 {
