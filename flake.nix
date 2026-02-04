@@ -11,162 +11,71 @@
     };
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      nixpkgs-unstable,
-      home-manager,
-      nix-flatpak,
-      ...
-    }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nix-flatpak, ... }@inputs:
     let
       system = "x86_64-linux";
       stateVersion = "25.11";
 
-      # Overlay for unstable packages
-      overlayModule = (
-        { ... }:
-        {
-          nixpkgs.overlays = [
-            (final: prev: {
-              unstable = import nixpkgs-unstable {
-                inherit system;
-                config = {
-                  allowUnfree = true;
-                  allowInsecurePredicate = (pkg: true);
-                };
-              };
+      # Unified helper function to eliminate boilerplate
+      mkHost = configName: modules: 
+        let 
+          currentVars = import ./modules/vars.nix { 
+            inherit (nixpkgs) lib; 
+            inherit configName; 
+          };
+        in nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs stateVersion configName; userVars = currentVars; };
+          modules = [
+            # Global Overlay for Unstable
+            ({ ... }: {
+              nixpkgs.overlays = [
+                (final: prev: {
+                  unstable = import nixpkgs-unstable {
+                    inherit system;
+                    config = { 
+                      allowUnfree = true; 
+                      allowInsecurePredicate = (pkg: true); 
+                    };
+                  };
+                })
+              ];
             })
-          ];
-        }
-      );
-
-      # Common modules shared across all hosts
-      commonModules = [
-        overlayModule
-        nix-flatpak.nixosModules.nix-flatpak
-        home-manager.nixosModules.home-manager
-        {
-          nixpkgs.hostPlatform = system;
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-        }
-      ];
+            nix-flatpak.nixosModules.nix-flatpak
+            home-manager.nixosModules.home-manager
+            {
+              nixpkgs.hostPlatform = system;
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = { inherit stateVersion configName; userVars = currentVars; };
+              };
+            }
+          ] ++ modules;
+        };
     in
     {
       nixosConfigurations = {
 
-        # Latitude-NIX
-        Latitude-NIX =
-          let
-            pName = "Latitude-NIX";
-            # Path updated to ./modules/vars.nix
-            currentVars = import ./modules/vars.nix { configName = pName; };
-          in
-          nixpkgs.lib.nixosSystem {
-            specialArgs = {
-              inherit inputs stateVersion;
-              configName = pName;
-              userVars = currentVars;
-            };
-            modules = commonModules ++ [
-              {
-                home-manager.extraSpecialArgs = {
-                  inherit stateVersion;
-                  configName = pName;
-                  userVars = currentVars;
-                };
-              }
-              ./hosts/Latitude-NIX/configuration.nix
-              ./users/sergiu/sergiu.nix
-              ./users/denisa/denisa.nix
-            ];
-          };
+        Latitude-NIX = mkHost "Latitude-NIX" [
+          ./hosts/Latitude-NIX/configuration.nix
+          ./users/sergiu/sergiu.nix
+          ./users/denisa/denisa.nix
+        ];
 
-        # Samsung-NIX
-        Samsung-NIX =
-          let
-            pName = "Samsung-NIX";
-            currentVars = import ./modules/vars.nix {
-              inherit (nixpkgs) lib;
-              configName = pName;
-            };
-          in
-          nixpkgs.lib.nixosSystem {
-            specialArgs = {
-              inherit inputs stateVersion;
-              configName = pName;
-              userVars = currentVars;
-            };
-            modules = commonModules ++ [
-              {
-                home-manager.extraSpecialArgs = {
-                  inherit stateVersion;
-                  configName = pName;
-                  userVars = currentVars;
-                };
-              }
-              ./hosts/Portable-NIX/configuration.nix
-              ./users/sergiu/sergiu.nix
-            ];
-          };
+        Samsung-NIX = mkHost "Samsung-NIX" [
+          ./hosts/Portable-NIX/configuration.nix
+          ./users/sergiu/sergiu.nix
+        ];
 
-        # Kingston-NIX
-        Kingston-NIX =
-          let
-            pName = "Kingston-NIX";
-            currentVars = import ./modules/vars.nix {
-              inherit (nixpkgs) lib;
-              configName = pName;
-            };
-          in
-          nixpkgs.lib.nixosSystem {
-            specialArgs = {
-              inherit inputs stateVersion;
-              configName = pName;
-              userVars = currentVars;
-            };
-            modules = commonModules ++ [
-              {
-                home-manager.extraSpecialArgs = {
-                  inherit stateVersion;
-                  configName = pName;
-                  userVars = currentVars;
-                };
-              }
-              ./hosts/Portable-NIX/configuration.nix
-              ./users/sergiu/sergiu.nix
-            ];
-          };
+        Kingston-NIX = mkHost "Kingston-NIX" [
+          ./hosts/Portable-NIX/configuration.nix
+          ./users/sergiu/sergiu.nix
+        ];
 
-        # ADATA-NIX
-        ADATA-NIX =
-          let
-            pName = "ADATA-NIX";
-            currentVars = import ./modules/vars.nix {
-              inherit (nixpkgs) lib;
-              configName = pName;
-            };
-          in
-          nixpkgs.lib.nixosSystem {
-            specialArgs = {
-              inherit inputs stateVersion;
-              configName = pName;
-              userVars = currentVars;
-            };
-            modules = commonModules ++ [
-              {
-                home-manager.extraSpecialArgs = {
-                  inherit stateVersion;
-                  configName = pName;
-                  userVars = currentVars;
-                };
-              }
-              ./hosts/Portable-NIX/configuration.nix
-              ./users/sergiu/sergiu.nix
-            ];
-          };
+        ADATA-NIX = mkHost "ADATA-NIX" [
+          ./hosts/Portable-NIX/configuration.nix
+          ./users/sergiu/sergiu.nix
+        ];
 
       };
     };
