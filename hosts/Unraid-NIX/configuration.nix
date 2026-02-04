@@ -1,8 +1,8 @@
 {
-  lib,
   modulesPath,
   pkgs,
   configName,
+  system,
   ...
 }:
 
@@ -10,7 +10,7 @@
   imports = [
     # Use the QEMU Guest profile for optimized VM settings
     (modulesPath + "/profiles/qemu-guest.nix")
-    
+
     # Standard modules (Ensure these paths exist relative to this file)
     ../../modules/auto-update.nix
     ../../modules/system.nix
@@ -32,7 +32,7 @@
     };
 
     kernelPackages = pkgs.linuxPackages_latest;
-    
+
     # VirtIO modules are essential for Unraid/KVM performance
     initrd = {
       availableKernelModules = [
@@ -53,7 +53,10 @@
   fileSystems."/" = {
     device = "/dev/disk/by-label/nixos";
     fsType = "ext4";
-    options = [ "noatime" "nodiratime" ]; # Reduces unnecessary writes to the ZFS pool
+    options = [
+      "noatime"
+      "nodiratime"
+    ]; # Reduces unnecessary writes to the ZFS pool
   };
 
   fileSystems."/boot" = {
@@ -65,7 +68,7 @@
     ];
   };
 
-  # Swap 
+  # Swap
   zramSwap = {
     enable = true;
     memoryPercent = 50;
@@ -75,7 +78,7 @@
   services = {
     # Allows Unraid to see IP address and manage clean shutdowns
     qemuGuest.enable = true;
-    
+
     # Simple video driver for the VNC/VirtIO display
     xserver.videoDrivers = [ "virtio" ];
 
