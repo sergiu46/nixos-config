@@ -11,20 +11,31 @@
     };
   };
 
-  outputs = { self, nixpkgs, ... }@inputs:
+  outputs =
+    { self, nixpkgs, ... }@inputs:
     let
       system = "x86_64-linux";
       stateVersion = "25.11";
 
-      mkHost = configName: modules: 
-        let 
-          userVars = import ./modules/vars.nix { 
-            inherit (nixpkgs) lib; 
-            inherit configName; 
+      mkHost =
+        configName: modules:
+        let
+          userVars = import ./modules/userVars.nix {
+            inherit (nixpkgs) lib;
+            inherit configName;
           };
-        in nixpkgs.lib.nixosSystem {
+        in
+        nixpkgs.lib.nixosSystem {
           # We pass everything common.nix needs through specialArgs
-          specialArgs = { inherit inputs system stateVersion configName userVars; };
+          specialArgs = {
+            inherit
+              inputs
+              system
+              stateVersion
+              configName
+              userVars
+              ;
+          };
           modules = [ ./modules/common.nix ] ++ modules;
         };
     in
@@ -36,10 +47,22 @@
           ./users/denisa/denisa.nix
         ];
 
-        Samsung-NIX  = mkHost "Samsung-NIX"  [ ./hosts/Portable-NIX/configuration.nix ./users/sergiu/sergiu.nix ];
-        Kingston-NIX = mkHost "Kingston-NIX" [ ./hosts/Portable-NIX/configuration.nix ./users/sergiu/sergiu.nix ];
-        ADATA-NIX    = mkHost "ADATA-NIX"    [ ./hosts/Portable-NIX/configuration.nix ./users/sergiu/sergiu.nix ];
-        Unraid-NIX   = mkHost "Unraid-NIX"   [ ./hosts/Unraid-NIX/configuration.nix   ./users/sergiu/sergiu.nix ];
+        Samsung-NIX = mkHost "Samsung-NIX" [
+          ./hosts/Portable-NIX/configuration.nix
+          ./users/sergiu/sergiu.nix
+        ];
+        Kingston-NIX = mkHost "Kingston-NIX" [
+          ./hosts/Portable-NIX/configuration.nix
+          ./users/sergiu/sergiu.nix
+        ];
+        ADATA-NIX = mkHost "ADATA-NIX" [
+          ./hosts/Portable-NIX/configuration.nix
+          ./users/sergiu/sergiu.nix
+        ];
+        Unraid-NIX = mkHost "Unraid-NIX" [
+          ./hosts/Unraid-NIX/configuration.nix
+          ./users/sergiu/sergiu.nix
+        ];
       };
     };
 }
