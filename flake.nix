@@ -16,17 +16,18 @@
       system = "x86_64-linux";
       stateVersion = "25.11";
 
-      # Unified helper function to eliminate boilerplate
+      # Helper function to generate host configurations
       mkHost = configName: modules: 
         let 
-          currentVars = import ./modules/vars.nix { 
+          # Import variables directly into userVars
+          userVars = import ./modules/vars.nix { 
             inherit (nixpkgs) lib; 
             inherit configName; 
           };
         in nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs stateVersion configName; userVars = currentVars; };
+          specialArgs = { inherit inputs stateVersion configName userVars; };
           modules = [
-            # Global Overlay for Unstable
+            # Global Unstable Overlay
             ({ ... }: {
               nixpkgs.overlays = [
                 (final: prev: {
@@ -47,7 +48,7 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                extraSpecialArgs = { inherit stateVersion configName; userVars = currentVars; };
+                extraSpecialArgs = { inherit stateVersion configName userVars; };
               };
             }
           ] ++ modules;
