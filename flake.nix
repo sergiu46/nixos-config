@@ -17,27 +17,14 @@
       system = "x86_64-linux";
       stateVersion = "25.11";
 
-      mkHost =
-        configName: modules:
-        let
-          userVars = import ./modules/userVars.nix {
-            inherit (nixpkgs) lib;
-            inherit configName;
-          };
-        in
-        nixpkgs.lib.nixosSystem {
-          # We pass everything common.nix needs through specialArgs
-          specialArgs = {
-            inherit
-              inputs
-              system
-              stateVersion
-              configName
-              userVars
-              ;
-          };
-          modules = [ ./modules/flakeCommon.nix ] ++ modules;
-        };
+      mkHost = import ./modules/mkHost.nix {
+        inherit
+          nixpkgs
+          inputs
+          system
+          stateVersion
+          ;
+      };
     in
     {
       nixosConfigurations = {
