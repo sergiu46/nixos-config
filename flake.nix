@@ -36,7 +36,7 @@
               userVars
               ;
           };
-          modules = [ ./modules/common.nix ] ++ modules;
+          modules = [ ./modules/flakeCommon.nix ] ++ modules;
         };
     in
     {
