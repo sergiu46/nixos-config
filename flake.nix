@@ -39,6 +39,7 @@
         Samsung-NIX  = mkHost "Samsung-NIX"  [ ./hosts/Portable-NIX/configuration.nix ./users/sergiu/sergiu.nix ];
         Kingston-NIX = mkHost "Kingston-NIX" [ ./hosts/Portable-NIX/configuration.nix ./users/sergiu/sergiu.nix ];
         ADATA-NIX    = mkHost "ADATA-NIX"    [ ./hosts/Portable-NIX/configuration.nix ./users/sergiu/sergiu.nix ];
+        Unraid-NIX   = mkHost "Unraid-NIX"   [ ./hosts/Unraid-NIX/configuration.nix   ./users/sergiu/sergiu.nix ];
       };
     };
 }
