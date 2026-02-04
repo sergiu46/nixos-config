@@ -20,7 +20,7 @@
       mkHost = configName: modules: 
         let 
           # Import variables directly into userVars
-          userVars = import ./modules/vars.nix { 
+          userVars = import ./modules/userVars.nix { 
             inherit (nixpkgs) lib; 
             inherit configName; 
           };
