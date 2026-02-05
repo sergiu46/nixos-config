@@ -47,7 +47,7 @@
 
   fonts.packages = with pkgs; [
     corefonts # Microsoft's TrueType core fonts
-    vistafonts # Includes Calibri, Cambria, etc.
+    vista-fonts # Includes Calibri, Cambria, etc.
     google-fonts # Good for general compatibility
   ];
 
