@@ -15,6 +15,7 @@
     ../../modules/auto-update.nix
     ../../modules/system.nix
     ../../modules/packages.nix
+    ../../modules/packagesExtra.nix
   ];
 
   # Networking
