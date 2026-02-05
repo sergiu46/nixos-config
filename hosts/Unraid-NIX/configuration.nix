@@ -67,7 +67,9 @@
   # Swap
   zramSwap = {
     enable = true;
+    algorithm = "zstd";
     memoryPercent = 50;
+    priority = 100;
   };
 
   # Services
@@ -87,7 +89,6 @@
   # Hardware - Minimal config for a Guest
   hardware = {
     enableRedistributableFirmware = true;
-    # Graphics/Bluetooth/CPU Microcode removed as the Host (Unraid) handles these
   };
 
   # Environment cleanup (Removed Intel-specific variables)
