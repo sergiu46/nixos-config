@@ -72,11 +72,13 @@
     priority = 100;
   };
 
+  virtualisation.hypervGuest.enable = true;
+
   # Services
   services = {
     # Allows Unraid to see IP address and manage clean shutdowns
     qemuGuest.enable = true;
-
+    spice-vdagentd.enable = true;
     # Simple video driver for the VNC/VirtIO display
     xserver.videoDrivers = [ "virtio" ];
 
