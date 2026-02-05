@@ -17,7 +17,6 @@
   # Dark mode variables
   home.sessionVariables = {
     COLOR_SCHEME = "prefer-dark";
-    CHROME_FLAGS = "--force-dark-mode --enable-features=WebUIDarkMode";
     ADW_DISABLE_PORTAL = "0";
   };
 
@@ -207,5 +206,25 @@
       sudo nixos-install --flake ~/NixOS#"$name"
       echo "Finish: $(date +%T)"
     }
+
+    gnome-reset() {
+      echo "Cleaning GNOME user settings and caches..."
+      
+      # 1. Reset the dconf database (clears manual clicks/settings)
+      dconf reset -f /
+      
+      # 2. Remove the physical database file and shell cache
+      rm -rf ~/.config/dconf/user
+      rm -rf ~/.cache/gnome-shell/*
+      
+      # 3. Clear GTK4/Libadwaita local state
+      rm -rf ~/.local/share/gnome-shell/notifications
+      
+      echo "Done. Manual settings wiped."
+      echo "Next steps:"
+      echo "1. Run your 'switch' command"
+      echo "2. Log out and back in"
+    }
+
   '';
 }

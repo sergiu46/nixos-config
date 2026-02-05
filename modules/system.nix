@@ -96,13 +96,13 @@
 
   # Session variables for Wayland support
   environment.sessionVariables = {
-    QT_QPA_PLATFORM = "wayland;xcb"; # Force Qt apps to use X11 backend
-    NIXOS_OZONE_WL = "1"; # Enable Ozone/Wayland for Chromium-based browsers
-    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
-    QT_ENABLE_HIGHDPI_SCALING = "1";
+    QT_QPA_PLATFORM = "wayland;xcb";
+    NIXOS_OZONE_WL = "1";
     QT_QPA_PLATFORMTHEME = "gnome";
+    QT_SCALE_FACTOR_ROUNDING_POLICY = "RoundPreferFloor";
+    QT_WAYLAND_FORCE_DPI = "96";
     MOZ_ENABLE_WAYLAND = "1"; # Enable Wayland for Firefox
-    MOZ_DISABLE_RDD_SANDBOX = "1"; # Disable Firefox RDD sandbox for Wayland compatibility
+
   };
 
   # Apps need these 'engines' installed to render the themes correctly
