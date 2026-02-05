@@ -21,6 +21,7 @@
     parted
     f2fs-tools
     mkpasswd
+    nix-tree
     # Utilities
     git
     gparted
