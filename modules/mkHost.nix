@@ -1,46 +1,38 @@
 {
   nixpkgs,
-  inputs,
-  system,
-  stateVersion,
-}:
+  nixpkgs-unstable,
+  home-manager,
+  nix-flatpak,
+  ...
+}@inputs:
 
-configName: modules:
+# This is the actual mkHost function
+configName: system: stateVersion: modules:
 let
+  # Import variables directly into userVars
   userVars = import ../modules/userVars.nix {
     inherit (nixpkgs) lib;
     inherit configName;
   };
 in
 nixpkgs.lib.nixosSystem {
+  inherit system;
   specialArgs = {
     inherit
       inputs
-      system
       stateVersion
       configName
       userVars
       ;
   };
   modules = [
+    # Global Unstable Overlay
     (
+      { ... }:
       {
-        inputs,
-        system,
-        stateVersion,
-        configName,
-        userVars,
-        ...
-      }:
-      {
-        imports = [
-          inputs.nix-flatpak.nixosModules.nix-flatpak
-          inputs.home-manager.nixosModules.home-manager
-        ];
-        # Global Unstable Overlay
         nixpkgs.overlays = [
           (final: prev: {
-            unstable = import inputs.nixpkgs-unstable {
+            unstable = import nixpkgs-unstable {
               inherit system;
               config = {
                 allowUnfree = true;
@@ -49,16 +41,17 @@ nixpkgs.lib.nixosSystem {
             };
           })
         ];
-
-        nixpkgs.hostPlatform = system;
-
-        home-manager = {
-          useGlobalPkgs = true;
-          useUserPackages = true;
-          extraSpecialArgs = { inherit stateVersion configName userVars; };
-        };
       }
     )
+    nix-flatpak.nixosModules.nix-flatpak
+    home-manager.nixosModules.home-manager
+    {
+      home-manager = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
+        extraSpecialArgs = { inherit stateVersion configName userVars; };
+      };
+    }
   ]
   ++ modules;
 }
