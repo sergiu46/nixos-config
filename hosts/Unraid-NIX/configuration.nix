@@ -2,7 +2,6 @@
   modulesPath,
   pkgs,
   configName,
-  system,
   ...
 }:
 
