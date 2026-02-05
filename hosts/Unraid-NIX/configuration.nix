@@ -22,7 +22,7 @@
   networking.hostName = configName;
 
   # Nixpkgs
-  nixpkgs.hostPlatform = system;
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   # Bootloader and Kernel
   boot = {
