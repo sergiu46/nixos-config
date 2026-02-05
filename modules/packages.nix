@@ -49,7 +49,11 @@
     corefonts # Microsoft's TrueType core fonts
     vista-fonts # Includes Calibri, Cambria, etc.
     google-fonts # Good for general compatibility
+    symbola # A massive font for symbols and boxes
+    freefont_ttf # Includes many standard symbols
+    liberation_ttf # Excellent metric-compatible replacement for MS fonts
   ];
+  fonts.fontconfig.allowBitmaps = false;
 
   # Flatpak
   services.flatpak = {
