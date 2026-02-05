@@ -14,7 +14,7 @@
     ../../modules/auto-update.nix
     ../../modules/system.nix
     ../../modules/packages.nix
-    #../../modules/sync-config.nix
+    ../../modules/sync-config.nix
   ];
 
   # Networking
@@ -71,8 +71,6 @@
     memoryPercent = 50;
     priority = 100;
   };
-
-  virtualisation.hypervGuest.enable = true;
 
   # Services
   services = {
