@@ -14,16 +14,13 @@
   outputs =
     { self, nixpkgs, ... }@inputs:
     let
-      # Load our custom helper and pass it ALL inputs
       mkHost = import ./modules/mkHost.nix inputs;
-
-      # Defaults
       system = "x86_64-linux";
       stateVersion = "25.11";
     in
     {
       nixosConfigurations = {
-        # Now use: mkHost "Name" "Arch" "Version" [Modules]
+
         Latitude-NIX = mkHost "Latitude-NIX" system stateVersion [
           ./hosts/Latitude-NIX/configuration.nix
           ./users/sergiu/sergiu.nix
