@@ -96,10 +96,29 @@
 
   # Session variables for Wayland support
   environment.sessionVariables = {
-    QT_QPA_PLATFORM = "wayland,xcb"; # Force Qt apps to use X11 backend
+    QT_QPA_PLATFORM = "wayland;xcb"; # Force Qt apps to use X11 backend
     NIXOS_OZONE_WL = "1"; # Enable Ozone/Wayland for Chromium-based browsers
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    QT_ENABLE_HIGHDPI_SCALING = "1";
+    QT_QPA_PLATFORMTHEME = "gnome";
     MOZ_ENABLE_WAYLAND = "1"; # Enable Wayland for Firefox
     MOZ_DISABLE_RDD_SANDBOX = "1"; # Disable Firefox RDD sandbox for Wayland compatibility
+  };
+
+  # Apps need these 'engines' installed to render the themes correctly
+  environment.systemPackages = with pkgs; [
+    adwaita-qt # Qt engine for Adwaita style
+    adwaita-qt6 # Qt6 version
+    qgnomeplatform # Platform support for Qt in GNOME
+    qgnomeplatform-qt6
+    libsForQt5.qt5.qtwayland # Wayland libraries for Qt5
+    kdePackages.qtwayland # Wayland libraries for Qt6
+  ];
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
+    config.common.default = "gnome";
   };
 
   # Audio (PipeWire modern stack)

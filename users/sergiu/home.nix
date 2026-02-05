@@ -14,6 +14,13 @@
     ../../modules/vscode.nix
   ];
 
+  # Dark mode variables
+  home.sessionVariables = {
+    COLOR_SCHEME = "prefer-dark";
+    CHROME_FLAGS = "--force-dark-mode --enable-features=WebUIDarkMode";
+    ADW_DISABLE_PORTAL = "0";
+  };
+
   # GNOME customization
   dconf = {
     enable = true;
@@ -52,10 +59,19 @@
   # QT dark theme
   qt = {
     enable = true;
-    platformTheme.name = "gtk3";
+    platformTheme.name = "adwaita";
     style = {
       name = "adwaita-dark";
       package = pkgs.adwaita-qt;
+    };
+  };
+
+  # GTK dark theme
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
     };
   };
 

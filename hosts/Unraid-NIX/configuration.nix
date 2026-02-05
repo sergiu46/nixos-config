@@ -14,7 +14,7 @@
     ../../modules/auto-update.nix
     ../../modules/system.nix
     ../../modules/packages.nix
-    ../../modules/sync-config.nix
+    #../../modules/sync-config.nix
   ];
 
   # Networking
