@@ -45,6 +45,12 @@
     unstable.nextcloud-client
   ];
 
+  fonts.packages = with pkgs; [
+    corefonts # Microsoft's TrueType core fonts
+    vistafonts # Includes Calibri, Cambria, etc.
+    google-fonts # Good for general compatibility
+  ];
+
   # Flatpak
   services.flatpak = {
     enable = true;
