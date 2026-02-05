@@ -12,19 +12,68 @@
   };
 
   outputs =
-    { self, nixpkgs, ... }@inputs:
+    {
+      self,
+      nixpkgs,
+      nixpkgs-unstable,
+      home-manager,
+      nix-flatpak,
+      ...
+    }@inputs:
     let
       system = "x86_64-linux";
       stateVersion = "25.11";
 
-      mkHost = import ./modules/mkHost.nix {
-        inherit
-          nixpkgs
-          inputs
-          system
-          stateVersion
-          ;
-      };
+      # Helper function to generate host configurations
+      mkHost =
+        configName: modules:
+        let
+          # Import variables directly into userVars
+          userVars = import ./modules/userVars.nix {
+            inherit (nixpkgs) lib;
+            inherit configName;
+          };
+        in
+        nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit
+              inputs
+              stateVersion
+              configName
+              userVars
+              ;
+          };
+          modules = [
+            # Global Unstable Overlay
+            (
+              { ... }:
+              {
+                nixpkgs.overlays = [
+                  (final: prev: {
+                    unstable = import nixpkgs-unstable {
+                      inherit system;
+                      config = {
+                        allowUnfree = true;
+                        allowInsecurePredicate = (pkg: true);
+                      };
+                    };
+                  })
+                ];
+              }
+            )
+            nix-flatpak.nixosModules.nix-flatpak
+            home-manager.nixosModules.home-manager
+            {
+              nixpkgs.hostPlatform = system;
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = { inherit stateVersion configName userVars; };
+              };
+            }
+          ]
+          ++ modules;
+        };
     in
     {
       nixosConfigurations = {
