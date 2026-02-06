@@ -30,11 +30,19 @@
     trayscale
     libreoffice
     # Unstable apps
-    unstable.microsoft-edge
     unstable.ventoy-full-gtk
     unstable.telegram-desktop
     unstable.jellyfin-desktop
     unstable.bitwarden-desktop
+    (unstable.microsoft-edge.override {
+      commandLineArgs = [
+        "--ozone-platform-hint=auto"
+        "--enable-features=WaylandWindowDecorations,WebRTCPipeWireCapturer,WaylandFractionalScaleV1"
+        "--ignore-gpu-blocklist" # Forces Edge to try 3D accel even in a VM
+        "--enable-gpu-rasterization"
+        "--enable-zero-copy"
+      ];
+    })
   ];
 
   # Flatpak
