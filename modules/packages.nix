@@ -38,9 +38,9 @@
       commandLineArgs = [
         "--ozone-platform-hint=auto"
         "--enable-features=WaylandWindowDecorations,WebRTCPipeWireCapturer,WaylandFractionalScaleV1"
-        "--ignore-gpu-blocklist" # Forces Edge to try 3D accel even in a VM
+        "--disable-features=Vulkan" # Fixes the Wayland startup crash seen in your report
+        "--ignore-gpu-blocklist"
         "--enable-gpu-rasterization"
-        "--enable-zero-copy"
       ];
     })
   ];
