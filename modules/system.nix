@@ -77,9 +77,9 @@
           # Display & Performance Features
           "org/gnome/mutter" = {
             experimental-features = [
+              "xwayland-native-scaling"
               "scale-monitor-framebuffer"
               "variable-refresh-rate"
-              "xwayland-native-scaling"
             ];
           };
           # auto timezone

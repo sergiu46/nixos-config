@@ -19,7 +19,7 @@
   ];
 
   # Networking
-  networking.hostName = configName; # Hostname
+  networking.hostName = configName;
 
   # Nixpkgs
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

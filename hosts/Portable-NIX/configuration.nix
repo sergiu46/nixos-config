@@ -143,7 +143,7 @@
     # Graphics Acceleration
     graphics = {
       enable = true;
-      enable32Bit = true; # Check 1: This must be INSIDE graphics
+      enable32Bit = true;
       extraPackages = with pkgs; [
         # Intel
         intel-media-driver # Modern Intel (Broadwell+)
@@ -206,8 +206,7 @@
         options = "mode=0755,size=20M";
       }
     ];
-    # Disable TPM for tailscale
-    services.tailscaled.environment.TS_ENCRYPT_STATE = "false";
+
   };
 
   documentation.enable = false;

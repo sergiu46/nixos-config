@@ -18,4 +18,8 @@
     tpm2.enable = false;
     units."dev-tpmrm0.device".enable = false;
   };
+
+  # Disable TPM for tailscale
+  services.tailscaled.environment.TS_ENCRYPT_STATE = "false";
+
 }
