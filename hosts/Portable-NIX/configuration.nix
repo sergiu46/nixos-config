@@ -108,6 +108,13 @@
     usePredictableInterfaceNames = false;
     networkmanager = {
       enable = true;
+      settings = {
+        connectivity = {
+          uri = "http://nmcheck.gnome.org/check_network_status.txt";
+          response = "NetworkManager is online";
+          interval = 300;
+        };
+      };
       connectionConfig."connection.stable-id" = "\${CONNECTION}";
       wifi = {
         scanRandMacAddress = true;
@@ -116,6 +123,8 @@
       ethernet.macAddress = "random";
     };
   };
+
+  services.gnome.core-shell.enable = true;
 
   # --- ZRAM (RAM Compression) ---
   zramSwap = {
