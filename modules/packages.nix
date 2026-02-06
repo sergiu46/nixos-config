@@ -34,15 +34,7 @@
     unstable.telegram-desktop
     unstable.jellyfin-desktop
     unstable.bitwarden-desktop
-    (unstable.microsoft-edge.override {
-      commandLineArgs = [
-        "--ozone-platform-hint=auto"
-        "--enable-features=WaylandWindowDecorations,WebRTCPipeWireCapturer,WaylandFractionalScaleV1"
-        "--ignore-gpu-blocklist"
-        "--enable-gpu-rasterization"
-        "--enable-zero-copy"
-      ];
-    })
+    unstable.microsoft-edge
   ];
 
   # Flatpak
