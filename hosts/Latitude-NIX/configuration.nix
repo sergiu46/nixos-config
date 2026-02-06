@@ -37,7 +37,10 @@
     kernelParams = [
       "initcall_parallel=1" # Faster boot
       "scsi_mod.use_blk_mq=1" # Multi-queue for storage
-      "intel_pstate=active"
+      "intel_pstate=active" # Keeps the CPU responsive
+      "i915.enable_guc=2" # Authenticates HuC for smooth video
+      "i915.enable_fbc=1" # Saves battery and reduces heat
+      "i915.enable_psr=0" # DISABLING this prevents "hiccups" on Skylake
     ];
     initrd = {
       kernelModules = [ ];
@@ -99,7 +102,7 @@
     xserver.videoDrivers = [
       "modesetting"
       "fbdev"
-    ]; # Intel iGPU
+    ];
   };
 
   services.journald.extraConfig = ''
