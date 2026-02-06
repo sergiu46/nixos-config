@@ -52,7 +52,7 @@
     options = [
       "noatime"
       "nodiratime"
-    ]; # Reduces unnecessary writes to the ZFS pool
+    ];
   };
 
   fileSystems."/boot" = {
