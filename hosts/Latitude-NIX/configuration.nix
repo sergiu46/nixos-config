@@ -71,15 +71,21 @@
   hardware = {
     cpu.intel.updateMicrocode = true;
     enableRedistributableFirmware = true;
-    bluetooth.enable = true; # Bluetooth
+    bluetooth.enable = true;
+
     graphics = {
       enable = true;
+      enable32Bit = true;
       extraPackages = with pkgs; [
-        intel-media-driver # For Broadwell (5th gen) and newer
-        intel-vaapi-driver # For older Intel CPUs
-        libvdpau-va-gl # Bridges VDPAU to VAAPI
+        intel-media-driver
+        intel-vaapi-driver
+        libvdpau-va-gl
         libva-utils
-
+      ];
+      extraPackages32 = with pkgs.pkgsi686Linux; [
+        intel-media-driver
+        intel-vaapi-driver
+        libvdpau-va-gl
       ];
     };
   };
@@ -87,12 +93,6 @@
   # Services
   services = {
     xserver.videoDrivers = [ "modesetting" ]; # Intel iGPU
-  };
-
-  # Ensure the environment knows to use these drivers
-  environment.sessionVariables = {
-    LIBVA_DRIVER_NAME = "iHD"; # Forces the newer intel-media-driver
-
   };
 
   services.journald.extraConfig = ''
