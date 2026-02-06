@@ -20,6 +20,8 @@
   };
 
   # Disable TPM for tailscale
-  services.tailscaled.environment.TS_ENCRYPT_STATE = "false";
+  systemd.services.tailscaled.environment = {
+    TS_ENCRYPT_STATE = "false";
+  };
 
 }
