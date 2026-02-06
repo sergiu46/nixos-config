@@ -38,9 +38,9 @@
       commandLineArgs = [
         "--ozone-platform-hint=auto"
         "--enable-features=WaylandWindowDecorations,WebRTCPipeWireCapturer,WaylandFractionalScaleV1"
-        "--disable-features=Vulkan" # Fixes the Wayland startup crash seen in your report
         "--ignore-gpu-blocklist"
         "--enable-gpu-rasterization"
+        "--enable-zero-copy"
       ];
     })
   ];
