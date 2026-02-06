@@ -38,13 +38,17 @@
     initrd = {
       kernelModules = [ ];
       availableKernelModules = [
-        "i915"
         "ahci"
         "nvme"
         "rtsx_pci_sdmmc"
         "sd_mod"
         "usb_storage"
         "xhci_pci"
+      ];
+      kernelParams = [
+        "initcall_parallel=1" # Faster boot
+        "scsi_mod.use_blk_mq=1" # Multi-queue for storage
+        "intel_pstate=active"
       ];
     };
   };
@@ -92,7 +96,10 @@
 
   # Services
   services = {
-    xserver.videoDrivers = [ "modesetting" ]; # Intel iGPU
+    xserver.videoDrivers = [
+      "modesetting"
+      "fbdev"
+    ]; # Intel iGPU
   };
 
   services.journald.extraConfig = ''
