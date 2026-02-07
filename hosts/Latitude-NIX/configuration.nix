@@ -3,6 +3,7 @@
   modulesPath,
   pkgs,
   configName,
+  userVars,
   ...
 }:
 
@@ -68,11 +69,32 @@
     };
   };
 
-  # Swap
-  zramSwap = {
-    enable = true;
-    memoryPercent = 50;
+  fileSystems."/" = {
+    device = "/dev/disk/by-label/${userVars.btrfs.label}";
+    fsType = "btrfs";
+    options = [ "subvol=@" ] ++ userVars.btrfs.optsList;
   };
+
+  fileSystems."/home" = {
+    device = "/dev/disk/by-label/${userVars.btrfs.label}";
+    fsType = "btrfs";
+    options = [ "subvol=@home" ] ++ userVars.btrfs.optsList;
+  };
+
+  fileSystems."/nix" = {
+    device = "/dev/disk/by-label/${userVars.btrfs.label}";
+    fsType = "btrfs";
+    options = [ "subvol=@nix" ] ++ userVars.btrfs.optsList;
+    neededForBoot = true;
+  };
+
+  # Swap
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 16 * 1024; # 16GB in MB
+    }
+  ];
 
   # Hardware configuration
   hardware = {
