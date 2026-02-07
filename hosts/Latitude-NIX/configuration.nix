@@ -10,9 +10,6 @@
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    # Filesystem
-    ./btrfs.nix
-    # Modules
     ../../modules/auto-update.nix
     ../../modules/system.nix
     ../../modules/packages.nix
