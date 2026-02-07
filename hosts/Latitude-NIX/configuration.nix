@@ -55,15 +55,13 @@
   };
 
   # Boot Drive
-  fileSystems = {
-    "/boot" = {
-      device = "/dev/disk/by-uuid/4804-E951";
-      fsType = "vfat";
-      options = [
-        "fmask=0077"
-        "dmask=0077"
-      ];
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/4804-E951";
+    fsType = "vfat";
+    options = [
+      "fmask=0077"
+      "dmask=0077"
+    ];
   };
 
   fileSystems."/" = {
@@ -94,11 +92,16 @@
 
   # hibernate
   boot.resumeDevice = "/dev/disk/by-label/swap";
-  services.logind.settings.Login = {
-    HandleLidSwitch = "suspend-then-hibernate";
-    HibernateDelaySec = "60"; # 1 hour
+  services.logind = {
+    lidSwitch = "suspend-then-hibernate";
+    powerKey = "suspend-then-hibernate";
+    suspendKey = "suspend-then-hibernate";
   };
-  systemd.sleep.extraConfig = "AllowSuspendThenHibernate=yes";
+
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=60
+    AllowSuspendThenHibernate=yes
+  '';
 
   # Hardware configuration
   hardware = {
