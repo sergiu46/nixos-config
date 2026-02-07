@@ -86,6 +86,19 @@
   };
 
   # Swap
+  swapDevices = [
+    {
+      device = "/dev/disk/by-label/swap";
+    }
+  ];
+
+  # hibernate
+  boot.resumeDevice = "/dev/disk/by-label/swap";
+  services.logind = {
+    lidSwitch = "suspend-then-hibernate";
+    settings.Login.HibernateDelaySec = "60"; # 1 hour
+  };
+  systemd.sleep.extraConfig = "AllowSuspendThenHibernate=yes";
 
   # Hardware configuration
   hardware = {
