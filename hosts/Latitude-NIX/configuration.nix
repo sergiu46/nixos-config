@@ -94,9 +94,9 @@
 
   # hibernate
   boot.resumeDevice = "/dev/disk/by-label/swap";
-  services.logind = {
-    lidSwitch = "suspend-then-hibernate";
-    settings.Login.HibernateDelaySec = "60"; # 1 hour
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend-then-hibernate";
+    HibernateDelaySec = "60"; # 1 hour
   };
   systemd.sleep.extraConfig = "AllowSuspendThenHibernate=yes";
 
