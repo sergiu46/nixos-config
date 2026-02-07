@@ -100,7 +100,7 @@
   };
 
   systemd.sleep.extraConfig = ''
-    HibernateDelaySec=60
+    HibernateDelaySec=3600
     AllowSuspendThenHibernate=yes
   '';
 
