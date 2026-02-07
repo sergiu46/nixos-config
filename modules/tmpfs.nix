@@ -25,19 +25,24 @@
     RuntimeMaxUse=64M
   '';
 
+  environment.sessionVariables = {
+    "PASSWORD_STORE" = "gnome-keyring";
+  };
+
   fileSystems = {
     # 1. User Cache (Makes the UI and apps feel instant)
-    # "/home/sergiu/.cache" = {
-    #   device = "tmpfs";
-    #   fsType = "tmpfs";
-    #   options = [
-    #     "nosuid"
-    #     "nodev"
-    #     "relatime"
-    #     "size=50%"
-    #     "mode=1777"
-    #   ];
-    # };
+    "/home/sergiu/.cache" = {
+      device = "tmpfs";
+      fsType = "tmpfs";
+      options = [
+        "noatime"
+        "nodev"
+        "nosuid"
+        "size=50%"
+        "mode=0700"
+        "uid=1000"
+      ];
+    };
 
     # 2. Nix Build Directory (Prevents USB wear during updates)
     "/var/cache/nix-build" = {
