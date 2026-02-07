@@ -115,6 +115,8 @@
     qgnomeplatform-qt6
     libsForQt5.qt5.qtwayland # Wayland libraries for Qt5
     kdePackages.qtwayland # Wayland libraries for Qt6
+    adwaita-icon-theme
+    glib
   ];
 
   xdg.portal = {

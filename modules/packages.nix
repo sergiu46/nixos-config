@@ -34,7 +34,7 @@
     unstable.telegram-desktop
     unstable.jellyfin-desktop
     unstable.bitwarden-desktop
-    unstable.microsoft-edge
+    (unstable.microsoft-edge.override { commandLineArgs = [ "--scroll-pixels=1" ]; })
   ];
 
   # Flatpak
