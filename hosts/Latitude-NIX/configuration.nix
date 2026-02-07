@@ -39,7 +39,7 @@
       "i915.enable_guc=2" # Authenticates HuC for smooth video
       "i915.enable_fbc=1" # Saves battery and reduces heat
       "i915.enable_psr=0" # DISABLING this prevents "hiccups" on Skylake
-      "mem_sleep_default=deep" # Deep slip
+      "mem_sleep_default=deep" # Deep sleep
     ];
     initrd = {
       kernelModules = [ ];

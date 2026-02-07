@@ -180,7 +180,11 @@
 
     udev.extraRules = ''
       # BFQ for USB/SSD
-      ACTION=="add|change", KERNEL=="sd[a-z]*|mmcblk[0-9]*|nvme[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="bfq"
+      ACTION=="add|change", \
+        KERNEL=="sd[a-z]*|mmcblk[0-9]*|nvme[0-9]*", \
+        ATTR{queue/rotational}=="0", \
+        ATTR{queue/scheduler}="bfq"
+
       # Ghost Mode: Hide internal drives of the host machine
       SUBSYSTEM=="block", ATTRS{removable}=="0", ENV{UDISKS_IGNORE}="1"
     '';
