@@ -25,11 +25,6 @@
     RuntimeMaxUse=64M
   '';
 
-  systemd.user.tmpfiles.rules = [
-    "d /tmp/sergiu-cache 0700 sergiu users -"
-    "L+ /home/sergiu/.cache - - - - /tmp/sergiu-cache"
-  ];
-
   fileSystems = {
     # 1. User Cache (Makes the UI and apps feel instant)
     # "/home/sergiu/.cache" = {
