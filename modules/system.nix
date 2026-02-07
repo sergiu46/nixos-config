@@ -183,6 +183,7 @@
 
   # Nix settings
   nix.settings = {
+    auto-optimise-store = true;
     download-buffer-size = 500000000; # ~500MB
     experimental-features = [
       "nix-command"
@@ -190,6 +191,7 @@
     ];
   };
 
+  boot.loader.systemd-boot.configurationLimit = 20;
   nixpkgs.config.allowUnfree = true;
 
   # System state version
