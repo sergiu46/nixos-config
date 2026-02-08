@@ -23,27 +23,40 @@
     RuntimeMaxUse=64M
   '';
 
-  systemd.user.services.setup-edge-identity = {
-    description = "Link Identity to USB after RAM mount is ready";
-    wantedBy = [ "graphical-session.target" ];
+  systemd.services.setup-edge-identity = {
+    description = "Persistent Microsoft Identity Link for Portable USB";
 
-    # This tells systemd to wait specifically for that cache mount unit
-    after = [ "home-sergiu-.cache.mount" ];
+    after = [
+      "home-sergiu-.cache.mount"
+      "local-fs.target"
+    ];
     requires = [ "home-sergiu-.cache.mount" ];
+    wantedBy = [ "multi-user.target" ];
 
     script = ''
-      # 1. Ensure the persistent folder on the USB has strict user-only permissions
-      mkdir -p /home/sergiu/.config/MicrosoftPersistence
-      chmod 700 /home/sergiu/.config/MicrosoftPersistence
+      # Path Definitions
+      USB_PERSIST="/home/sergiu/.config/MicrosoftPersistent"
+      RAM_CACHE="/home/sergiu/.cache/Microsoft"
 
-      # 2. Create the parent folder in the RAM cache
-      mkdir -p /home/sergiu/.cache/Microsoft
-      chmod 700 /home/sergiu/.cache/Microsoft
+      # Ensure USB folder exists
+      mkdir -p "$USB_PERSIST"
+          
+      # Create the symlink
+      ln -sfn "$USB_PERSIST" "$RAM_CACHE"
 
-      # 3. Create the symlink
-      ln -sfn /home/sergiu/.config/MicrosoftPersistence /home/sergiu/.cache/Microsoft
+      # Fix Ownership & Permissions
+      chown -R sergiu:users "$USB_PERSIST"
+      chmod 700 "$USB_PERSIST"
+
+      # THEME FIX
+      rm -f /home/sergiu/.config/microsoft-edge/SingletonLock
+      rm -f /home/sergiu/.config/microsoft-edge/Default/SingletonLock
     '';
-    serviceConfig.Type = "oneshot";
+
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
   };
 
   fileSystems = {
