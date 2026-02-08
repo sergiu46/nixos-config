@@ -33,15 +33,15 @@
 
     script = ''
       # 1. Ensure the persistent folder on the USB has strict user-only permissions
-      mkdir -p /home/sergiu/.config/microsoft-edge/IdentityPersistence
-      chmod 700 /home/sergiu/.config/microsoft-edge/IdentityPersistence
+      mkdir -p /home/sergiu/.config/MicrosoftPersistence
+      chmod 700 /home/sergiu/.config/MicrosoftPersistence
 
       # 2. Create the parent folder in the RAM cache
       mkdir -p /home/sergiu/.cache/Microsoft
       chmod 700 /home/sergiu/.cache/Microsoft
 
       # 3. Create the symlink
-      ln -sfn /home/sergiu/.config/microsoft-edge/IdentityPersistence /home/sergiu/.cache/Microsoft/Edge
+      ln -sfn /home/sergiu/.config/MicrosoftPersistence /home/sergiu/.cache/Microsoft
     '';
     serviceConfig.Type = "oneshot";
   };
