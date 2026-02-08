@@ -24,7 +24,7 @@
   '';
 
   systemd.services.setup-edge-identity = {
-    description = "Persistent Microsoft Identity Link for Portable USB";
+    description = "Persistent Microsoft Identity Link";
 
     after = [
       "home-sergiu-.cache.mount"
@@ -48,9 +48,9 @@
       chown -R sergiu:users "$USB_PERSIST"
       chmod 700 "$USB_PERSIST"
 
-      # THEME FIX
-      rm -f /home/sergiu/.config/microsoft-edge/SingletonLock
-      rm -f /home/sergiu/.config/microsoft-edge/Default/SingletonLock
+      # Remove lock files
+      rm -f /home/sergiu/.config/microsoft-edge/Singleton*
+      rm -f /home/sergiu/.config/microsoft-edge/Default/Singleton*
     '';
 
     serviceConfig = {
@@ -75,7 +75,7 @@
       ];
     };
 
-    # Nix Build Directory (Prevents USB wear during updates)
+    # Nix Build Directory
     "/var/cache/nix-build" = {
       device = "tmpfs";
       fsType = "tmpfs";
@@ -101,7 +101,7 @@
       ];
     };
 
-    # Network State (Stops small writes every time you change Wi-Fi)
+    # Network State
     "/var/lib/dhcpcd" = {
       device = "tmpfs";
       fsType = "tmpfs";
