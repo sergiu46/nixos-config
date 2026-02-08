@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   # Use tmpfs for /tmp
   boot.tmp.useTmpfs = true;
@@ -25,24 +25,20 @@
     RuntimeMaxUse=64M
   '';
 
-  systemd.user.tmpfiles.rules = [
-    "d /tmp/sergiu-cache 0700 sergiu users -"
-    "L+ /home/sergiu/.cache - - - - /tmp/sergiu-cache"
-  ];
-
   fileSystems = {
     # 1. User Cache (Makes the UI and apps feel instant)
-    # "/home/sergiu/.cache" = {
-    #   device = "tmpfs";
-    #   fsType = "tmpfs";
-    #   options = [
-    #     "nosuid"
-    #     "nodev"
-    #     "relatime"
-    #     "size=50%"
-    #     "mode=1777"
-    #   ];
-    # };
+    "/home/sergiu/.cache" = {
+      device = "tmpfs";
+      fsType = "tmpfs";
+      options = [
+        "noatime"
+        "nodev"
+        "nosuid"
+        "size=50%"
+        "mode=0700"
+        "uid=1000"
+      ];
+    };
 
     # 2. Nix Build Directory (Prevents USB wear during updates)
     "/var/cache/nix-build" = {
@@ -94,4 +90,15 @@
       ];
     };
   };
+
+  systemd.user.services.clean-edge-locks = {
+    description = "Remove stale Edge locks on boot";
+    wantedBy = [ "graphical-session.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      # Removes the lock file that causes "Profile in use" / Sync Paused
+      ExecStart = "${pkgs.coreutils}/bin/rm -f %h/.config/microsoft-edge/SingletonLock";
+    };
+  };
+
 }
