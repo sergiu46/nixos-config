@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   # Use tmpfs for /tmp
   boot.tmp.useTmpfs = true;
@@ -8,8 +8,6 @@
   # Nix Build Optimization (In RAM)
   nix.settings = {
     sandbox = true;
-    auto-optimise-store = true;
-    # Align Nix build directory with our tmpfs mount below
     build-dir = "/var/cache/nix-build";
   };
 
@@ -25,26 +23,8 @@
     RuntimeMaxUse=64M
   '';
 
-  environment.sessionVariables = {
-    "PASSWORD_STORE" = "gnome-keyring";
-  };
-
   fileSystems = {
-    # 1. User Cache (Makes the UI and apps feel instant)
-    "/home/sergiu/.cache" = {
-      device = "tmpfs";
-      fsType = "tmpfs";
-      options = [
-        "noatime"
-        "nodev"
-        "nosuid"
-        "size=50%"
-        "mode=0700"
-        "uid=1000"
-      ];
-    };
-
-    # 2. Nix Build Directory (Prevents USB wear during updates)
+    # Nix Build Directory (Prevents USB wear during updates)
     "/var/cache/nix-build" = {
       device = "tmpfs";
       fsType = "tmpfs";
@@ -57,7 +37,7 @@
       ];
     };
 
-    # 3. System Logs
+    # System Logs
     "/var/log" = {
       device = "tmpfs";
       fsType = "tmpfs";
@@ -70,7 +50,7 @@
       ];
     };
 
-    # 4. Network State (Stops small writes every time you change Wi-Fi)
+    # Network State (Stops small writes every time you change Wi-Fi)
     "/var/lib/dhcpcd" = {
       device = "tmpfs";
       fsType = "tmpfs";
@@ -82,7 +62,7 @@
       ];
     };
 
-    # 5. Font Cache
+    # Font Cache
     "/var/cache/fontconfig" = {
       device = "tmpfs";
       fsType = "tmpfs";
@@ -92,16 +72,6 @@
         "size=50M"
         "mode=0755"
       ];
-    };
-  };
-
-  systemd.user.services.clean-edge-locks = {
-    description = "Remove stale Edge locks on boot";
-    wantedBy = [ "graphical-session.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      # Removes the lock file that causes "Profile in use" / Sync Paused
-      ExecStart = "${pkgs.coreutils}/bin/rm -f %h/.config/microsoft-edge/SingletonLock";
     };
   };
 
