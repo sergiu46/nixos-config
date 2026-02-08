@@ -23,6 +23,7 @@
     RuntimeMaxUse=64M
   '';
 
+  # Fix Edge identity persistance
   systemd.services.setup-edge-identity = {
     description = "Persistent Microsoft Identity Link";
 
@@ -59,8 +60,8 @@
     };
   };
 
+  # tmpfs Drives
   fileSystems = {
-
     # .cache RAM drive
     "/home/sergiu/.cache" = {
       device = "tmpfs";
