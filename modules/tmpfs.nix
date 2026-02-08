@@ -23,7 +23,45 @@
     RuntimeMaxUse=64M
   '';
 
+  systemd.user.services.setup-edge-identity = {
+    description = "Link Identity to USB after RAM mount is ready";
+    wantedBy = [ "graphical-session.target" ];
+
+    # This tells systemd to wait specifically for that cache mount unit
+    after = [ "home-sergiu-.cache.mount" ];
+    requires = [ "home-sergiu-.cache.mount" ];
+
+    script = ''
+      # 1. Ensure the persistent folder on the USB has strict user-only permissions
+      mkdir -p /home/sergiu/.config/microsoft-edge/IdentityPersistence
+      chmod 700 /home/sergiu/.config/microsoft-edge/IdentityPersistence
+
+      # 2. Create the parent folder in the RAM cache
+      mkdir -p /home/sergiu/.cache/Microsoft
+      chmod 700 /home/sergiu/.cache/Microsoft
+
+      # 3. Create the symlink
+      ln -sfn /home/sergiu/.config/microsoft-edge/IdentityPersistence /home/sergiu/.cache/Microsoft/Edge
+    '';
+    serviceConfig.Type = "oneshot";
+  };
+
   fileSystems = {
+
+    # .cache RAM drive
+    "/home/sergiu/.cache" = {
+      device = "tmpfs";
+      fsType = "tmpfs";
+      options = [
+        "noatime"
+        "nodev"
+        "nosuid"
+        "size=50%"
+        "mode=0700"
+        "uid=1000"
+      ];
+    };
+
     # Nix Build Directory (Prevents USB wear during updates)
     "/var/cache/nix-build" = {
       device = "tmpfs";
