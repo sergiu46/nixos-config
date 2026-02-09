@@ -93,7 +93,7 @@
 
   # hibernate
   boot.resumeDevice = "/dev/disk/by-label/swap";
-  services.logind = {
+  services.logind.settings.Login = {
     lidSwitch = "suspend-then-hibernate";
     powerKey = "suspend-then-hibernate";
     suspendKey = "suspend-then-hibernate";
