@@ -182,6 +182,7 @@
       "nix-command"
       "flakes"
     ];
+    substituters = [ "https://aseipp-nix-cache.global.ssl.fastly.net" ];
   };
 
   boot.loader.systemd-boot.configurationLimit = 20;
