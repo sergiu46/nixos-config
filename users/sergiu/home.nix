@@ -105,8 +105,8 @@
     # Clean
     clean = ''
       sudo bash -c "
-        sudo -u $(logname) nix-collect-garbage --delete-older-than 12h && \
-        nix-collect-garbage --delete-older-than 12h && \
+        sudo -u $(logname) nix-collect-garbage --delete-older-than 1d && \
+        nix-collect-garbage --delete-older-than 1d && \
         flatpak uninstall --unused -y && \
         nix store optimise && \
         /run/current-system/bin/switch-to-configuration boot
