@@ -178,8 +178,8 @@
   nix.settings = {
     auto-optimise-store = true;
     download-buffer-size = 500000000;
-    http-connections = 40;
-    max-substitution-jobs = 20;
+    http-connections = 50;
+    max-substitution-jobs = 30;
     stalled-download-timeout = 60;
     experimental-features = [
       "nix-command"
