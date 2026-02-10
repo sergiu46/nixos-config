@@ -17,6 +17,7 @@
     ../../modules/packages.nix
     ../../modules/tmpfs.nix
     ../../modules/disable-tpm.nix
+    ../../modules/zramSwap.nix
   ];
 
   # --- Boot & Kernel ---
@@ -125,14 +126,6 @@
   };
 
   services.gnome.core-shell.enable = true;
-
-  # --- ZRAM (RAM Compression) ---
-  zramSwap = {
-    enable = true;
-    algorithm = "zstd";
-    memoryPercent = 50;
-    priority = 100;
-  };
 
   hardware = {
     cpu.amd.updateMicrocode = true;
