@@ -20,14 +20,11 @@ let
     "atgc"
     "gc_merge"
     "flush_merge"
-    "discard"
-    "checkpoint_merge"
-    "active_logs=2"
     "reserve_root=16384"
     "inline_xattr"
     "inline_data"
     "inline_dentry"
-  ];
+  ]; # removed "active_logs=2"
 in
 {
   btrfs = {
