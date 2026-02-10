@@ -105,12 +105,12 @@
     # Clean
     clean = ''
       sudo bash -c "
-        nix-collect-garbage --delete-older-than 1d && \
+        sudo -u $(logname) nix-collect-garbage --delete-older-than 12h && \
+        nix-collect-garbage --delete-older-than 12h && \
+        flatpak uninstall --unused -y && \
         nix store optimise && \
-        flatpak uninstall --unused -y
-      " && \
-      nix-collect-garbage --delete-older-than 1d && \
-      boot
+        /run/current-system/bin/switch-to-configuration boot
+      "
     '';
 
     umount-btrfs = "sudo umount -R /mnt && echo 'Btrfs unmounted.'";
