@@ -150,8 +150,8 @@
       lsblk -pn -o NAME,SIZE,TYPE,FSTYPE,LABEL | grep -E "part|disk"
       echo ""
 
-      read -p "Target BOOT partition (e.g., /dev/sdb1): " dev_boot
-      read -p "Target ROOT partition (e.g., /dev/sdb2): " dev_root
+      read -p "Target BOOT partition (e.g., /dev/sda4): " dev_boot
+      read -p "Target ROOT partition (e.g., /dev/sda3): " dev_root
       read -p "Enter Config Name (e.g., Samsung-NIX): " name
       
       local efi_name=$(echo "''${name:0:4}" | tr '[:lower:]' '[:upper:]')EFI
