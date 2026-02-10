@@ -24,7 +24,8 @@ let
     "inline_xattr"
     "inline_data"
     "inline_dentry"
-  ]; # removed "active_logs=2"
+    "active_logs=2"
+  ];
 in
 {
   btrfs = {
