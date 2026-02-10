@@ -12,6 +12,7 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     ../../modules/auto-update.nix
     ../../modules/system.nix
+    ../../modules/zramSwap.nix
     ../../modules/packages.nix
     ../../modules/packagesExtra.nix
   ];
