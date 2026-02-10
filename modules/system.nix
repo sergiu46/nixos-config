@@ -177,12 +177,24 @@
   # Nix settings
   nix.settings = {
     auto-optimise-store = true;
-    download-buffer-size = 500000000; # ~500MB
+    download-buffer-size = 500000000;
+    http-connections = 40;
+    max-substitution-jobs = 20;
+    stalled-download-timeout = 60;
     experimental-features = [
       "nix-command"
       "flakes"
     ];
-    substituters = [ "https://aseipp-nix-cache.global.ssl.fastly.net" ];
+
+    substituters = [
+      "https://cache.nixos.org"
+      "https://nix-community.cachix.org"
+    ];
+
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
   };
 
   boot.loader.systemd-boot.configurationLimit = 20;

@@ -15,6 +15,7 @@
     ../../modules/system.nix
     ../../modules/packages.nix
     ../../modules/sync-config.nix
+    ../../modules/zramSwap.nix
   ];
 
   # Networking
@@ -62,14 +63,6 @@
       "fmask=0077"
       "dmask=0077"
     ];
-  };
-
-  # Swap
-  zramSwap = {
-    enable = true;
-    algorithm = "zstd";
-    memoryPercent = 50;
-    priority = 100;
   };
 
   # Services
