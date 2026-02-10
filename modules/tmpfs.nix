@@ -35,21 +35,14 @@
     wantedBy = [ "multi-user.target" ];
 
     script = ''
-      # Path Definitions
       USB_PERSIST="/home/sergiu/.config/MicrosoftPersistent"
       RAM_CACHE="/home/sergiu/.cache/Microsoft"
 
-      # Ensure USB folder exists
       mkdir -p "$USB_PERSIST"
-          
-      # Create the symlink
       ln -sfn "$USB_PERSIST" "$RAM_CACHE"
 
-      # Fix Ownership & Permissions
-      chown -R sergiu:users "$USB_PERSIST"
       chmod 700 "$USB_PERSIST"
 
-      # Remove lock files
       rm -f /home/sergiu/.config/microsoft-edge/Singleton*
       rm -f /home/sergiu/.config/microsoft-edge/Default/Singleton*
     '';
@@ -57,6 +50,8 @@
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
+      User = "sergiu";
+      Group = "users";
     };
   };
 
