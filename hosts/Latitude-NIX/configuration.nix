@@ -85,25 +85,31 @@
     neededForBoot = true;
   };
 
-  # Swap
-  swapDevices = [
-    {
-      device = "/dev/disk/by-label/swap";
-    }
-  ];
-
-  # hibernate
+  # Swap & Resume
+  swapDevices = [ { device = "/dev/disk/by-label/swap"; } ];
   boot.resumeDevice = "/dev/disk/by-label/swap";
-  services.logind.settings.Login = {
-    lidSwitch = "suspend-then-hibernate";
-    powerKey = "suspend-then-hibernate";
-    suspendKey = "suspend-then-hibernate";
-  };
 
+  # Systemd Sleep Settings
   systemd.sleep.extraConfig = ''
-    HibernateDelaySec=3600
+    HibernateDelaySec=600
     AllowSuspendThenHibernate=yes
   '';
+
+  # The "Catch-All" Alias: Forces all suspends to use the hybrid logic
+  systemd.targets.suspend.enable = false;
+  systemd.targets.suspend-then-hibernate.aliases = [ "suspend.target" ];
+
+  # Logind Settings
+  services.logind.settings = {
+    Login = {
+      HandleLidSwitch = "suspend";
+      HandlePowerKey = "suspend";
+      HandleSuspendKey = "suspend";
+      HandleLidSwitchExternalPower = "suspend";
+      # Overrides Desktop Environment "inhibitors"
+      LidSwitchIgnoreInhibited = "yes";
+    };
+  };
 
   # Hardware configuration
   hardware = {
