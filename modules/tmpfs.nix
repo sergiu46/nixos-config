@@ -35,16 +35,12 @@
     wantedBy = [ "multi-user.target" ];
 
     script = ''
-      USB_PERSIST="/home/sergiu/.config/MicrosoftPersistent"
+      USB_PERSIST="/home/sergiu/.config/cache/Microsoft"
       RAM_CACHE="/home/sergiu/.cache/Microsoft"
-
       mkdir -p "$USB_PERSIST"
       ln -sfn "$USB_PERSIST" "$RAM_CACHE"
-
       chmod 700 "$USB_PERSIST"
-
       rm -f /home/sergiu/.config/microsoft-edge/Singleton*
-      rm -f /home/sergiu/.config/microsoft-edge/Default/Singleton*
     '';
 
     serviceConfig = {
