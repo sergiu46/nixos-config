@@ -202,9 +202,13 @@
 
     install-nix() {
       read -p "Enter Flake Host Name (e.g., Samsung-NIX): " name
+      start_time=$(date +%s)
       echo "Start: $(date +%T)"
       sudo nixos-install --flake ~/NixOS#"$name" --no-root-passwd
+      end_time=$(date +%s)
       echo "Finish: $(date +%T)"
+      duration=$((end_time - start_time))
+      echo "Total Install Time: $((duration / 60))m $((duration % 60))s"
     }
 
     gnome-reset() {
