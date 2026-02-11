@@ -203,7 +203,7 @@
     install-nix() {
       read -p "Enter Flake Host Name (e.g., Samsung-NIX): " name
       echo "Start: $(date +%T)"
-      sudo nixos-install --flake ~/NixOS#"$name"
+      sudo nixos-install --flake ~/NixOS#"$name" --no-root-passwd
       echo "Finish: $(date +%T)"
     }
 
