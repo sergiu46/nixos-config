@@ -61,13 +61,14 @@
       ];
     };
 
-    # Optimized for running off a slow USB stick
-    kernel.sysctl = {
-      "vm.dirty_background_bytes" = 16777216; # 16MB
-      "vm.dirty_bytes" = 33554432; # 32MB
-      "vm.swappiness" = 100; # Aggressively use ZRAM
-      "vm.vfs_cache_pressure" = 50; # Keep directory structure in RAM
-      "kernel.core_pattern" = "|/bin/false"; # Disable core dump
+    boot.kernel.sysctl = {
+      "vm.dirty_background_bytes" = 16777216;
+      "vm.dirty_bytes" = 33554432;
+      "vm.dirty_writeback_centisecs" = 3000;
+      "vm.dirty_expire_centisecs" = 3000;
+      "vm.swappiness" = 60;
+      "vm.vfs_cache_pressure" = 50;
+      "kernel.core_pattern" = "|/bin/false";
     };
 
     loader = {
