@@ -15,6 +15,7 @@
     ../../modules/zramSwap.nix
     ../../modules/packages.nix
     ../../modules/packagesExtra.nix
+    ../../modules/flatpak.nix
   ];
 
   # Networking

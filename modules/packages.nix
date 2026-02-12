@@ -28,30 +28,15 @@
     # Stable apps
     vlc
     trayscale
-    libreoffice
+    libreoffice-fresh
+    angryipscanner
     # Unstable apps
     unstable.ventoy-full-gtk
     unstable.telegram-desktop
     unstable.jellyfin-desktop
     unstable.bitwarden-desktop
-    (unstable.microsoft-edge.override { commandLineArgs = [ "--scroll-pixels=1" ]; })
+    unstable.microsoft-edge
   ];
-
-  # Flatpak
-  services.flatpak = {
-    enable = true;
-    uninstallUnused = true;
-    remotes = [
-      {
-        location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
-        name = "flathub";
-      }
-    ];
-    # flatpak packages
-    packages = [
-
-    ];
-  };
 
   programs.firefox = {
     enable = true;
