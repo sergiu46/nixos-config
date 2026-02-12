@@ -26,14 +26,12 @@
   # Fix Edge identity persistance
   systemd.services.setup-edge-identity = {
     description = "Persistent Microsoft Identity Link";
-
     after = [
       "home-sergiu-.cache.mount"
       "local-fs.target"
     ];
     requires = [ "home-sergiu-.cache.mount" ];
     wantedBy = [ "multi-user.target" ];
-
     script = ''
       USB_PERSIST="/home/sergiu/.config/cache/Microsoft"
       RAM_CACHE="/home/sergiu/.cache/Microsoft"
@@ -42,7 +40,6 @@
       chmod 700 "$USB_PERSIST"
       rm -f /home/sergiu/.config/microsoft-edge/Singleton*
     '';
-
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
@@ -79,19 +76,6 @@
       ];
     };
 
-    # Nix Build Directory
-    "/var/cache/nix-build" = {
-      device = "tmpfs";
-      fsType = "tmpfs";
-      neededForBoot = true;
-      options = [
-        "nosuid"
-        "nodev"
-        "size=80%"
-        "mode=0755"
-      ];
-    };
-
     # System Logs
     "/var/log" = {
       device = "tmpfs";
@@ -105,14 +89,15 @@
       ];
     };
 
-    # Network State
-    "/var/lib/dhcpcd" = {
+    # Nix Build Directory
+    "/var/cache/nix-build" = {
       device = "tmpfs";
       fsType = "tmpfs";
+      neededForBoot = true;
       options = [
         "nosuid"
         "nodev"
-        "size=10M"
+        "size=80%"
         "mode=0755"
       ];
     };
@@ -128,6 +113,7 @@
         "mode=0755"
       ];
     };
+
   };
 
 }
