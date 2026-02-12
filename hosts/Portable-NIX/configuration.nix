@@ -61,7 +61,7 @@
       ];
     };
 
-    boot.kernel.sysctl = {
+    kernel.sysctl = {
       "vm.dirty_background_bytes" = 16777216;
       "vm.dirty_bytes" = 33554432;
       "vm.dirty_writeback_centisecs" = 3000;
