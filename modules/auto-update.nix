@@ -9,7 +9,6 @@
     flake = "/home/sergiu/NixOS";
     flags = [
       "--refresh"
-      "--update-input"
       "--commit-lock-file"
     ];
     operation = "boot";
