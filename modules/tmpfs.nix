@@ -80,18 +80,6 @@
       ];
     };
 
-    # Font Cache
-    "/var/cache/fontconfig" = {
-      device = "tmpfs";
-      fsType = "tmpfs";
-      options = [
-        "nosuid"
-        "nodev"
-        "size=50M"
-        "mode=0755"
-      ];
-    };
-
     # systemd private cache
     "/var/cache/private" = {
       device = "tmpfs";
@@ -101,6 +89,18 @@
         "nodev"
         "size=100M"
         "mode=0700"
+      ];
+    };
+
+    # GNOME virtual filesystem metadata
+    "/var/cache/gvfs-metadata" = {
+      device = "tmpfs";
+      fsType = "tmpfs";
+      options = [
+        "nosuid"
+        "nodev"
+        "size=50M"
+        "mode=0755"
       ];
     };
 
