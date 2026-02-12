@@ -62,10 +62,10 @@
     };
 
     kernel.sysctl = {
-      "vm.dirty_background_bytes" = 16777216;
-      "vm.dirty_bytes" = 33554432;
-      "vm.dirty_writeback_centisecs" = 3000;
-      "vm.dirty_expire_centisecs" = 3000;
+      "vm.dirty_background_bytes" = 67108864; # 64MB
+      "vm.dirty_bytes" = 134217728; # 128MB
+      "vm.dirty_writeback_centisecs" = 6000;
+      "vm.dirty_expire_centisecs" = 6000;
       "vm.swappiness" = 60;
       "vm.vfs_cache_pressure" = 50;
       "kernel.core_pattern" = "|/bin/false";
