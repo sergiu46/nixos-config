@@ -67,6 +67,18 @@
       ];
     };
 
+    # Flatpak and other temporary files
+    "/var/tmp" = {
+      device = "tmpfs";
+      fsType = "tmpfs";
+      options = [
+        "nosuid"
+        "nodev"
+        "size=50%"
+        "mode=1777"
+      ];
+    };
+
     # Nix Build Directory
     "/var/cache/nix-build" = {
       device = "tmpfs";
