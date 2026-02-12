@@ -16,6 +16,7 @@
     ../../modules/packages.nix
     ../../modules/sync-config.nix
     ../../modules/zramSwap.nix
+    ../../modules/tmpfs.nix
   ];
 
   # Networking
