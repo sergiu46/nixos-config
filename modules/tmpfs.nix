@@ -2,17 +2,8 @@
 {
   # Use tmpfs for /tmp
   boot.tmp.useTmpfs = true;
-  boot.tmp.tmpfsSize = "50%";
+  boot.tmp.tmpfsSize = "80%";
   boot.tmp.cleanOnBoot = true;
-
-  # Nix Build Optimization (In RAM)
-  nix.settings = {
-    sandbox = true;
-    build-dir = "/var/cache/nix-build";
-  };
-
-  # Ensure the Nix Daemon uses the RAM-backed build directory
-  systemd.services.nix-daemon.environment.TMPDIR = "/var/cache/nix-build";
 
   # Browser Speedup: Profile-sync-daemon
   services.psd.enable = true;
@@ -20,7 +11,7 @@
   # Log Handling: Keep logs in RAM and limited in size
   services.journald.extraConfig = ''
     Storage=volatile
-    RuntimeMaxUse=64M
+    RuntimeMaxUse=128M
   '';
 
   # Fix Edge identity persistance
@@ -84,20 +75,7 @@
       options = [
         "nosuid"
         "nodev"
-        "size=100M"
-        "mode=0755"
-      ];
-    };
-
-    # Nix Build Directory
-    "/var/cache/nix-build" = {
-      device = "tmpfs";
-      fsType = "tmpfs";
-      neededForBoot = true;
-      options = [
-        "nosuid"
-        "nodev"
-        "size=80%"
+        "size=256M"
         "mode=0755"
       ];
     };
@@ -111,6 +89,30 @@
         "nodev"
         "size=50M"
         "mode=0755"
+      ];
+    };
+
+    # systemd private cache
+    "/var/cache/private" = {
+      device = "tmpfs";
+      fsType = "tmpfs";
+      options = [
+        "nosuid"
+        "nodev"
+        "size=100M"
+        "mode=0700"
+      ];
+    };
+
+    # CUPS print spool
+    "/var/spool/cups" = {
+      device = "tmpfs";
+      fsType = "tmpfs";
+      options = [
+        "nosuid"
+        "nodev"
+        "size=512M"
+        "mode=0710"
       ];
     };
 
