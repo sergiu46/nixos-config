@@ -114,7 +114,6 @@
     '';
 
     umount-btrfs = "sudo umount -R /mnt && echo 'Btrfs unmounted.'";
-    umount-portable = "sudo umount /mnt/boot && sudo umount /mnt && echo 'Portable unmounted.'";
   };
 
   programs.bash.initExtra = ''
@@ -191,24 +190,43 @@
     mount-portable() {
       read -p "Enter Config Name to mount (e.g., Samsung-NIX): " name
       local efi_name=$(echo "''${name:0:4}" | tr '[:lower:]' '[:upper:]')EFI
-      
       sudo mkdir -p /mnt
       sudo mount -t f2fs -o ${userVars.f2fs.optsString} /dev/disk/by-label/"$name" /mnt && \
       sudo chattr +c /mnt && \
       sudo mkdir -p /mnt/boot && \
-      sudo mount /dev/disk/by-label/"$efi_name" /mnt/boot
-      echo "Mounted $name and $efi_name to /mnt"
+      sudo mount /dev/disk/by-label/"$efi_name" /mnt/boot && {
+        local dev_path=$(readlink -f /dev/disk/by-label/"$efi_name")
+        local parent_disk=$(lsblk -no pkname "$dev_path")
+        local part_num=$(lsblk -no PARTN "$dev_path")
+        echo "Setting ESP flag on /dev/$parent_disk partition $part_num..."
+        sudo parted /dev/"$parent_disk" set "$part_num" esp on
+        echo "Mounted $name and $efi_name to /mnt with ESP flags enabled."
+      }
     }
 
-    install-nix() {
+    umount-nixos() {
+      if findmnt /mnt/boot > /dev/null; then
+        local dev_path=$(findmnt -vno SOURCE /mnt/boot)
+        local parent_disk=$(lsblk -no pkname "$dev_path")
+        local part_num=$(lsblk -no PARTN "$dev_path")
+        echo "Hiding ESP flag on /dev/$parent_disk partition $part_num..."
+        sudo parted /dev/"$parent_disk" set "$part_num" esp off
+      else
+        echo "Warning: /mnt/boot not found in mount table. Skipping flag reset."
+      fi
+      sudo umount /mnt/boot 2>/dev/null
+      sudo umount /mnt 2>/dev/null
+      echo "Portable unmounted and hidden from Windows Installer."
+    }
+
+    install-nixos() {
       read -p "Enter Flake Host Name (e.g., Samsung-NIX): " name
       start_time=$(date +%s)
-      echo "Start: $(date +%T)"
       sudo nixos-install --flake ~/NixOS#"$name" --no-root-passwd
       end_time=$(date +%s)
-      echo "Finish: $(date +%T)"
       duration=$((end_time - start_time))
-      echo "Total Install Time: $((duration / 60))m $((duration % 60))s"
+      echo "Install Time: $((duration / 60))m $((duration % 60))s"
+      umount-portable
     }
 
     gnome-reset() {
