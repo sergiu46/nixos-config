@@ -98,6 +98,7 @@
     QT_SCALE_FACTOR_ROUNDING_POLICY = "RoundPreferFloor";
     QT_WAYLAND_FORCE_DPI = "96";
     MOZ_ENABLE_WAYLAND = "1"; # Enable Wayland for Firefox
+    MOZ_CRASHREPORTER_DISABLE = "1"; # Disable crash reports
   };
 
   # Apps need these 'engines' installed to render the themes correctly
