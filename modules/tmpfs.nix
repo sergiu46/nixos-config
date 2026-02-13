@@ -138,20 +138,6 @@
       ];
     };
 
-    # Recent files list
-    "/home/sergiu/.local/share/recently-used.xbel" = {
-      device = "tmpfs";
-      fsType = "tmpfs";
-      options = [
-        "noatime"
-        "nodev"
-        "nosuid"
-        "size=1M"
-        "mode=0600"
-        "uid=1000"
-      ];
-    };
-
     # GNOME file metadata
     "/home/sergiu/.local/share/gvfs-metadata" = {
       device = "tmpfs";
