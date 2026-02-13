@@ -12,6 +12,8 @@
   services.journald.extraConfig = ''
     Storage=volatile
     RuntimeMaxUse=128M
+    MaxRetentionSec=1day
+    MaxFileSec=1hour
   '';
 
   # Fix Edge identity persistance
@@ -37,6 +39,13 @@
       User = "sergiu";
       Group = "users";
     };
+  };
+
+  # Nix Settings
+  systemd.services.nix-daemon.environment.TMPDIR = "/var/cache/nix-build";
+  nix.settings = {
+    sandbox = true;
+    build-dir = "/var/cache/nix-build";
   };
 
   # tmpfs Drives
@@ -80,6 +89,19 @@
       ];
     };
 
+    # Nix build directory
+    "/var/cache/nix-build" = {
+      device = "tmpfs";
+      fsType = "tmpfs";
+      neededForBoot = true;
+      options = [
+        "nosuid"
+        "nodev"
+        "size=80%"
+        "mode=0755"
+      ];
+    };
+
     # systemd private cache
     "/var/cache/private" = {
       device = "tmpfs";
@@ -113,6 +135,34 @@
         "nodev"
         "size=512M"
         "mode=0710"
+      ];
+    };
+
+    # Recent files list
+    "/home/sergiu/.local/share/recently-used.xbel" = {
+      device = "tmpfs";
+      fsType = "tmpfs";
+      options = [
+        "noatime"
+        "nodev"
+        "nosuid"
+        "size=1M"
+        "mode=0600"
+        "uid=1000"
+      ];
+    };
+
+    # GNOME file metadata
+    "/home/sergiu/.local/share/gvfs-metadata" = {
+      device = "tmpfs";
+      fsType = "tmpfs";
+      options = [
+        "noatime"
+        "nodev"
+        "nosuid"
+        "size=50M"
+        "mode=0700"
+        "uid=1000"
       ];
     };
 

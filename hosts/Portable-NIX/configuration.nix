@@ -62,10 +62,10 @@
     };
 
     kernel.sysctl = {
-      "vm.dirty_background_bytes" = 16777216; # 16MB
-      "vm.dirty_bytes" = 268435456; # 256MB
-      "vm.dirty_writeback_centisecs" = 1500;
-      "vm.dirty_expire_centisecs" = 3000;
+      "vm.dirty_background_bytes" = 8388608; # 8MB
+      "vm.dirty_bytes" = 134217728; # 128MB
+      "vm.dirty_writeback_centisecs" = 1500; # 15s
+      "vm.dirty_expire_centisecs" = 3000; # 30s
       "vm.swappiness" = 60;
       "vm.vfs_cache_pressure" = 50;
       "kernel.core_pattern" = "|/bin/false";
@@ -126,6 +126,9 @@
     };
   };
 
+  # Disable heavy GNOME services
+  services.gnome.tinysparql.enable = false;
+  services.gnome.localsearch.enable = false;
   services.gnome.core-shell.enable = true;
 
   hardware = {
@@ -192,6 +195,7 @@
     sof-firmware
   ];
 
+  # systemd settings
   systemd = {
     coredump.enable = false;
     targets.hibernate.enable = false;
@@ -204,6 +208,10 @@
         options = "mode=0755,size=20M";
       }
     ];
+    services = {
+      "systemd-update-done".enable = false;
+      "man-db".enable = false;
+    };
 
   };
 
