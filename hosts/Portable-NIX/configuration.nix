@@ -124,9 +124,6 @@
     };
   };
 
-  # Disable heavy GNOME services
-  # services.gnome.tinysparql.enable = false;
-  # services.gnome.localsearch.enable = false;
   services.gnome.core-shell.enable = true;
 
   hardware = {
@@ -206,10 +203,6 @@
         options = "mode=0755,size=20M";
       }
     ];
-    # services = {
-    #   "systemd-update-done".enable = false;
-    #   "man-db".enable = false;
-    # };
 
   };
 
