@@ -206,10 +206,10 @@
         options = "mode=0755,size=20M";
       }
     ];
-    services = {
-      "systemd-update-done".enable = false;
-      "man-db".enable = false;
-    };
+    # services = {
+    #   "systemd-update-done".enable = false;
+    #   "man-db".enable = false;
+    # };
 
   };
 
