@@ -125,8 +125,8 @@
   };
 
   # Disable heavy GNOME services
-  services.gnome.tinysparql.enable = false;
-  services.gnome.localsearch.enable = false;
+  # services.gnome.tinysparql.enable = false;
+  # services.gnome.localsearch.enable = false;
   services.gnome.core-shell.enable = true;
 
   hardware = {
