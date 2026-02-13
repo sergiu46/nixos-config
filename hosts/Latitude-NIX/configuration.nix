@@ -92,7 +92,7 @@
 
   # Systemd Sleep Settings
   systemd.sleep.extraConfig = ''
-    HibernateDelaySec=600
+    HibernateDelaySec=3600
     AllowSuspendThenHibernate=yes
   '';
 
