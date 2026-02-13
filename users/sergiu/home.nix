@@ -97,10 +97,10 @@
 
   home.shellAliases = {
     # SYSTEM BUILD
-    check = "nixos-rebuild build --flake ~/NixOS#$(hostname)";
-    switch = "sudo nixos-rebuild switch --flake ~/NixOS#$(hostname)";
-    boot = "sudo nixos-rebuild boot --flake ~/NixOS#$(hostname)";
-    update = "cd ~/NixOS && sudo nix flake update && boot";
+    check = "time nixos-rebuild build --flake ~/NixOS#$(hostname)";
+    switch = "time sudo nixos-rebuild switch --flake ~/NixOS#$(hostname)";
+    boot = "time sudo nixos-rebuild boot --flake ~/NixOS#$(hostname)";
+    update = "time (cd ~/NixOS && sudo nix flake update && sudo nixos-rebuild boot --flake .#$(hostname))";
 
     # Clean
     clean = ''
@@ -112,12 +112,9 @@
         command -v flatpak &> /dev/null && flatpak uninstall --unused -y || true
       "
     '';
-
-    umount-btrfs = "sudo umount -R /mnt && echo 'Btrfs unmounted.'";
   };
 
   programs.bash.initExtra = ''
-    # BTRFS (System Drive)
     format-btrfs() {
       lsblk -pn -o NAME,SIZE,TYPE,FSTYPE,LABEL | grep part
       read -p "Target device for Btrfs: " dev
@@ -144,7 +141,6 @@
       echo "Btrfs $name mounted."
     }
 
-    # F2FS (Portable Drive)
     format-portable() {
       lsblk -pn -o NAME,SIZE,TYPE,FSTYPE,LABEL | grep -E "part|disk"
       echo ""
@@ -226,26 +222,15 @@
       end_time=$(date +%s)
       duration=$((end_time - start_time))
       echo "Install Time: $((duration / 60))m $((duration % 60))s"
-      umount-portable
+      umount-nixos
     }
 
     gnome-reset() {
       echo "Cleaning GNOME user settings and caches..."
-      
-      # 1. Reset the dconf database (clears manual clicks/settings)
       dconf reset -f /
-      
-      # 2. Remove the physical database file and shell cache
       rm -rf ~/.config/dconf/user
       rm -rf ~/.cache/gnome-shell/*
-      
-      # 3. Clear GTK4/Libadwaita local state
       rm -rf ~/.local/share/gnome-shell/notifications
-      
-      echo "Done. Manual settings wiped."
-      echo "Next steps:"
-      echo "1. Run your 'switch' command"
-      echo "2. Log out and back in"
     }
 
   '';
