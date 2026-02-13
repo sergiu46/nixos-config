@@ -114,6 +114,10 @@
     '';
   };
 
+  programs.bash.interactiveShellInit = ''
+    export TIMEFORMAT="Done in %E"
+  '';
+
   programs.bash.initExtra = ''
     format-btrfs() {
       lsblk -pn -o NAME,SIZE,TYPE,FSTYPE,LABEL | grep part
