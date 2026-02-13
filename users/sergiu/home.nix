@@ -114,11 +114,9 @@
     '';
   };
 
-  programs.bash.interactiveShellInit = ''
-    export TIMEFORMAT="Done in %E"
-  '';
-
   programs.bash.initExtra = ''
+    export TIMEFORMAT="Done in %E"
+
     format-btrfs() {
       lsblk -pn -o NAME,SIZE,TYPE,FSTYPE,LABEL | grep part
       read -p "Target device for Btrfs: " dev
