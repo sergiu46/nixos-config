@@ -16,28 +16,35 @@
     MaxFileSec=1hour
   '';
 
-  # Fix Edge identity persistance
+  # Fix edge identity
   systemd.services.setup-edge-identity = {
     description = "Persistent Microsoft Identity Link";
+
+    # Wait for the home-manager activation service to finish first
     after = [
-      "home-sergiu-.cache.mount"
-      "local-fs.target"
+      "home-manager-sergiu.service"
+      "graphical.target"
     ];
-    requires = [ "home-sergiu-.cache.mount" ];
-    wantedBy = [ "multi-user.target" ];
+    requires = [ "home-manager-sergiu.service" ];
+
+    # Change this from multi-user.target to only trigger on login
+    wantedBy = [ "graphical.target" ];
+
     script = ''
-      USB_PERSIST="/home/sergiu/.config/cache/Microsoft"
-      RAM_CACHE="/home/sergiu/.cache/Microsoft"
-      mkdir -p "$USB_PERSIST"
-      ln -sfn "$USB_PERSIST" "$RAM_CACHE"
-      chmod 700 "$USB_PERSIST"
+      # Ensure the directory exists before symlinking
+      mkdir -p /home/sergiu/.config/cache/Microsoft
+
+      # Clean up and link
+      ln -sfn /home/sergiu/.config/cache/Microsoft /home/sergiu/.cache/Microsoft
+      chown -R sergiu:users /home/sergiu/.config/cache/Microsoft
+
+      # Clear Edge locks
       rm -f /home/sergiu/.config/microsoft-edge/Singleton*
     '';
+
     serviceConfig = {
       Type = "oneshot";
-      RemainAfterExit = true;
-      User = "sergiu";
-      Group = "users";
+      User = "root"; # Run as root to ensure we can fix permissions/symlinks regardless of HM state
     };
   };
 
@@ -135,20 +142,6 @@
         "nodev"
         "size=512M"
         "mode=0710"
-      ];
-    };
-
-    # GNOME file metadata
-    "/home/sergiu/.local/share/gvfs-metadata" = {
-      device = "tmpfs";
-      fsType = "tmpfs";
-      options = [
-        "noatime"
-        "nodev"
-        "nosuid"
-        "size=50M"
-        "mode=0700"
-        "uid=1000"
       ];
     };
 
