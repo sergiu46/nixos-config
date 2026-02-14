@@ -219,7 +219,7 @@
       read -p "Enter Flake Host Name (e.g., Samsung-NIX): " name
       export -f umount-nixos
       sudo -v
-      sudo \\time -f 'Duration: %E' bash -c "
+      sudo -E /run/current-system/sw/bin/time -f 'Duration: %E' bash -c "
         nixos-install --flake ~/NixOS#$name --no-root-passwd && \
         umount-nixos
       "
