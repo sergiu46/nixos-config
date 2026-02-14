@@ -97,14 +97,14 @@
 
   home.shellAliases = {
     # SYSTEM BUILD
-    check = "\\time -f 'Duration %E' nixos-rebuild build --flake ~/NixOS#$(hostname)";
-    switch = "\\time -f 'Duration %E' sudo nixos-rebuild switch --flake ~/NixOS#$(hostname)";
-    boot = "\\time -f 'Duration %E' sudo nixos-rebuild boot --flake ~/NixOS#$(hostname)";
-    update = "\\time -f 'Duration %E' bash -c 'cd ~/NixOS && sudo nix flake update && sudo nixos-rebuild boot --flake .#$(hostname)'";
+    check = "\\time -f 'Duration: %E' nixos-rebuild build --flake ~/NixOS#$(hostname)";
+    switch = "\\time -f 'Duration: %E' sudo nixos-rebuild switch --flake ~/NixOS#$(hostname)";
+    boot = "\\time -f 'Duration: %E' sudo nixos-rebuild boot --flake ~/NixOS#$(hostname)";
+    update = "\\time -f 'Duration: %E' bash -c 'cd ~/NixOS && sudo nix flake update && sudo nixos-rebuild boot --flake .#$(hostname)'";
 
     # Clean
     clean = ''
-      \\time -f 'Duration %E' sudo bash -c "
+      \\time -f 'Duration: %E' sudo bash -c "
         sudo -u $(logname) nix-collect-garbage --delete-older-than 1d && \
         nix-collect-garbage --delete-older-than 1d && \
         nix store optimise && \
@@ -209,11 +209,10 @@
         echo "Hiding ESP flag on /dev/$parent_disk partition $part_num..."
         sudo parted /dev/"$parent_disk" set "$part_num" esp off
       else
-        echo "Warning: /mnt/boot not found in mount table. Skipping flag reset."
+        echo "Warning: /mnt/boot not found in mount table!"
       fi
       sudo umount /mnt/boot 2>/dev/null
       sudo umount /mnt 2>/dev/null
-      echo "Portable unmounted and hidden from Windows Installer."
     }
 
     install-nixos() {
