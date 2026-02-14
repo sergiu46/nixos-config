@@ -104,7 +104,7 @@
 
     # Clean
     clean = ''
-      sudo bash -c "
+      \\time -f 'Duration %E' sudo bash -c "
         sudo -u $(logname) nix-collect-garbage --delete-older-than 1d && \
         nix-collect-garbage --delete-older-than 1d && \
         nix store optimise && \
@@ -115,7 +115,6 @@
   };
 
   programs.bash.initExtra = ''
-    export TIMEFORMAT="Done in %E"
 
     format-btrfs() {
       lsblk -pn -o NAME,SIZE,TYPE,FSTYPE,LABEL | grep part
@@ -157,7 +156,7 @@
       if [ -b "$dev_boot" ] && [ -b "$dev_root" ]; then
         echo "--------------------------------------------------"
         echo "PREPARING DRIVE FOR: $name"
-        echo "BOOT: $dev_boot -> FAT32 (Label: $efi_name, Flags: boot, esp)"
+        echo "BOOT: $dev_boot -> FAT32 (Label: $efi_name, Flags: hidden)"
         echo "ROOT: $dev_root -> F2FS  (Label: $root_name)"
         echo "--------------------------------------------------"
         read -p "REALLY wipe these partitions? (y/n): " CONFIRM
@@ -170,9 +169,9 @@
           
           local disk=$(echo "$dev_boot" | sed 's/[0-9]*$//')
           local part_num=$(echo "$dev_boot" | grep -o '[0-9]*$')
-          echo "Setting ESP and Boot flags on $disk partition $part_num..."
-          sudo parted "$disk" set "$part_num" esp on
-          sudo parted "$disk" set "$part_num" boot on
+          
+          # Apply the hidden flag
+          sudo parted "$disk" set "$part_num" hidden on
           
           echo "Formatting Root partition as F2FS..."
           sudo mkfs.f2fs -f -l "$root_name" -O extra_attr,inode_checksum,sb_checksum,compression -o 5 "$dev_root"
