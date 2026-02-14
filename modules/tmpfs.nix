@@ -12,39 +12,29 @@
   services.journald.extraConfig = ''
     Storage=volatile
     RuntimeMaxUse=128M
-    MaxRetentionSec=1day
-    MaxFileSec=1hour
   '';
 
   # Fix edge identity
   systemd.services.setup-edge-identity = {
     description = "Persistent Microsoft Identity Link";
-
-    # Wait for the home-manager activation service to finish first
     after = [
       "home-manager-sergiu.service"
       "graphical.target"
     ];
     requires = [ "home-manager-sergiu.service" ];
-
-    # Change this from multi-user.target to only trigger on login
     wantedBy = [ "graphical.target" ];
-
     script = ''
-      # Ensure the directory exists before symlinking
-      mkdir -p /home/sergiu/.config/cache/Microsoft
-
-      # Clean up and link
-      ln -sfn /home/sergiu/.config/cache/Microsoft /home/sergiu/.cache/Microsoft
-      chown -R sergiu:users /home/sergiu/.config/cache/Microsoft
-
-      # Clear Edge locks
+      RAM_CACHE="/home/sergiu/.cache/Microsoft"
+      USB_PERSIST="/home/sergiu/.config/cache/Microsoft"
+      mkdir -p "$USB_PERSIST"
+      ln -sfn "$USB_PERSIST" "$RAM_CACHE"
+      chmod 700 "$USB_PERSIST"
       rm -f /home/sergiu/.config/microsoft-edge/Singleton*
     '';
-
     serviceConfig = {
       Type = "oneshot";
-      User = "root"; # Run as root to ensure we can fix permissions/symlinks regardless of HM state
+      User = "sergiu";
+      Group = "users";
     };
   };
 
@@ -118,18 +108,6 @@
         "nodev"
         "size=100M"
         "mode=0700"
-      ];
-    };
-
-    # GNOME virtual filesystem metadata
-    "/var/cache/gvfs-metadata" = {
-      device = "tmpfs";
-      fsType = "tmpfs";
-      options = [
-        "nosuid"
-        "nodev"
-        "size=50M"
-        "mode=0755"
       ];
     };
 
