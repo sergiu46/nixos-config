@@ -195,7 +195,6 @@
         local dev_path=$(readlink -f /dev/disk/by-label/"$efi_name")
         local parent_disk=$(lsblk -no pkname "$dev_path")
         local part_num=$(lsblk -no PARTN "$dev_path")
-        echo "Setting ESP flag on /dev/$parent_disk partition $part_num..."
         sudo parted /dev/"$parent_disk" set "$part_num" esp on
         echo "Mounted $name and $efi_name to /mnt with ESP flags enabled."
       }
@@ -206,7 +205,6 @@
         local dev_path=$(findmnt -vno SOURCE /mnt/boot)
         local parent_disk=$(lsblk -no pkname "$dev_path")
         local part_num=$(lsblk -no PARTN "$dev_path")
-        echo "Hiding ESP flag on /dev/$parent_disk partition $part_num..."
         sudo parted /dev/"$parent_disk" set "$part_num" esp off
       else
         echo "Warning: /mnt/boot not found in mount table!"
@@ -216,13 +214,10 @@
     }
 
     install-nixos() {
-      read -p "Enter Flake Host Name (e.g., Samsung-NIX): " name
-      export -f umount-nixos
-      sudo -v
-      sudo -E /run/current-system/sw/bin/time -f 'Duration: %E' bash -c "
-        nixos-install --flake ~/NixOS#$name --no-root-passwd && \
-        umount-nixos
-      "
+      read -p "Enter host name (e.g., Samsung-NIX): " name
+      sudo HOME=/root /run/current-system/sw/bin/time -f 'Duration: %E' \
+      nixos-install --flake /home/sergiu/NixOS#"$name" --no-root-passwd
+      umount-nixos
     }
 
     gnome-reset() {
