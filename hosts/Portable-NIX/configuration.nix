@@ -141,7 +141,7 @@
         intel-media-driver # Modern Intel (Broadwell+)
         intel-vaapi-driver # Older Intel
         # Universal / Core (Crucial for smooth daily tasks on all GPUs)
-        mesa.drivers
+        mesa
         vulkan-loader
         vulkan-validation-layers
         libva # Base LibVA
