@@ -1,33 +1,33 @@
 { ... }:
 {
-  home-manager.users.sergiu =
-    { config, ... }:
-    {
-      # TELEGRAM: Point USB path to RAM (to save the drive)
-      home.file.".local/share/TelegramDesktop/tdata/user_data".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.xdg.cacheHome}/telegram-user-data";
+  systemd.services.user-symlinks = {
+    description = "User symlinks";
+    after = [
+      "home-sergiu-.cache.mount"
+      "local-fs.target"
+    ];
+    requires = [ "home-sergiu-.cache.mount" ];
+    wantedBy = [ "multi-user.target" ];
 
-      systemd.user.services.init-ram-cache = {
-        Unit = {
-          Description = "Initialize RAM cache folders and persistent links";
-          After = [ "home-sergiu-.cache.mount" ];
-        };
-        Install.WantedBy = [ "default.target" ];
-        Service = {
-          Type = "oneshot";
-          RemainAfterExit = true;
-          Script = ''
-            # Setup Telegram: Create the target folder in the RAM drive
-            mkdir -p /home/sergiu/.cache/telegram-user-data
+    script = ''
+      # EDGE SETUP
+      mkdir -p /home/sergiu/.config/cache/Microsoft
+      mkdir -p /home/sergiu/.cache/Microsoft
+      ln -sfn /home/sergiu/.config/cache/Microsoft /home/sergiu/.cache/Microsoft
+      rm -f /home/sergiu/.config/microsoft-edge/Singleton*
 
-            # Setup Edge
-            mkdir -p /home/sergiu/.config/cache/Microsoft
-            ln -sfn /home/sergiu/.config/cache/Microsoft /home/sergiu/.cache/Microsoft
-            rm -f /home/sergiu/.config/microsoft-edge/Singleton*
-          '';
-        };
-      };
+      # TELEGRAM SETUP
+      mkdir -p /home/sergiu/.cache/telegram-user-data
+      mkdir -p /home/sergiu/.local/share/TelegramDesktop/tdata
+      ln -sfn /home/sergiu/.cache/telegram-user-data /home/sergiu/.local/share/TelegramDesktop/tdata/user_data
+    '';
+
+    serviceConfig = {
+      Type = "oneshot";
+      User = "sergiu";
+      Group = "users";
     };
+  };
 
   # Use tmpfs for /tmp
   boot.tmp.useTmpfs = true;
