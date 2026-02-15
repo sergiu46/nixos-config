@@ -43,6 +43,7 @@
   nix.settings = {
     sandbox = true;
     build-dir = "/var/cache/nix-build";
+    max-jobs = 1;
   };
 
   # tmpfs Drives

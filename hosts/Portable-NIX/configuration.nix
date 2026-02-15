@@ -176,11 +176,17 @@
     ];
 
     udev.extraRules = ''
-      # BFQ for USB/SSD
+      # BFQ for internal NVMe/SSD
       ACTION=="add|change", \
-        KERNEL=="sd[a-z]*|mmcblk[0-9]*|nvme[0-9]*", \
+        KERNEL=="nvme[0-9]*|mmcblk[0-9]*", \
         ATTR{queue/rotational}=="0", \
         ATTR{queue/scheduler}="bfq"
+
+      # mq-deadline for removable USBs
+      ACTION=="add|change", \
+        KERNEL=="sd[a-z]*", \
+        ATTR{removable}=="1", \
+        ATTR{queue/scheduler}="mq-deadline"
 
       # Ghost Mode: Hide internal drives of the host machine
       SUBSYSTEM=="block", ATTRS{removable}=="0", ENV{UDISKS_IGNORE}="1"
@@ -208,7 +214,12 @@
         options = "mode=0755,size=20M";
       }
     ];
-
+    services.nix-daemon.serviceConfig = {
+      # Force nix-daemon to the lowest I/O priority (Idle)
+      IOSchedulingClass = "idle";
+      # Force lowest CPU priority so UI tasks stay responsive
+      CPUSchedulingPolicy = "idle";
+    };
   };
 
   documentation.enable = false;
