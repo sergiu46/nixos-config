@@ -1,5 +1,34 @@
 { ... }:
 {
+  home-manager.users.sergiu =
+    { config, ... }:
+    {
+      # TELEGRAM: Point USB path to RAM (to save the drive)
+      home.file.".local/share/TelegramDesktop/tdata/user_data".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.xdg.cacheHome}/telegram-user-data";
+
+      systemd.user.services.init-ram-cache = {
+        Unit = {
+          Description = "Initialize RAM cache folders and persistent links";
+          After = [ "home-sergiu-.cache.mount" ];
+        };
+        Install.WantedBy = [ "default.target" ];
+        Service = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          Script = ''
+            # Setup Telegram: Create the target folder in the RAM drive
+            mkdir -p /home/sergiu/.cache/telegram-user-data
+
+            # Setup Edge
+            mkdir -p /home/sergiu/.config/cache/Microsoft
+            ln -sfn /home/sergiu/.config/cache/Microsoft /home/sergiu/.cache/Microsoft
+            rm -f /home/sergiu/.config/microsoft-edge/Singleton*
+          '';
+        };
+      };
+    };
+
   # Use tmpfs for /tmp
   boot.tmp.useTmpfs = true;
   boot.tmp.tmpfsSize = "80%";
@@ -13,30 +42,6 @@
     Storage=volatile
     RuntimeMaxUse=128M
   '';
-
-  # Fix edge identity
-  systemd.services.setup-edge-identity = {
-    description = "Persistent Microsoft Identity Link";
-    after = [
-      "home-sergiu-.cache.mount"
-      "local-fs.target"
-    ];
-    requires = [ "home-sergiu-.cache.mount" ];
-    wantedBy = [ "multi-user.target" ];
-    script = ''
-      RAM_CACHE="/home/sergiu/.cache/Microsoft"
-      USB_PERSIST="/home/sergiu/.config/cache/Microsoft"
-      mkdir -p "$USB_PERSIST"
-      ln -sfn "$USB_PERSIST" "$RAM_CACHE"
-      chmod 700 "$USB_PERSIST"
-      rm -f /home/sergiu/.config/microsoft-edge/Singleton*
-    '';
-    serviceConfig = {
-      Type = "oneshot";
-      User = "sergiu";
-      Group = "users";
-    };
-  };
 
   # Nix Settings
   systemd.services.nix-daemon.environment.TMPDIR = "/var/cache/nix-build";
