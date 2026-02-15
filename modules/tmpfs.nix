@@ -12,14 +12,13 @@
     script = ''
       # EDGE SETUP
       mkdir -p /home/sergiu/.config/cache/Microsoft
-      mkdir -p /home/sergiu/.cache/Microsoft
       ln -sfn /home/sergiu/.config/cache/Microsoft /home/sergiu/.cache/Microsoft
       rm -f /home/sergiu/.config/microsoft-edge/Singleton*
 
       # TELEGRAM SETUP
-      mkdir -p /home/sergiu/.cache/telegram-user-data
+      mkdir -p /home/sergiu/.cache/telegram_cache
       mkdir -p /home/sergiu/.local/share/TelegramDesktop/tdata
-      ln -sfn /home/sergiu/.cache/telegram-user-data /home/sergiu/.local/share/TelegramDesktop/tdata/user_data
+      ln -sfn /home/sergiu/.cache/telegram_cache /home/sergiu/.local/share/TelegramDesktop/tdata/user_data
     '';
 
     serviceConfig = {
