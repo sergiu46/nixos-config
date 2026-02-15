@@ -18,11 +18,11 @@
   systemd.services.setup-edge-identity = {
     description = "Persistent Microsoft Identity Link";
     after = [
-      "home-manager-sergiu.service"
-      "graphical.target"
+      "home-sergiu-.cache.mount"
+      "local-fs.target"
     ];
-    requires = [ "home-manager-sergiu.service" ];
-    wantedBy = [ "graphical.target" ];
+    requires = [ "home-sergiu-.cache.mount" ];
+    wantedBy = [ "multi-user.target" ];
     script = ''
       RAM_CACHE="/home/sergiu/.cache/Microsoft"
       USB_PERSIST="/home/sergiu/.config/cache/Microsoft"
