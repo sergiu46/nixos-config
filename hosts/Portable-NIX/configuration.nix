@@ -154,7 +154,7 @@
       extraPackages32 = with pkgs.pkgsi686Linux; [
         intel-media-driver
         intel-vaapi-driver
-        mesa.drivers
+        mesa
         vulkan-loader
         libvdpau-va-gl
       ];
