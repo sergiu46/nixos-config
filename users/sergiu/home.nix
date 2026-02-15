@@ -97,14 +97,14 @@
 
   home.shellAliases = {
     # SYSTEM BUILD
-    check = "\\time -f 'Duration: %E' nixos-rebuild build --flake ~/NixOS#$(hostname)";
-    switch = "\\time -f 'Duration: %E' sudo nixos-rebuild switch --flake ~/NixOS#$(hostname)";
-    boot = "\\time -f 'Duration: %E' sudo nixos-rebuild boot --flake ~/NixOS#$(hostname)";
-    update = "\\time -f 'Duration: %E' bash -c 'cd ~/NixOS && sudo nix flake update && sudo nixos-rebuild boot --flake .#$(hostname)'";
+    check = "${pkgs.time}/bin/time -f 'Duration: %E' nixos-rebuild build --flake ~/NixOS#$(hostname)";
+    switch = "${pkgs.time}/bin/time -f 'Duration: %E' sudo nixos-rebuild switch --flake ~/NixOS#$(hostname)";
+    boot = "${pkgs.time}/bin/time -f 'Duration: %E' sudo nixos-rebuild boot --flake ~/NixOS#$(hostname)";
+    update = "${pkgs.time}/bin/time -f 'Duration: %E' bash -c 'cd ~/NixOS && sudo nix flake update && sudo nixos-rebuild boot --flake .#$(hostname)'";
 
     # Clean
     clean = ''
-      \\time -f 'Duration: %E' sudo bash -c "
+      ${pkgs.time}/bin/time -f 'Duration: %E' sudo bash -c "
         sudo -u $(logname) nix-collect-garbage --delete-older-than 1d && \
         nix-collect-garbage --delete-older-than 1d && \
         nix store optimise && \
