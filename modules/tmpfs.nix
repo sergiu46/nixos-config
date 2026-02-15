@@ -10,45 +10,43 @@
     wantedBy = [ "multi-user.target" ];
 
     script = ''
-      # 1. PREPARE RAM (The Destination)
-      # These MUST be created first because .cache starts empty on every boot
-      mkdir -p /home/sergiu/.cache/Microsoft
+      # Create folders in RAM
       mkdir -p /home/sergiu/.cache/telegram_cache
       mkdir -p /home/sergiu/.cache/gvfs-metadata
       mkdir -p /home/sergiu/.cache/gnome-bits
 
-      # 2. PREPARE USB PARENTS
-      # Ensure the folders that will hold our "shortcuts" exist
-      mkdir -p /home/sergiu/.config/cache
+      # Ensure the persistent Edge folder exists on the USB
+      mkdir -p /home/sergiu/.config/cache/Microsoft
       mkdir -p /home/sergiu/.local/share/TelegramDesktop/tdata
 
-      # 3. REDIRECT EDGE (Config -> Cache)
-      rm -rf /home/sergiu/.config/cache/Microsoft
-      ln -sfn /home/sergiu/.cache/Microsoft /home/sergiu/.config/cache/Microsoft
+      # EDGE SYMLINK
+      rm -rf /home/sergiu/.cache/Microsoft
+      ln -sfn /home/sergiu/.config/cache/Microsoft /home/sergiu/.cache/Microsoft
       rm -f /home/sergiu/.config/microsoft-edge/Singleton*
 
-      # 4. REDIRECT TELEGRAM (Local -> Cache)
+      # TELEGRAM SYMLINK
       rm -rf /home/sergiu/.local/share/TelegramDesktop/tdata/user_data
       ln -sfn /home/sergiu/.cache/telegram_cache /home/sergiu/.local/share/TelegramDesktop/tdata/user_data
 
-      # 5. REDIRECT GNOME (Local -> Cache)
+      # GNOME METADATA
       rm -rf /home/sergiu/.local/share/gvfs-metadata
       ln -sfn /home/sergiu/.cache/gvfs-metadata /home/sergiu/.local/share/gvfs-metadata
 
-      # 6. RECENTLY USED (Local -> Cache)
+      # RECENTLY USED
       rm -f /home/sergiu/.local/share/recently-used.xbel
       touch /home/sergiu/.cache/gnome-bits/recently-used.xbel
       ln -sfn /home/sergiu/.cache/gnome-bits/recently-used.xbel /home/sergiu/.local/share/recently-used.xbel
 
-      # Ensure Sergiu owns the new structures
-      chown -R sergiu:users /home/sergiu/.cache
+      # Ownership fix
+      chown -R sergiu:users /home/sergiu/.cache/telegram_cache
+      chown -R sergiu:users /home/sergiu/.cache/gvfs-metadata
+      chown -R sergiu:users /home/sergiu/.cache/gnome-bits
       chown -R sergiu:users /home/sergiu/.config/cache
-      chown -R sergiu:users /home/sergiu/.local/share
     '';
 
     serviceConfig = {
       Type = "oneshot";
-      User = "root"; # Root is needed to perform the 'rm -rf' and 'chown' safely
+      User = "root";
     };
   };
 
