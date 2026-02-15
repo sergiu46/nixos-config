@@ -1,7 +1,7 @@
 { ... }:
 {
   systemd.services.user-symlinks = {
-    description = "User symlinks to redirect USB I/O to RAM";
+    description = "User symlinks";
     after = [
       "home-sergiu-.cache.mount"
       "local-fs.target"
@@ -10,43 +10,24 @@
     wantedBy = [ "multi-user.target" ];
 
     script = ''
-      # Create folders in RAM
-      mkdir -p /home/sergiu/.cache/telegram_cache
-      mkdir -p /home/sergiu/.cache/gvfs-metadata
-      mkdir -p /home/sergiu/.cache/gnome-bits
-
-      # Ensure the persistent Edge folder exists on the USB
+      # EDGE SETUP
       mkdir -p /home/sergiu/.config/cache/Microsoft
-      mkdir -p /home/sergiu/.local/share/TelegramDesktop/tdata
-
-      # EDGE SYMLINK
-      rm -rf /home/sergiu/.cache/Microsoft
       ln -sfn /home/sergiu/.config/cache/Microsoft /home/sergiu/.cache/Microsoft
       rm -f /home/sergiu/.config/microsoft-edge/Singleton*
 
-      # TELEGRAM SYMLINK
-      rm -rf /home/sergiu/.local/share/TelegramDesktop/tdata/user_data
+      # TELEGRAM SETUP
+      mkdir -p /home/sergiu/.cache/telegram_cache
+      mkdir -p /home/sergiu/.local/share/TelegramDesktop/tdata
       ln -sfn /home/sergiu/.cache/telegram_cache /home/sergiu/.local/share/TelegramDesktop/tdata/user_data
 
-      # GNOME METADATA
-      rm -rf /home/sergiu/.local/share/gvfs-metadata
-      ln -sfn /home/sergiu/.cache/gvfs-metadata /home/sergiu/.local/share/gvfs-metadata
 
-      # RECENTLY USED
-      rm -f /home/sergiu/.local/share/recently-used.xbel
-      touch /home/sergiu/.cache/gnome-bits/recently-used.xbel
-      ln -sfn /home/sergiu/.cache/gnome-bits/recently-used.xbel /home/sergiu/.local/share/recently-used.xbel
 
-      # Ownership fix
-      chown -R sergiu:users /home/sergiu/.cache/telegram_cache
-      chown -R sergiu:users /home/sergiu/.cache/gvfs-metadata
-      chown -R sergiu:users /home/sergiu/.cache/gnome-bits
-      chown -R sergiu:users /home/sergiu/.config/cache
     '';
 
     serviceConfig = {
       Type = "oneshot";
-      User = "root";
+      User = "sergiu";
+      Group = "users";
     };
   };
 
