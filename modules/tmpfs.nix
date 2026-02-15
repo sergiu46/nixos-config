@@ -1,7 +1,7 @@
 { ... }:
 {
   systemd.services.user-symlinks = {
-    description = "User symlinks";
+    description = "User symlinks to redirect USB I/O to RAM";
     after = [
       "home-sergiu-.cache.mount"
       "local-fs.target"
@@ -10,31 +10,45 @@
     wantedBy = [ "multi-user.target" ];
 
     script = ''
-      # EDGE SETUP
-      mkdir -p /home/sergiu/.config/cache/Microsoft
-      ln -sfn /home/sergiu/.config/cache/Microsoft /home/sergiu/.cache/Microsoft
+      # 1. PREPARE RAM (The Destination)
+      # These MUST be created first because .cache starts empty on every boot
+      mkdir -p /home/sergiu/.cache/Microsoft
+      mkdir -p /home/sergiu/.cache/telegram_cache
+      mkdir -p /home/sergiu/.cache/gvfs-metadata
+      mkdir -p /home/sergiu/.cache/gnome-bits
+
+      # 2. PREPARE USB PARENTS
+      # Ensure the folders that will hold our "shortcuts" exist
+      mkdir -p /home/sergiu/.config/cache
+      mkdir -p /home/sergiu/.local/share/TelegramDesktop/tdata
+
+      # 3. REDIRECT EDGE (Config -> Cache)
+      rm -rf /home/sergiu/.config/cache/Microsoft
+      ln -sfn /home/sergiu/.cache/Microsoft /home/sergiu/.config/cache/Microsoft
       rm -f /home/sergiu/.config/microsoft-edge/Singleton*
 
-      # TELEGRAM SETUP
-      mkdir -p /home/sergiu/.cache/telegram_cache
-      mkdir -p /home/sergiu/.local/share/TelegramDesktop/tdata
+      # 4. REDIRECT TELEGRAM (Local -> Cache)
+      rm -rf /home/sergiu/.local/share/TelegramDesktop/tdata/user_data
       ln -sfn /home/sergiu/.cache/telegram_cache /home/sergiu/.local/share/TelegramDesktop/tdata/user_data
 
-      # GNOME GVFS METADATA (Directory)
-      mkdir -p /home/sergiu/.local/share
+      # 5. REDIRECT GNOME (Local -> Cache)
+      rm -rf /home/sergiu/.local/share/gvfs-metadata
       ln -sfn /home/sergiu/.cache/gvfs-metadata /home/sergiu/.local/share/gvfs-metadata
 
-      # RECENTLY USED 
-      mkdir -p /home/sergiu/.cache/gnome-bits
+      # 6. RECENTLY USED (Local -> Cache)
+      rm -f /home/sergiu/.local/share/recently-used.xbel
       touch /home/sergiu/.cache/gnome-bits/recently-used.xbel
       ln -sfn /home/sergiu/.cache/gnome-bits/recently-used.xbel /home/sergiu/.local/share/recently-used.xbel
 
+      # Ensure Sergiu owns the new structures
+      chown -R sergiu:users /home/sergiu/.cache
+      chown -R sergiu:users /home/sergiu/.config/cache
+      chown -R sergiu:users /home/sergiu/.local/share
     '';
 
     serviceConfig = {
       Type = "oneshot";
-      User = "sergiu";
-      Group = "users";
+      User = "root"; # Root is needed to perform the 'rm -rf' and 'chown' safely
     };
   };
 
