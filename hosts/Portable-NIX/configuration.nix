@@ -215,10 +215,8 @@
       }
     ];
     services.nix-daemon.serviceConfig = {
-      # Force nix-daemon to the lowest I/O priority (Idle)
-      IOSchedulingClass = "idle";
-      # Force lowest CPU priority so UI tasks stay responsive
-      CPUSchedulingPolicy = "idle";
+      IOSchedulingClass = lib.mkForce "idle";
+      CPUSchedulingPolicy = lib.mkForce "idle";
     };
   };
 
