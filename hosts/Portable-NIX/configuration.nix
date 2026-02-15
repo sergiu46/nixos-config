@@ -140,16 +140,22 @@
         # Intel
         intel-media-driver # Modern Intel (Broadwell+)
         intel-vaapi-driver # Older Intel
-        libvdpau-va-gl # VDPAU wrapper
+        # Universal / Core (Crucial for smooth daily tasks on all GPUs)
+        mesa.drivers
+        vulkan-loader
+        vulkan-validation-layers
         libva # Base LibVA
+        libvdpau-va-gl # VDPAU wrapper
         # AMD
         rocmPackages.clr.icd # OpenCL for AMD
       ];
 
-      # 32-bit support (Steam, Wine)
+      # 32-bit support (Steam, Wine, etc.)
       extraPackages32 = with pkgs.pkgsi686Linux; [
         intel-media-driver
         intel-vaapi-driver
+        mesa.drivers
+        vulkan-loader
         libvdpau-va-gl
       ];
     };
@@ -167,7 +173,6 @@
       "radeon" # Older AMD (optional but good for very old PCs)
       "nouveau" # Nvidia Open Source
       "modesetting" # Intel & Generic fallback
-      "fbdev" # Last resort
     ];
 
     udev.extraRules = ''
