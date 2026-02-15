@@ -25,6 +25,7 @@
     intel-gpu-tools
     libva-utils
     libinput
+    pciutils
     # Stable apps
     vlc
     trayscale
