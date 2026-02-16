@@ -100,9 +100,8 @@
     check = "${pkgs.time}/bin/time -f 'Duration: %E' nixos-rebuild build --flake ~/NixOS#$(hostname)";
     switch = "${pkgs.time}/bin/time -f 'Duration: %E' sudo nixos-rebuild switch --flake ~/NixOS#$(hostname)";
     boot = "${pkgs.time}/bin/time -f 'Duration: %E' sudo nixos-rebuild boot --flake ~/NixOS#$(hostname)";
-    update = "${pkgs.time}/bin/time -f 'Duration: %E' bash -c 'cd ~/NixOS && sudo nix flake update && sudo nixos-rebuild boot --flake .#$(hostname)'";
+    update = "${pkgs.time}/bin/time -f 'Duration: %E' sudo bash -c 'cd ~/NixOS && nix flake update && nixos-rebuild boot --flake .#$(hostname)'";
 
-    # Clean
     clean = ''
       ${pkgs.time}/bin/time -f 'Duration: %E' sudo bash -c "
         sudo -u $(logname) nix-collect-garbage --delete-older-than 1d && \
@@ -201,23 +200,29 @@
     }
 
     umount-nixos() {
+      if [ "$EUID" -ne 0 ]; then
+        sudo bash -c "$(declare -f umount-nixos); umount-nixos"
+        return
+      fi
       if findmnt /mnt/boot > /dev/null; then
         local dev_path=$(findmnt -vno SOURCE /mnt/boot)
         local parent_disk=$(lsblk -no pkname "$dev_path")
         local part_num=$(lsblk -no PARTN "$dev_path")
-        sudo parted /dev/"$parent_disk" set "$part_num" esp off
+        parted /dev/"$parent_disk" set "$part_num" esp off
       else
         echo "Warning: /mnt/boot not found in mount table!"
       fi
-      sudo umount /mnt/boot 2>/dev/null
-      sudo umount /mnt 2>/dev/null
+      umount /mnt/boot 2>/dev/null
+      umount /mnt 2>/dev/null
     }
 
     install-nixos() {
       read -p "Enter host name (e.g., Samsung-NIX): " name
-      sudo HOME=/root /run/current-system/sw/bin/time -f 'Duration: %E' \
-      nixos-install --flake /home/sergiu/NixOS#"$name" --no-root-passwd
-      umount-nixos
+      sudo bash -c "
+        HOME=/root /run/current-system/sw/bin/time -f 'Duration: %E' \
+        nixos-install --flake /home/sergiu/NixOS#$name --no-root-passwd
+        $(declare -f umount-nixos); umount-nixos
+      "
     }
 
     gnome-reset() {
