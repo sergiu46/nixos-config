@@ -62,10 +62,16 @@
     };
 
     kernel.sysctl = {
-      "vm.dirty_background_bytes" = 16777216; # 16MB
-      "vm.dirty_bytes" = 33554432; # 32MB
-      "vm.swappiness" = 60;
-      "vm.vfs_cache_pressure" = 50;
+
+      # Write batching - critical since no TRIM for wear leveling
+      "vm.dirty_background_bytes" = 67108864; # 64MB
+      "vm.dirty_bytes" = 134217728; # 128MB
+
+      # Write intervals
+      "vm.dirty_expire_centisecs" = 4500; # 45 seconds
+      "vm.dirty_writeback_centisecs" = 1500; # 15 seconds
+
+      # Disable core dumps
       "kernel.core_pattern" = "|/bin/false";
     };
 

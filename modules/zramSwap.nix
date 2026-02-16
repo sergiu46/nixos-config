@@ -14,5 +14,7 @@
     "vm.page-cluster" = 0; # Don't pre-fetch; handles one page at a time
     "vm.watermark_boost_factor" = 0; # Prevents unnecessary swap-ins (reduces lag)
     "vm.watermark_scale_factor" = 125; # Keeps a larger "free RAM" buffer for spikes
+    "vm.swappiness" = 180;
+    "vm.vfs_cache_pressure" = 100;
   };
 }
