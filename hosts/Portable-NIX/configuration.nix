@@ -195,7 +195,7 @@
         ATTR{queue/scheduler}="mq-deadline"
 
       # Ghost Mode: Hide internal drives of the host machine
-      SUBSYSTEM=="block", ATTRS{removable}=="0", ENV{UDISKS_IGNORE}="1"
+      # SUBSYSTEM=="block", ATTRS{removable}=="0", ENV{UDISKS_IGNORE}="1"
     '';
   };
 
