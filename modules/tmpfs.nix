@@ -28,14 +28,9 @@
 
       # GNOME SETUP
       mkdir -p /home/sergiu/.cache/gvfs-metadata
-      mkdir -p /home/sergiu/.cache/gnome-bits
       mkdir -p /home/sergiu/.local/share/
       rm -rf /home/sergiu/.local/share/gvfs-metadata
       ln -sfn /home/sergiu/.cache/gvfs-metadata /home/sergiu/.local/share/gvfs-metadata
-      rm -rf /home/sergiu/.local/share/recently-used.xbel
-      touch /home/sergiu/.cache/gnome-bits/recently-used.xbel
-      ln -sfn /home/sergiu/.cache/gnome-bits/recently-used.xbel /home/sergiu/.local/share/recently-used.xbel
-
     '';
   };
 
