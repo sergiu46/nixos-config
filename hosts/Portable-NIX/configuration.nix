@@ -220,10 +220,10 @@
         options = "mode=0755,size=20M";
       }
     ];
-    services.nix-daemon.serviceConfig = {
-      IOSchedulingClass = lib.mkForce "idle";
-      CPUSchedulingPolicy = lib.mkForce "idle";
-    };
+    # services.nix-daemon.serviceConfig = {
+    #   IOSchedulingClass = lib.mkForce "idle";
+    #   CPUSchedulingPolicy = lib.mkForce "idle";
+    # };
   };
 
   documentation.enable = false;
