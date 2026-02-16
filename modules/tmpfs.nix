@@ -8,6 +8,11 @@
     ];
     requires = [ "home-sergiu-.cache.mount" ];
     wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      User = "sergiu";
+      Group = "users";
+    };
 
     script = ''
       # EDGE SETUP
@@ -32,12 +37,6 @@
       ln -sfn /home/sergiu/.cache/gnome-bits/recently-used.xbel /home/sergiu/.local/share/recently-used.xbel
 
     '';
-
-    serviceConfig = {
-      Type = "oneshot";
-      User = "sergiu";
-      Group = "users";
-    };
   };
 
   # Use tmpfs for /tmp
