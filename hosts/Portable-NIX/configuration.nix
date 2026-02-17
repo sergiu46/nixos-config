@@ -62,15 +62,12 @@
     };
 
     kernel.sysctl = {
-
       # Write batching - critical since no TRIM for wear leveling
       "vm.dirty_background_bytes" = 67108864; # 64MB
       "vm.dirty_bytes" = 536870912; # 512MB
-
       # Write intervals
-      "vm.dirty_expire_centisecs" = 4500; # 45 seconds
-      "vm.dirty_writeback_centisecs" = 1500; # 15 seconds
-
+      "vm.dirty_expire_centisecs" = 6000; # 45 seconds
+      "vm.dirty_writeback_centisecs" = 3000; # 15 seconds
       # Disable core dumps
       "kernel.core_pattern" = "|/bin/false";
     };
@@ -124,7 +121,7 @@
       connectionConfig."connection.stable-id" = "\${CONNECTION}";
       wifi = {
         scanRandMacAddress = true;
-        macAddress = "stable";
+        macAddress = "random";
       };
       ethernet.macAddress = "random";
     };
@@ -172,11 +169,10 @@
     locate.enable = false; # disable file indexing
     xserver.wacom.enable = true; # Wacom tablet support
 
-    # Universal Video Drivers
-    # Order matters! Specific drivers first, fallbacks last.
+    # Video Drivers. Order matters! Specific drivers first, fallbacks last.
     xserver.videoDrivers = [
       "amdgpu" # Modern AMD
-      "radeon" # Older AMD (optional but good for very old PCs)
+      "radeon" # Older AMD
       "nouveau" # Nvidia Open Source
       "modesetting" # Intel & Generic fallback
     ];
@@ -199,9 +195,8 @@
     '';
   };
 
-  # extra firmware packages
+  # Extra firmware packages
   environment.systemPackages = with pkgs; [
-    # Firmware
     linux-firmware
     alsa-firmware
     sof-firmware
@@ -220,10 +215,6 @@
         options = "mode=0755,size=20M";
       }
     ];
-    # services.nix-daemon.serviceConfig = {
-    #   IOSchedulingClass = lib.mkForce "idle";
-    #   CPUSchedulingPolicy = lib.mkForce "idle";
-    # };
   };
 
   documentation.enable = false;
