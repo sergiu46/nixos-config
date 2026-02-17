@@ -92,13 +92,11 @@
 
   # Session variables for Wayland support
   environment.sessionVariables = {
-    QT_QPA_PLATFORM = "wayland;xcb";
     NIXOS_OZONE_WL = "1";
+    QT_QPA_PLATFORM = "wayland;xcb";
     QT_QPA_PLATFORMTHEME = "gnome";
     QT_SCALE_FACTOR_ROUNDING_POLICY = "RoundPreferFloor";
-    QT_WAYLAND_FORCE_DPI = "96";
-    MOZ_ENABLE_WAYLAND = "1"; # Enable Wayland for Firefox
-    MOZ_CRASHREPORTER_DISABLE = "1"; # Disable crash reports
+    #QT_WAYLAND_FORCE_DPI = "96";
   };
 
   # Apps need these 'engines' installed to render the themes correctly

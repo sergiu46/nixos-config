@@ -148,4 +148,27 @@
     MaxRetentionSec=1month
   '';
 
+  # Firefox Config
+  programs.firefox.preferences = {
+    # Force-enable hardware because the Intel 520 is blocklisted by default
+    "media.hardware-video-decoding.force-enabled" = true;
+    "gfx.webrender.compositor.force-enabled" = true;
+
+    # Disable modern codecs your hardware cannot handle
+    "media.av1.enabled" = false;
+
+    # Workaround: Disable software fallbacks that cause stutter on this specific driver
+    "media.ffvpx.enabled" = false;
+    "media.rdd-vpx.enabled" = false;
+  };
+
+  environment.sessionVariables = {
+    # Override flags for the blocklisted Intel driver
+    MOZ_WEBRENDER_ALLOW_FLAGS = "force_enabled";
+    # Necessary if the Intel driver crashes inside the Firefox sandbox
+    MOZ_DISABLE_RDD_SANDBOX = "1";
+    # Direct the system to the Intel Media Driver
+    LIBVA_DRIVER_NAME = "iHD";
+  };
+
 }

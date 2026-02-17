@@ -42,14 +42,25 @@
   programs.firefox = {
     enable = true;
     preferences = {
+      # Basic Cleanups
       "browser.shell.checkDefaultBrowser" = false;
       "browser.shell.skipDefaultBrowserCheckOnFirstRun" = true;
-      # Hardware acceleration
+
+      # Core Acceleration (Safe for all modern GPUs)
       "media.ffmpeg.vaapi.enabled" = true;
+      "gfx.webrender.all" = true;
+      "gfx.webrender.compositor" = true;
       "media.rdd-ffmpeg.enabled" = true;
-      "media.navigator.mediadatadecoder_vpx_enabled" = true;
-      "gfx.webrender.all" = true; # Force Hardware WebRender
+
+      # Modern Wayland / HiDPI Scaling Support
+      "widget.wayland-dmabuf-vaapi.enabled" = true;
+      "widget.wayland.fractional-scale-factor.enabled" = true;
     };
+  };
+
+  environment.sessionVariables = {
+    MOZ_ENABLE_WAYLAND = "1";
+    MOZ_CRASHREPORTER_DISABLE = "1"; # Disable crash reports
   };
 
   # Tailscale
