@@ -63,7 +63,7 @@
 
     kernel.sysctl = {
       # Write batching - critical since no TRIM for wear leveling
-      "vm.dirty_background_bytes" = 67108864; # 64MB
+      "vm.dirty_background_bytes" = 134217728; # 128MB
       "vm.dirty_bytes" = 536870912; # 512MB
       # Write intervals
       "vm.dirty_expire_centisecs" = 6000; # 45 seconds
