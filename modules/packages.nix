@@ -31,7 +31,8 @@
     trayscale
     libreoffice-fresh
     angryipscanner
-    microsoft-edge
+    brave
+    #microsoft-edge
     # Unstable apps
     unstable.ventoy-full-gtk
     unstable.telegram-desktop
