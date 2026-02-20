@@ -74,10 +74,6 @@
     # Simple video driver for the VNC/VirtIO display
     xserver.videoDrivers = [ "virtio" ];
 
-    journald.extraConfig = ''
-      SystemMaxUse=500M
-      MaxRetentionSec=1month
-    '';
   };
 
   # Hardware - Minimal config for a Guest
