@@ -34,6 +34,8 @@
       "org/gnome/settings-daemon/plugins/power" = {
         sleep-inactive-ac-type = "suspend";
         sleep-inactive-ac-timeout = 7200;
+        sleep-inactive-battery-type = "suspend";
+        sleep-inactive-battery-timeout = 900;
       };
       "org/gnome/shell" = {
         enabled-extensions = [
