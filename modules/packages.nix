@@ -40,6 +40,15 @@
     unstable.bitwarden-desktop
   ];
 
+  # Brave blur fix
+  nixpkgs.overlays = [
+    (final: prev: {
+      brave = prev.brave.override {
+        commandLineArgs = "--ozone-platform=wayland --disable-features=WaylandFractionalScaleV1";
+      };
+    })
+  ];
+
   programs.firefox = {
     enable = true;
     preferences = {
