@@ -140,10 +140,10 @@
     evdev:name:*ALPS*TouchPad*:*
       # 40 is twice the real resolution (slower)
       # 80 is four times the real resolution (very slow)
-      EVDEV_ABS_00=713:2614:160
-      EVDEV_ABS_01=90:1165:166
-      EVDEV_ABS_35=713:2614:160
-      EVDEV_ABS_36=90:1165:166
+      EVDEV_ABS_00=713:2614:80
+      EVDEV_ABS_01=90:1165:84
+      EVDEV_ABS_35=713:2614:80
+      EVDEV_ABS_36=90:1165:84
   '';
 
   # Services
