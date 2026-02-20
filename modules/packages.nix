@@ -31,12 +31,12 @@
     trayscale
     libreoffice-fresh
     angryipscanner
+    microsoft-edge
     # Unstable apps
     unstable.ventoy-full-gtk
     unstable.telegram-desktop
     unstable.jellyfin-desktop
     unstable.bitwarden-desktop
-    unstable.microsoft-edge
   ];
 
   programs.firefox = {
