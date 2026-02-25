@@ -102,6 +102,7 @@
     check = "${pkgs.time}/bin/time -f 'Duration: %E' nixos-rebuild build --flake ~/NixOS#$(hostname)";
     switch = "${pkgs.time}/bin/time -f 'Duration: %E' sudo nixos-rebuild switch --flake ~/NixOS#$(hostname)";
     boot = "${pkgs.time}/bin/time -f 'Duration: %E' sudo nixos-rebuild boot --flake ~/NixOS#$(hostname)";
+
     update = ''
       sudo -v && \
       cd ~/NixOS && \
@@ -109,6 +110,7 @@
         nix flake update && \
         git add flake.lock && \
         sudo nixos-rebuild boot --flake .#$(hostname) && \
+        echo "" && \
         git commit -m "update" && \
         git push && \
         echo ""
