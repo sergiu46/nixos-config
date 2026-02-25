@@ -99,9 +99,9 @@
 
   home.shellAliases = {
     # SYSTEM BUILD
-    check = "${pkgs.time}/bin/time -f 'Duration: %E' nixos-rebuild build --flake ~/NixOS#$(hostname) && echo \"\"'";
-    switch = "${pkgs.time}/bin/time -f 'Duration: %E' sudo nixos-rebuild switch --flake ~/NixOS#$(hostname) && echo \"\"'";
-    boot = "${pkgs.time}/bin/time -f 'Duration: %E' sudo nixos-rebuild boot --flake ~/NixOS#$(hostname) && echo \"\"'";
+    check = "${pkgs.time}/bin/time -f 'Duration: %E' nixos-rebuild build --flake ~/NixOS#$(hostname)";
+    switch = "${pkgs.time}/bin/time -f 'Duration: %E' sudo nixos-rebuild switch --flake ~/NixOS#$(hostname)";
+    boot = "${pkgs.time}/bin/time -f 'Duration: %E' sudo nixos-rebuild boot --flake ~/NixOS#$(hostname)";
 
     update = ''
       sudo -v && \
