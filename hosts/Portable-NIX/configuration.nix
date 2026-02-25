@@ -12,11 +12,11 @@
   imports = [
     (modulesPath + "/profiles/all-hardware.nix")
     (modulesPath + "/installer/scan/not-detected.nix")
-    ../../modules/sync-config.nix
+    ../../modules/syncConfig.nix
     ../../modules/system.nix
     ../../modules/packages.nix
     ../../modules/tmpfs.nix
-    ../../modules/disable-tpm.nix
+    ../../modules/disableTPM.nix
     ../../modules/zramSwap.nix
   ];
 

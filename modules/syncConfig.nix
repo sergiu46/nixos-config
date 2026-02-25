@@ -3,13 +3,10 @@
 {
   systemd.user.services.sync-nixos-config = {
     description = "Sync NixOS config from GitHub after login";
-
-    # This ensures it starts once your desktop session is active
     wantedBy = [ "graphical-session.target" ];
 
     serviceConfig = {
       Type = "simple";
-      # If the script fails (e.g., GitHub is down), it will try again in 5 minutes
       Restart = "on-failure";
       RestartSec = "300s";
     };
@@ -19,17 +16,15 @@
       curl
       coreutils
       gnugrep
+      openssh # Added to ensure ssh tools are available
     ];
 
     script = ''
       CONFIG_DIR="$HOME/NixOS"
-      REPO_URL="https://github.com/sergiu46/nixos-config.git"
+      # CHANGED: Using the SSH URL
+      REPO_URL="git@github.com:sergiu46/nixos-config.git"
 
       echo "Waiting for internet connection..."
-
-      # 1. Improved Network Wait Loop
-      # We check every 2 seconds for a max of 5 minutes (150 attempts)
-      # This is perfect for slow Wi-Fi or public hotspots on a USB build.
       CONNECTED=false
       for i in {1..150}; do
         if curl -s --connect-timeout 3 --head https://github.com > /dev/null; then
@@ -45,13 +40,20 @@
         exit 1
       fi
 
-      # 2. Sync Logic
       if [ ! -d "$CONFIG_DIR" ]; then
-        echo "Cloning repository..."
+        echo "Cloning repository via SSH..."
         git clone $REPO_URL "$CONFIG_DIR"
       else
         echo "Updating repository..."
         cd "$CONFIG_DIR"
+        
+        # SELF-HEALING: If the remote is HTTPS, switch it to SSH
+        CURRENT_URL=$(git remote get-url origin)
+        if [[ "$CURRENT_URL" == "https://"* ]]; then
+          echo "Switching remote from HTTPS to SSH..."
+          git remote set-url origin $REPO_URL
+        fi
+
         git fetch origin
         git reset --hard origin/main
       fi

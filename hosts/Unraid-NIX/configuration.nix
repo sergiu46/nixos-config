@@ -11,10 +11,10 @@
     (modulesPath + "/profiles/qemu-guest.nix")
 
     # Standard modules (Ensure these paths exist relative to this file)
-    ../../modules/auto-update.nix
+    ../../modules/autoUpdate.nix
     ../../modules/system.nix
     ../../modules/packages.nix
-    ../../modules/sync-config.nix
+    ../../modules/syncConfig.nix
     ../../modules/zramSwap.nix
     ../../modules/tmpfs.nix
   ];

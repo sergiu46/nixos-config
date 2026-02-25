@@ -10,12 +10,13 @@
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    ../../modules/auto-update.nix
+    ../../modules/autoUpdate.nix
     ../../modules/system.nix
     ../../modules/zramSwap.nix
     ../../modules/packages.nix
     ../../modules/packagesExtra.nix
     ../../modules/flatpak.nix
+    ../../modules/syncConfig.nix
   ];
 
   # Networking
