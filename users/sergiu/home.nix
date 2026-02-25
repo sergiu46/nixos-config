@@ -110,10 +110,8 @@
         nix flake update && \
         git add flake.lock && \
         sudo nixos-rebuild boot --flake .#$(hostname) && \
-        echo "" && \
         git commit -m "update" && \
-        git push && \
-        echo ""
+        git push
       '
     '';
 
