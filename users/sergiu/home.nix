@@ -111,6 +111,7 @@
         sudo nixos-rebuild boot --flake .#$(hostname) && \
         git commit -m "update" && \
         git push
+        echo ""
       '
     '';
 
