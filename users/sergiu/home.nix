@@ -110,7 +110,7 @@
         git add flake.lock && \
         sudo nixos-rebuild boot --flake .#$(hostname) && \
         git commit -m "update" && \
-        git push
+        git push && \
         echo ""
       '
     '';
