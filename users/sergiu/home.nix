@@ -48,7 +48,9 @@
           "brave-browser.desktop"
           "firefox.desktop"
           "org.jellyfin.JellyfinDesktop.desktop"
+          "brave-gnkgkkpgflmdnfamhhclhoedndmefacg-Default.desktop"
           "org.telegram.desktop.desktop"
+          "brave-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop"
           "code.desktop"
           "org.gnome.Console.desktop"
           "bitwarden.desktop"
@@ -124,6 +126,8 @@
         command -v flatpak &> /dev/null && flatpak uninstall --unused -y || true
       "
     '';
+
+    favorites = "gsettings get org.gnome.shell favorite-apps";
   };
 
   programs.bash.initExtra = ''
