@@ -16,13 +16,14 @@
       curl
       coreutils
       gnugrep
-      openssh # Added to ensure ssh tools are available
+      openssh
     ];
 
     script = ''
       CONFIG_DIR="$HOME/NixOS"
-      # CHANGED: Using the SSH URL
       REPO_URL="git@github.com:sergiu46/nixos-config.git"
+      export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
+      export GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no"
 
       echo "Waiting for internet connection..."
       CONNECTED=false
@@ -36,22 +37,36 @@
       done
 
       if [ "$CONNECTED" = false ]; then
-        echo "Network timeout. Could not sync config."
+        echo "Network timeout. Exit."
+        exit 1
+      fi
+
+      echo "Waiting for Bitwarden SSH keys to be available..."
+      KEYS_AVAILABLE=false
+      for i in {1..60}; do
+        if [ -S "$SSH_AUTH_SOCK" ] && ssh-add -l > /dev/null 2>&1; then
+          echo "Bitwarden agent is ready and has keys!"
+          KEYS_AVAILABLE=true
+          break
+        fi
+        sleep 2
+      done
+
+      if [ "$KEYS_AVAILABLE" = false ]; then
+        echo "Error: Bitwarden agent not found or no keys loaded. Is Bitwarden unlocked?"
         exit 1
       fi
 
       if [ ! -d "$CONFIG_DIR" ]; then
-        echo "Cloning repository via SSH..."
-        git clone $REPO_URL "$CONFIG_DIR"
+        echo "Cloning repository..."
+        git clone "$REPO_URL" "$CONFIG_DIR"
       else
         echo "Updating repository..."
         cd "$CONFIG_DIR"
         
-        # SELF-HEALING: If the remote is HTTPS, switch it to SSH
         CURRENT_URL=$(git remote get-url origin)
         if [[ "$CURRENT_URL" == "https://"* ]]; then
-          echo "Switching remote from HTTPS to SSH..."
-          git remote set-url origin $REPO_URL
+          git remote set-url origin "$REPO_URL"
         fi
 
         git fetch origin
