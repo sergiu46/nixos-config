@@ -6,7 +6,6 @@
     # Gnome extensions
     gnomeExtensions.system-monitor
     gnomeExtensions.alphabetical-app-grid
-    gnomeExtensions.blur-my-shell
     # Shell
     curl
     wget

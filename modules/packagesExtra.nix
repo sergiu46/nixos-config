@@ -8,6 +8,7 @@
     gnomeExtensions.clipboard-indicator
     gnomeExtensions.dash-to-dock
     gnomeExtensions.dash-to-panel
+    gnomeExtensions.blur-my-shell
     # Libre office
     hunspell
     hunspellDicts.en_US
