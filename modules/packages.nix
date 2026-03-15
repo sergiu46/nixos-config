@@ -29,7 +29,6 @@
     vlc
     trayscale
     libreoffice-fresh
-    angryipscanner
     brave
     #microsoft-edge
     # Unstable apps
@@ -37,6 +36,7 @@
     unstable.telegram-desktop
     unstable.jellyfin-desktop
     unstable.bitwarden-desktop
+    unstable.angryipscanner
   ];
 
   # Brave blur fix
