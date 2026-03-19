@@ -30,7 +30,6 @@
     trayscale
     libreoffice-fresh
     brave
-    #microsoft-edge
     # Unstable apps
     unstable.ventoy-full-gtk
     unstable.telegram-desktop
