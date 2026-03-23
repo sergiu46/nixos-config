@@ -17,6 +17,7 @@
     ../../modules/packagesExtra.nix
     ../../modules/flatpak.nix
     ../../modules/syncConfig.nix
+    ../../modules/bottles.nix
   ];
 
   # Networking
