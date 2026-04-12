@@ -42,14 +42,14 @@
   powerManagement.enable = true; # Enable power management
 
   environment.gnome.excludePackages = with pkgs; [
-    #epiphany
     geary
-    gnome-calendar
-    gnome-contacts
-    gnome-maps
-    gnome-music
     gnome-tour
     yelp
+    #epiphany
+    #gnome-calendar
+    #gnome-contacts
+    #gnome-maps
+    #gnome-music
     #showtime
   ];
 
