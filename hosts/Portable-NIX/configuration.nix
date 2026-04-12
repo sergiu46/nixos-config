@@ -121,9 +121,9 @@
       connectionConfig."connection.stable-id" = "\${CONNECTION}";
       wifi = {
         scanRandMacAddress = true;
-        macAddress = "random";
+        macAddress = "stable";
       };
-      ethernet.macAddress = "random";
+      ethernet.macAddress = "stable";
     };
   };
 
