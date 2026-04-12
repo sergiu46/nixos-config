@@ -42,7 +42,7 @@
   powerManagement.enable = true; # Enable power management
 
   environment.gnome.excludePackages = with pkgs; [
-    epiphany
+    #epiphany
     geary
     gnome-calendar
     gnome-contacts
@@ -50,7 +50,7 @@
     gnome-music
     gnome-tour
     yelp
-    showtime
+    #showtime
   ];
 
   # dconf
