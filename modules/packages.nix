@@ -14,6 +14,7 @@
     traceroute
     tree
     parted
+    gptfdisk
     f2fs-tools
     mkpasswd
     nix-tree
