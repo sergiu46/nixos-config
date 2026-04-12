@@ -202,6 +202,44 @@
     sof-firmware
   ];
 
+  # Flip ESP Flags
+  systemd.services.activate-efi-on-boot = {
+    description = "Set /boot to ACTIVE (ef00) at boot";
+    after = [ "local-fs.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = pkgs.writeShellScript "efi-on" ''
+        DEV_PATH=$(${pkgs.util-linux}/bin/findmnt -vno SOURCE /boot)
+        PARENT_DISK=$(${pkgs.util-linux}/bin/lsblk -no pkname "$DEV_PATH")
+        PART_NUM=$(${pkgs.util-linux}/bin/lsblk -no PARTN "$DEV_PATH")
+        ${pkgs.gptfdisk}/bin/sgdisk -t "$PART_NUM":ef00 /dev/"$PARENT_DISK"
+      '';
+      RemainAfterExit = true;
+    };
+  };
+
+  systemd.services.deactivate-efi-on-shutdown = {
+    description = "Set /boot to HIDDEN (8300) at shutdown";
+    before = [
+      "shutdown.target"
+      "reboot.target"
+    ];
+    wantedBy = [
+      "shutdown.target"
+      "reboot.target"
+    ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = pkgs.writeShellScript "efi-off" ''
+        DEV_PATH=$(${pkgs.util-linux}/bin/findmnt -vno SOURCE /boot)
+        PARENT_DISK=$(${pkgs.util-linux}/bin/lsblk -no pkname "$DEV_PATH")
+        PART_NUM=$(${pkgs.util-linux}/bin/lsblk -no PARTN "$DEV_PATH")
+        ${pkgs.gptfdisk}/bin/sgdisk -t "$PART_NUM":8300 /dev/"$PARENT_DISK"
+      '';
+    };
+  };
+
   # systemd settings
   systemd = {
     coredump.enable = false;
