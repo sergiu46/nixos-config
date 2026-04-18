@@ -32,6 +32,7 @@
     trayscale
     libreoffice-fresh
     brave
+    gnome-network-displays
     # Unstable apps
     unstable.ventoy-full-gtk
     unstable.telegram-desktop
