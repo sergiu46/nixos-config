@@ -245,6 +245,7 @@
     coredump.enable = false;
     targets.hibernate.enable = false;
     targets.hybrid-sleep.enable = false;
+    targets.suspend.aliases = [ "poweroff.target" ];
     mounts = [
       {
         where = "/var/lib/systemd";
