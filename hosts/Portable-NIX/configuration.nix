@@ -195,14 +195,12 @@
     '';
 
     logind = {
-      lidSwitch = "poweroff";
-      lidSwitchExternalPower = "poweroff";
-      extraConfig = ''
-        HandleSuspendKey=poweroff
-        HandleLidSwitch=poweroff
-        HandleLidSwitchExternalPower=poweroff
-        HandleHibernateKey=poweroff
-      '';
+      settings.Login = {
+        HandleSuspendKey = "poweroff";
+        HandleLidSwitch = "poweroff";
+        HandleLidSwitchExternalPower = "poweroff";
+        HandleHibernateKey = "poweroff";
+      };
     };
 
   };
