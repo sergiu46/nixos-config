@@ -193,6 +193,18 @@
       # Ghost Mode: Hide internal drives of the host machine
       # SUBSYSTEM=="block", ATTRS{removable}=="0", ENV{UDISKS_IGNORE}="1"
     '';
+
+    logind = {
+      lidSwitch = "poweroff";
+      lidSwitchExternalPower = "poweroff";
+      extraConfig = ''
+        HandleSuspendKey=poweroff
+        HandleLidSwitch=poweroff
+        HandleLidSwitchExternalPower=poweroff
+        HandleHibernateKey=poweroff
+      '';
+    };
+
   };
 
   # Extra firmware packages
@@ -243,9 +255,10 @@
   # systemd settings
   systemd = {
     coredump.enable = false;
+    targets.suspend.enable = false;
     targets.hibernate.enable = false;
     targets.hybrid-sleep.enable = false;
-    targets.suspend.aliases = [ "poweroff.target" ];
+
     mounts = [
       {
         where = "/var/lib/systemd";
