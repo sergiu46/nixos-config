@@ -18,7 +18,7 @@
     fstrim.enable = true; # Enable periodic TRIM for SSDs
     blueman.enable = true; # Bluetooth manager
     libinput.enable = true; # Input device management
-
+    geoclue2.enable = true; # Location for timezone
   };
 
   hardware = {
