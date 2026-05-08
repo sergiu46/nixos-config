@@ -33,6 +33,7 @@
     libreoffice-fresh
     brave
     gnome-network-displays
+    opensoundmeter
     # Unstable apps
     unstable.ventoy-full-gtk
     unstable.telegram-desktop
