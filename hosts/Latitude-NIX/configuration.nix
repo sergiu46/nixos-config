@@ -93,9 +93,16 @@
 
   # Systemd Sleep Settings
   systemd.sleep.extraConfig = ''
-    HibernateDelaySec=3600
+    HibernateDelaySec=1800  # 30 de minute (ajustează după preferință)
     AllowSuspendThenHibernate=yes
+    HibernateMode=shutdown
   '';
+
+  # Forțează serviciul de hibernare să execute Shut Down
+  systemd.services.systemd-hibernate.serviceConfig.ExecStart = [
+    ""
+    "${pkgs.systemd}/bin/systemctl poweroff"
+  ];
 
   # The "Catch-All" Alias: Forces all suspends to use the hybrid logic
   systemd.targets.suspend.enable = false;
@@ -104,11 +111,10 @@
   # Logind Settings
   services.logind.settings = {
     Login = {
-      HandleLidSwitch = "suspend";
-      HandlePowerKey = "suspend";
-      HandleSuspendKey = "suspend";
-      HandleLidSwitchExternalPower = "suspend";
-      # Overrides Desktop Environment "inhibitors"
+      HandleLidSwitch = "suspend-then-hibernate";
+      HandlePowerKey = "poweroff";
+      HandleSuspendKey = "suspend-then-hibernate";
+      HandleLidSwitchExternalPower = "suspend-then-hibernate";
       LidSwitchIgnoreInhibited = "yes";
     };
   };
