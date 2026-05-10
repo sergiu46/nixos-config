@@ -95,7 +95,6 @@
   systemd.sleep.extraConfig = ''
     HibernateDelaySec=1800  # 30 de minute (ajustează după preferință)
     AllowSuspendThenHibernate=yes
-    HibernateMode=shutdown
   '';
 
   # Forțează serviciul de hibernare să execute Shut Down
@@ -105,7 +104,7 @@
   ];
 
   # The "Catch-All" Alias: Forces all suspends to use the hybrid logic
-  systemd.targets.suspend.enable = false;
+
   systemd.targets.suspend-then-hibernate.aliases = [ "suspend.target" ];
 
   # Logind Settings
