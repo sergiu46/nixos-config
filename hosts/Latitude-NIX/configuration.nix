@@ -95,12 +95,13 @@
   systemd.sleep.extraConfig = ''
     HibernateDelaySec=1800  # 30 de minute (ajustează după preferință)
     AllowSuspendThenHibernate=yes
+    HibernateMode=shutdown
   '';
 
   # Forțează serviciul de hibernare să execute Shut Down
   systemd.services.systemd-hibernate.serviceConfig.ExecStart = [
     ""
-    "${pkgs.systemd}/bin/systemctl poweroff"
+    "${pkgs.systemd}/bin/systemctl poweroff --force"
   ];
 
   # The "Catch-All" Alias: Forces all suspends to use the hybrid logic
