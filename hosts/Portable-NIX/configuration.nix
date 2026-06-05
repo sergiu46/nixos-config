@@ -16,6 +16,7 @@
     ../../modules/system.nix
     ../../modules/packages.nix
     ../../modules/tmpfs.nix
+    ../../modules/flatpak.nix
     ../../modules/disableTPM.nix
     ../../modules/zramSwap.nix
   ];
