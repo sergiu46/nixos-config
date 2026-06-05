@@ -30,7 +30,6 @@
     ];
     kernelParams = [
       "usbcore.autosuspend=-1"
-      "initcall_parallel=1" # Faster boot
       "scsi_mod.use_blk_mq=1" # Multi-queue for storage
       "intel_pstate=active"
       "amd_pstate=active"

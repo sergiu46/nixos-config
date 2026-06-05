@@ -36,7 +36,6 @@
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
     kernelParams = [
-      "initcall_parallel=1" # Faster boot
       "scsi_mod.use_blk_mq=1" # Multi-queue for storage
       "intel_pstate=active" # Keeps the CPU responsive
       "i915.enable_guc=2" # Authenticates HuC for smooth video
