@@ -76,17 +76,21 @@
       name = "Adwaita-dark";
       package = pkgs.gnome-themes-extra;
     };
+    gtk4.theme = null;
   };
 
   # Configure the SSH Client to use bitwarden
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks."*" = {
-      setEnv = {
-        TERM = "xterm-256color";
+    settings = {
+      "*" = {
+        IdentityAgent = "~/.bitwarden-ssh-agent.sock";
+        # SetEnv trebuie definit ca un set de atribute, nu ca un string
+        SetEnv = {
+          TERM = "xterm-256color";
+        };
       };
-      identityAgent = "~/.bitwarden-ssh-agent.sock";
     };
   };
 

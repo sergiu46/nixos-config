@@ -7,7 +7,7 @@ in
   # Home packages
   home.packages = with pkgs; [
     nixd # The actual server
-    nixfmt-rfc-style # Formatter
+    nixfmt # Formatter
   ];
 
   # VSCode
