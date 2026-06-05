@@ -37,7 +37,7 @@
     # Unstable apps
     unstable.ventoy-full-gtk
     unstable.telegram-desktop
-    unstable.jellyfin-desktop
+    #unstable.jellyfin-desktop
     unstable.bitwarden-desktop
     unstable.angryipscanner
   ];
