@@ -166,7 +166,7 @@
   # Nix settings
   nix.settings = {
     auto-optimise-store = true;
-    download-buffer-size = 500000000;
+    #download-buffer-size = 500000000;
     http-connections = 50;
     max-substitution-jobs = 30;
     stalled-download-timeout = 60;
