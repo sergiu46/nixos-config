@@ -29,7 +29,7 @@
         show-battery-percentage = true;
       };
       "org/gnome/desktop/screensaver" = {
-        lock-enabled = false;
+        lock-enabled = true;
       };
       "org/gnome/settings-daemon/plugins/power" = {
         sleep-inactive-ac-type = "suspend";
