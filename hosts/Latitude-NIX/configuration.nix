@@ -92,7 +92,7 @@
 
   # Systemd Sleep Settings
   systemd.sleep.settings.Sleep = {
-    HibernateDelaySec = "1800"; # 30 de minute pănă la oprire
+    HibernateDelaySec = "7200"; # 2h pănă la hibernare
     AllowSuspendThenHibernate = "yes";
   };
 
