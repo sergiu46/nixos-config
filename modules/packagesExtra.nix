@@ -17,15 +17,6 @@
     unstable.nextcloud-client
   ];
 
-  # Nextcloud Client autostart (only applies when this file is imported)
-  xdg.configFile."autostart/nextcloud.desktop".text = ''
-    [Desktop Entry]
-    Name=Nextcloud
-    Exec=${pkgs.nextcloud-client}/bin/nextcloud --background
-    Type=Application
-    X-GNOME-Autostart-enabled=true
-  '';
-
   fonts.packages = with pkgs; [
     corefonts # Microsoft's TrueType core fonts
     vista-fonts # Includes Calibri, Cambria, etc.
