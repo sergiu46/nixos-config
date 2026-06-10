@@ -19,10 +19,11 @@
     [Desktop Entry]
     Type=Application
     Name=Bitwarden
-    Exec=${pkgs.unstable.bitwarden-desktop}/bin/bitwarden --start-minimized
+    Exec=${pkgs.unstable.bitwarden-desktop}/bin/bitwarden --autostart
     Icon=bitwarden
     X-GNOME-Autostart-enabled=true
     StartupNotify=false
+    Terminal=false
   '';
 
   # Dark mode variables
