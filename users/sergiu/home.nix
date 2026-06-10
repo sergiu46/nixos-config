@@ -19,7 +19,7 @@
     [Desktop Entry]
     Name=Bitwarden
     Comment=A secure and free password manager for all of your devices.
-    Exec=${pkgs.unstable.bitwarden-desktop}/bin/bitwarden-desktop %U
+    Exec=${pkgs.unstable.bitwarden-desktop}/bin/bitwarden %U
     Terminal=false
     Type=Application
     Icon=bitwarden
@@ -39,23 +39,6 @@
     StartupWMClass=TelegramDesktop
     X-GNOME-Autostart-enabled=true
   '';
-
-  # Nextcloud Client autostart
-  xdg.configFile."autostart/nextcloud.desktop" =
-    if builtins.hasAttr "nextcloud-client" pkgs then
-      {
-        text = ''
-          [Desktop Entry]
-          Name=Nextcloud
-          Exec=${pkgs.nextcloud-client}/bin/nextcloud --background
-          Type=Application
-          X-GNOME-Autostart-enabled=true
-        '';
-      }
-    else
-      {
-        enable = false;
-      };
 
   # Dark mode variables
   home.sessionVariables = {
