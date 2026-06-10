@@ -14,32 +14,6 @@
     ../../modules/vscode.nix
   ];
 
-  # Bitwarden autostart
-  xdg.configFile."autostart/bitwarden.desktop".text = ''
-    [Desktop Entry]
-    Name=Bitwarden
-    Comment=A secure and free password manager for all of your devices.
-    Exec=${pkgs.unstable.bitwarden-desktop}/bin/bitwarden %U
-    Terminal=false
-    Type=Application
-    Icon=bitwarden
-    StartupWMClass=Bitwarden
-    X-GNOME-Autostart-enabled=true
-  '';
-
-  # Telegram Desktop autostart
-  xdg.configFile."autostart/telegramdesktop.desktop".text = ''
-    [Desktop Entry]
-    Name=Telegram Desktop
-    Comment=Official desktop version of Telegram messaging app
-    Exec=${pkgs.unstable.telegram-desktop}/bin/telegram-desktop -startintray %u
-    Terminal=false
-    Type=Application
-    Icon=telegram
-    StartupWMClass=TelegramDesktop
-    X-GNOME-Autostart-enabled=true
-  '';
-
   # Dark mode variables
   home.sessionVariables = {
     COLOR_SCHEME = "prefer-dark";
