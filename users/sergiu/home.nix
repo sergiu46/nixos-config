@@ -14,14 +14,15 @@
     ../../modules/vscode.nix
   ];
 
-  # home.nix
+  # autostart bitwarden
   xdg.configFile."autostart/bitwarden.desktop".text = ''
     [Desktop Entry]
     Type=Application
     Name=Bitwarden
-    Exec=${pkgs.bitwarden-desktop}/bin/bitwarden --minimized
+    Exec=${pkgs.bitwarden-desktop}/bin/bitwarden --start-minimized
     Icon=bitwarden
     X-GNOME-Autostart-enabled=true
+    StartupNotify=false
   '';
 
   # Dark mode variables
