@@ -231,17 +231,17 @@
 
   systemd.services.deactivate-efi-on-shutdown = {
     description = "Set /boot to HIDDEN (8300) at shutdown";
+    after = [ "local-fs.target" ];
     before = [
       "shutdown.target"
-      "reboot.target"
+      "umount.target"
     ];
-    wantedBy = [
-      "shutdown.target"
-      "reboot.target"
-    ];
+    wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = pkgs.writeShellScript "efi-off" ''
+      RemainAfterExit = true;
+      ExecStart = "${pkgs.coreutils}/bin/true";
+      ExecStop = pkgs.writeShellScript "efi-off" ''
         DEV_PATH=$(${pkgs.util-linux}/bin/findmnt -vno SOURCE /boot)
         PARENT_DISK=$(${pkgs.util-linux}/bin/lsblk -no pkname "$DEV_PATH")
         PART_NUM=$(${pkgs.util-linux}/bin/lsblk -no PARTN "$DEV_PATH")
