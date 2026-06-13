@@ -129,6 +129,23 @@
 
   services.gnome.core-shell.enable = true;
 
+  # Enforce GNOME idle shutdown settings system-wide
+  programs.dconf = {
+    enable = true;
+    profiles.user.databases = [
+      {
+        settings = {
+          "org/gnome/settings-daemon/plugins/power" = {
+            sleep-inactive-ac-timeout = lib.gvariant.mkInt32 3600;
+            sleep-inactive-ac-type = "shutdown";
+            sleep-inactive-battery-timeout = lib.gvariant.mkInt32 3600;
+            sleep-inactive-battery-type = "shutdown";
+          };
+        };
+      }
+    ];
+  };
+
   hardware = {
     cpu.amd.updateMicrocode = true;
     cpu.intel.updateMicrocode = true;
