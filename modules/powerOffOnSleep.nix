@@ -1,12 +1,22 @@
 { pkgs, lib, ... }:
 
 let
-  # Define your custom laptop timeouts here
   idleTimeout = "5min";
   sleepTimeoutSeconds = 300;
-
-  # Helper to calculate the rtcwake evaluation threshold
   thresholdSeconds = toString (sleepTimeoutSeconds - 10);
+
+  # Isolate bash logic into a dedicated Nix store script
+  suspendScript = pkgs.writeShellScript "suspend-to-shutdown.sh" ''
+    START=$(date +%s)
+
+    ${pkgs.util-linux}/bin/rtcwake -m mem -s ${toString sleepTimeoutSeconds}
+
+    END=$(date +%s)
+
+    if [ $((END - START)) -ge ${thresholdSeconds} ]; then
+      ${pkgs.systemd}/bin/systemctl poweroff
+    fi
+  '';
 in
 {
   # Systemd Sleep Settings
@@ -31,9 +41,9 @@ in
     };
   };
 
-  # Sleep-to-Shutdown Engine (Fixed systemd $$ escaping)
+  # Execute the isolated script
   systemd.services.systemd-suspend.serviceConfig.ExecStart = lib.mkForce [
     ""
-    "${pkgs.bash}/bin/bash -c 'START=$$(date +%s); ${pkgs.util-linux}/bin/rtcwake -m mem -s ${toString sleepTimeoutSeconds}; END=$$(date +%s); if [ $$((END - START)) -ge ${thresholdSeconds} ]; then ${pkgs.systemd}/bin/systemctl poweroff; fi'"
+    "${suspendScript}"
   ];
 }
