@@ -17,7 +17,6 @@
     ../../modules/syncConfig.nix
     ../../modules/zramSwap.nix
     ../../modules/tmpfs.nix
-    ../../modules/powerOffOnIdle.nix
   ];
 
   # Networking
@@ -65,6 +64,14 @@
       "fmask=0077"
       "dmask=0077"
     ];
+  };
+
+  # Logind Settings
+  services.logind.settings = {
+    Login = {
+      IdleAction = "poweroff";
+      IdleActionSec = "2h";
+    };
   };
 
   # Services
