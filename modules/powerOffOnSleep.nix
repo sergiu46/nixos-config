@@ -1,7 +1,10 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  ...
+}:
 
 let
-  idleTimeout = "5min";
   sleepTimeoutSeconds = 300;
   thresholdSeconds = toString (sleepTimeoutSeconds - 10);
 
@@ -26,20 +29,6 @@ in
     AllowHibernation = "no";
     AllowSuspendThenHibernate = "no";
     AllowHybridSleep = "no";
-  };
-
-  # Logind Settings
-  services.logind.settings = {
-    Login = {
-      HandleLidSwitch = "suspend";
-      HandlePowerKey = "poweroff";
-      HandleSuspendKey = "suspend";
-      HandleLidSwitchExternalPower = "suspend";
-      LidSwitchIgnoreInhibited = "yes";
-
-      IdleAction = "suspend";
-      IdleActionSec = idleTimeout;
-    };
   };
 
   # Execute the isolated script
