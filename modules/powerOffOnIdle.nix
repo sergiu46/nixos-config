@@ -6,18 +6,20 @@
 
 let
   # Define your custom timeouts here
-  idleTimeout = "5min";
+  idleTimeout = "20min";
   sleepTimeoutSeconds = 3600; # 1 hour
 
   # Helper to calculate the rtcwake evaluation threshold
   thresholdSeconds = toString (sleepTimeoutSeconds - 10);
 in
 {
-  # 1. Idle Timeout Shutdown
-  services.logind.extraConfig = ''
-    IdleAction=poweroff
-    IdleActionSec=${idleTimeout}
-  '';
+  # 1. Idle Timeout Shutdown (Updated for structured settings)
+  services.logind.settings = {
+    Login = {
+      IdleAction = "poweroff";
+      IdleActionSec = idleTimeout;
+    };
+  };
 
   # 2. Sleep-to-Shutdown Timeout
   systemd.services.systemd-suspend.serviceConfig.ExecStart = lib.mkForce [
