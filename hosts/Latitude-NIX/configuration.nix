@@ -17,6 +17,7 @@
     ../../modules/packagesExtra.nix
     ../../modules/flatpak.nix
     ../../modules/syncConfig.nix
+    ../../modules/powerOffOnSleep.nix
   ];
 
   # Networking
@@ -89,23 +90,6 @@
   # Swap & Resume
   swapDevices = [ { device = "/dev/disk/by-label/swap"; } ];
   boot.resumeDevice = "/dev/disk/by-label/swap";
-
-  # Systemd Sleep Settings
-  systemd.sleep.settings.Sleep = {
-    HibernateDelaySec = "7200"; # 2h pănă la hibernare
-    AllowSuspendThenHibernate = "yes";
-  };
-
-  # Logind Settings
-  services.logind.settings = {
-    Login = {
-      HandleLidSwitch = "suspend-then-hibernate";
-      HandlePowerKey = "poweroff";
-      HandleSuspendKey = "suspend-then-hibernate";
-      HandleLidSwitchExternalPower = "suspend-then-hibernate";
-      LidSwitchIgnoreInhibited = "yes";
-    };
-  };
 
   # Hardware configuration
   hardware = {
