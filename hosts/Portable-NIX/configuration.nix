@@ -19,6 +19,7 @@
     ../../modules/flatpak.nix
     ../../modules/disableTPM.nix
     ../../modules/zramSwap.nix
+    ../../modules/powerOffOnSleep.nix
   ];
 
   # --- Boot & Kernel ---
@@ -129,37 +130,6 @@
 
   services.gnome.core-shell.enable = true;
 
-  # Enforce GNOME idle shutdown settings system-wide for both User and Login Screen (GDM)
-  programs.dconf = {
-    enable = true;
-    profiles = {
-      user.databases = [
-        {
-          settings = {
-            "org/gnome/settings-daemon/plugins/power" = {
-              sleep-inactive-ac-timeout = lib.gvariant.mkInt32 3600;
-              sleep-inactive-ac-type = "shutdown";
-              sleep-inactive-battery-timeout = lib.gvariant.mkInt32 3600;
-              sleep-inactive-battery-type = "shutdown";
-            };
-          };
-        }
-      ];
-      gdm.databases = [
-        {
-          settings = {
-            "org/gnome/settings-daemon/plugins/power" = {
-              sleep-inactive-ac-timeout = lib.gvariant.mkInt32 3600;
-              sleep-inactive-ac-type = "shutdown";
-              sleep-inactive-battery-timeout = lib.gvariant.mkInt32 3600;
-              sleep-inactive-battery-type = "shutdown";
-            };
-          };
-        }
-      ];
-    };
-  };
-
   hardware = {
     cpu.amd.updateMicrocode = true;
     cpu.intel.updateMicrocode = true;
@@ -224,15 +194,6 @@
       # Ghost Mode: Hide internal drives of the host machine
       # SUBSYSTEM=="block", ATTRS{removable}=="0", ENV{UDISKS_IGNORE}="1"
     '';
-
-    logind = {
-      settings.Login = {
-        HandleSuspendKey = "poweroff";
-        HandleLidSwitch = "poweroff";
-        HandleLidSwitchExternalPower = "poweroff";
-        HandleHibernateKey = "poweroff";
-      };
-    };
 
   };
 

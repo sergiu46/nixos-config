@@ -5,10 +5,9 @@
 }:
 
 let
-  sleepTimeoutSeconds = 300;
+  sleepTimeoutSeconds = 7200; # 2h
   thresholdSeconds = toString (sleepTimeoutSeconds - 10);
 
-  # Isolate bash logic into a dedicated Nix store script
   suspendScript = pkgs.writeShellScript "suspend-to-shutdown.sh" ''
     START=$(date +%s)
 

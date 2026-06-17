@@ -88,8 +88,8 @@
   };
 
   # Swap & Resume
-  swapDevices = [ { device = "/dev/disk/by-label/swap"; } ];
-  boot.resumeDevice = "/dev/disk/by-label/swap";
+  # swapDevices = [ { device = "/dev/disk/by-label/swap"; } ];
+  # boot.resumeDevice = "/dev/disk/by-label/swap";
 
   # Hardware configuration
   hardware = {
