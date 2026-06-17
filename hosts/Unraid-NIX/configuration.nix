@@ -17,6 +17,7 @@
     ../../modules/syncConfig.nix
     ../../modules/zramSwap.nix
     ../../modules/tmpfs.nix
+    ../../modules/powerOffOnIdle.nix
   ];
 
   # Networking
