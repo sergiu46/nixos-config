@@ -14,7 +14,8 @@ let
     END=$(date +%s)
 
     if [ $((END - START)) -ge ${thresholdSeconds} ]; then
-      ${pkgs.systemd}/bin/systemctl poweroff
+      # Queue the poweroff asynchronously to bypass systemd state locks
+      ${pkgs.systemd}/bin/systemd-run --on-active=2s ${pkgs.systemd}/bin/systemctl poweroff
     fi
   '';
 in
