@@ -1,5 +1,4 @@
 {
-
   pkgs,
   lib,
   ...
@@ -7,8 +6,8 @@
 
 let
   # Define your custom laptop timeouts here
-  idleTimeout = "20min"; # Time before laptop goes to sleep
-  sleepTimeoutSeconds = "1h"; # Time in sleep (1 hour) before shutting down
+  idleTimeout = "5min"; # Time before laptop goes to sleep
+  sleepTimeoutSeconds = 300; # Time in sleep (1 hour) before shutting down
 
   # Helper to calculate the rtcwake evaluation threshold
   thresholdSeconds = toString (sleepTimeoutSeconds - 10);
@@ -40,6 +39,6 @@ in
   # Sleep-to-Shutdown Engine via RTC wake timer
   systemd.services.systemd-suspend.serviceConfig.ExecStart = lib.mkForce [
     ""
-    "${pkgs.bash}/bin/bash -c 'START=$(date +%s); ${pkgs.utillinux}/bin/rtcwake -m mem -s ${toString sleepTimeoutSeconds}; END=$(date +%s); if [ $((END - START)) -ge ${thresholdSeconds} ]; then ${pkgs.systemd}/bin/systemctl poweroff; fi'"
+    "${pkgs.bash}/bin/bash -c 'START=$(date +%s); ${pkgs.util-linux}/bin/rtcwake -m mem -s ${toString sleepTimeoutSeconds}; END=$(date +%s); if [ $((END - START)) -ge ${thresholdSeconds} ]; then ${pkgs.systemd}/bin/systemctl poweroff; fi'"
   ];
 }
