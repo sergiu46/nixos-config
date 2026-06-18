@@ -5,15 +5,15 @@
 }:
 
 let
-  sleepTimeoutSeconds = 7200; # 2h
+  sleepTimeoutSeconds = 7200;
   thresholdSeconds = toString (sleepTimeoutSeconds - 10);
 
   # Isolate bash logic into a dedicated Nix store script
   suspendScript = pkgs.writeShellScript "suspend-to-shutdown.sh" ''
     START=$(date +%s)
 
-    # Added -u to force UTC mode and protect the hardware clock from timezone corruption
-    ${pkgs.util-linux}/bin/rtcwake -m mem -s ${toString sleepTimeoutSeconds} -u
+    # Changed to -l to perfectly match your hardwareClockInLocalTime = true setting
+    ${pkgs.util-linux}/bin/rtcwake -m mem -s ${toString sleepTimeoutSeconds} -l
 
     END=$(date +%s)
 
