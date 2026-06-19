@@ -244,11 +244,6 @@
 
   # systemd settings
   systemd = {
-    coredump.enable = false;
-    targets.suspend.enable = false;
-    targets.hibernate.enable = false;
-    targets.hybrid-sleep.enable = false;
-
     mounts = [
       {
         where = "/var/lib/systemd";
