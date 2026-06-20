@@ -5,7 +5,7 @@
 }:
 
 let
-  sleepTimeoutSeconds = 7200;
+  sleepTimeoutSeconds = 10800; # 3h
   thresholdSeconds = toString (sleepTimeoutSeconds - 10);
 
   # Isolate bash logic into a dedicated Nix store script
