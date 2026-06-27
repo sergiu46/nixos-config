@@ -15,10 +15,8 @@
     };
 
     script = ''
-      # EDGE SETUP
-      mkdir -p /home/sergiu/.config/cache/Microsoft
-      ln -sfn /home/sergiu/.config/cache/Microsoft /home/sergiu/.cache/Microsoft
-      rm -f /home/sergiu/.config/microsoft-edge/Singleton*
+      # BRAVE SETUP
+      rm -f /home/sergiu/.config/BraveSoftware/Brave-Browser/Singleton*
 
       # TELEGRAM SETUP
       mkdir -p /home/sergiu/.cache/telegram_cache
