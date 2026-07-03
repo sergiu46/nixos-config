@@ -7,12 +7,12 @@
         ]
       },
       "locked": {
-        "lastModified": 1781981105,
-        "narHash": "sha256-/1nNBbA7PrSQpTc9Qazkhl4kIPg+TNl0CjxS3UQJKlw=",
-        "rev": "7bfff44b465909f69a442701293bc0badcf476dc",
-        "revCount": 6817,
+        "lastModified": 1782704057,
+        "narHash": "sha256-G1I1gd32F7mp9LAe1DaZ4ZL7NX5gyiKwdCMwro1Vrck=",
+        "rev": "868d0a692de703c2de98fab61968e4e310b7c28e",
+        "revCount": 6818,
         "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/nix-community/home-manager/0.2605.6817%2Brev-7bfff44b465909f69a442701293bc0badcf476dc/019ee66b-aaf6-7d21-b14c-7e18ecfbddb6/source.tar.gz"
+        "url": "https://api.flakehub.com/f/pinned/nix-community/home-manager/0.2605.6818%2Brev-868d0a692de703c2de98fab61968e4e310b7c28e/019f1190-16ae-79b1-93cd-97924543ad07/source.tar.gz"
       },
       "original": {
         "type": "tarball",
@@ -36,12 +36,12 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1782375420,
-        "narHash": "sha256-wiPYmEuHbJvleW489n6+lamL7JSJg3pcKUYwURU9CkI=",
-        "rev": "4062d36ebeae843c750011eef6b61ec9a9dbc9a9",
-        "revCount": 1007541,
+        "lastModified": 1782847225,
+        "narHash": "sha256-JC9PjqKYG9ve5U8aDOLQipp3+KLANBHUvGdLZlxzdKI=",
+        "rev": "95ca1e203c0750115fd4a6f17d5a245dfe6b1edd",
+        "revCount": 1008160,
         "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2605.1007541%2Brev-4062d36ebeae843c750011eef6b61ec9a9dbc9a9/019f07ce-b04c-7903-ba9d-9afdbb0b4ce2/source.tar.gz"
+        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2605.1008160%2Brev-95ca1e203c0750115fd4a6f17d5a245dfe6b1edd/019f1ee4-2fd3-7853-881a-e63424f96ef0/source.tar.gz"
       },
       "original": {
         "type": "tarball",
@@ -50,11 +50,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1782467914,
-        "narHash": "sha256-pGvFkM8N0xEkIIXDe5YYfbEAvHrk4IxBrjB/x8OomhE=",
+        "lastModified": 1782723713,
+        "narHash": "sha256-oPXCU/SSUokcGaJREHibG1CBX3+s/W7orDWQOZDsEeQ=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "e73de5be04e0eff4190a1432b946d469c794e7b4",
+        "rev": "b5aa0fbd538984f6e3d201be0005b4463d8b09f8",
         "type": "github"
       },
       "original": {
