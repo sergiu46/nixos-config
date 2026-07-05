@@ -27,6 +27,7 @@
     libva-utils
     libinput
     pciutils
+    smartmontools
     # Stable apps
     vlc
     trayscale
