@@ -11,7 +11,7 @@ let
     nativeBuildInputs = with pkgs; [
       dpkg
       autoPatchelfHook
-      wrapGAppsHook3 # MODIFIED
+      wrapGAppsHook3
     ];
 
     buildInputs = with pkgs; [
@@ -32,7 +32,6 @@ let
     dontConfigure = true;
     dontBuild = true;
 
-    # MODIFIED: Arguments passed automatically to the GTK wrapper
     gappsWrapperArgs = [
       "--prefix"
       "LD_LIBRARY_PATH"
@@ -49,9 +48,16 @@ let
 
       if [ -f "$out/bin/idplugclassic/identitymanager" ]; then
         mkdir -p $out/bin
-        # MODIFIED: Symlink created; wrapGAppsHook3 will wrap the target binary automatically
         ln -s "$out/bin/idplugclassic/identitymanager" "$out/bin/idplugclassic-manager"
       fi
+
+      # MODIFIED: Patch the extracted .desktop file to point to our valid wrapper
+      for f in $out/share/applications/*.desktop; do
+        if [ -f "$f" ]; then
+          sed -i 's|^Exec=.*|Exec=idplugclassic-manager|' "$f"
+        fi
+      done
+
       runHook postInstall
     '';
 
