@@ -18,6 +18,7 @@
     ../../modules/flatpak.nix
     ../../modules/syncConfig.nix
     ../../modules/powerOffOnSleep.nix
+    ../../modules/roCEI/roCEI.nix
   ];
 
   # Networking

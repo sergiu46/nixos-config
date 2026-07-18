@@ -1,7 +1,7 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 let
-  ro-cei-pkg = pkgs.stdenv.mkDerivation rec {
+  ro-cei-pkg = pkgs.stdenv.mkDerivation {
     pname = "idplugclassic-ro-cei";
     version = "4.5.0";
 
@@ -24,7 +24,9 @@ let
       cairo
       pango
       gdk-pixbuf
-      xorg.libX11
+      libx11 # MODIFICAT
+      openssl # ADAUGAT
+      libjpeg8 # ADAUGAT
     ];
 
     dontConfigure = true;
