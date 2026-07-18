@@ -11,7 +11,7 @@ let
     nativeBuildInputs = with pkgs; [
       dpkg
       autoPatchelfHook
-      wrapGAppsHook3
+      wrapGAppsHook3 
     ];
 
     buildInputs = with pkgs; [
@@ -33,10 +33,7 @@ let
     dontBuild = true;
 
     gappsWrapperArgs = [
-      "--prefix"
-      "LD_LIBRARY_PATH"
-      ":"
-      "${pkgs.pcsclite}/lib"
+      "--prefix" "LD_LIBRARY_PATH" ":" "${pkgs.pcsclite}/lib"
     ];
 
     installPhase = ''
@@ -51,10 +48,11 @@ let
         ln -s "$out/bin/idplugclassic/identitymanager" "$out/bin/idplugclassic-manager"
       fi
 
-      # MODIFIED: Patch the extracted .desktop file to point to our valid wrapper
+      # MODIFIED: Patch the extracted .desktop file to include StartupWMClass
       for f in $out/share/applications/*.desktop; do
         if [ -f "$f" ]; then
           sed -i 's|^Exec=.*|Exec=idplugclassic-manager|' "$f"
+          echo "StartupWMClass=identitymanager" >> "$f"
         fi
       done
 
