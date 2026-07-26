@@ -12,7 +12,6 @@
     ];
 
     packages = [
-      "org.jellyfin.JellyfinDesktop"
     ];
   };
 

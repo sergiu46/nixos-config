@@ -40,6 +40,7 @@
     unstable.telegram-desktop
     unstable.bitwarden-desktop
     unstable.angryipscanner
+    unstable.jellyfin-desktop
   ];
 
   # Brave blur fix
