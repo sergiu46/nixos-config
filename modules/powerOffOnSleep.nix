@@ -18,6 +18,19 @@ let
     END=$(date +%s)
 
     if [ $((END - START)) -ge ${thresholdSeconds} ]; then
+      # Gracefully terminate all user sessions to close all open apps
+      for session in $(${pkgs.systemd}/bin/loginctl list-sessions --no-legend | ${pkgs.gawk}/bin/awk '{print $1}'); do
+        ${pkgs.systemd}/bin/loginctl terminate-session "$session"
+      done
+
+      # Wait up to 15 seconds for sessions to fully close
+      for i in {1..15}; do
+        if [ -z "$(${pkgs.systemd}/bin/loginctl list-sessions --no-legend)" ]; then
+          break
+        fi
+        sleep 1
+      done
+
       # Queue the poweroff asynchronously to bypass systemd state locks
       ${pkgs.systemd}/bin/systemd-run --on-active=2s ${pkgs.systemd}/bin/systemctl poweroff
     fi
