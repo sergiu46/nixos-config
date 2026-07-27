@@ -156,6 +156,9 @@
     ];
   };
 
+  # Enable I2C hardware support for DDC/CI communication
+  hardware.i2c.enable = true;
+
   # Network discovery (mDNS for local services/printers)
   services.avahi = {
     enable = true;

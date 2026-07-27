@@ -6,6 +6,7 @@
     # Gnome extensions
     gnomeExtensions.system-monitor
     gnomeExtensions.alphabetical-app-grid
+    gnomeExtensions.brightness-control-using-ddcutil
     # Shell
     curl
     wget
@@ -35,6 +36,7 @@
     brave
     gnome-network-displays
     opensoundmeter
+    ddcutil
     # Unstable apps
     unstable.ventoy-full-gtk
     unstable.telegram-desktop
