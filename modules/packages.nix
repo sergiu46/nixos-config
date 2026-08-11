@@ -45,11 +45,16 @@
     unstable.jellyfin-desktop
   ];
 
-  # Brave blur fix
+  # Brave options
   nixpkgs.overlays = [
     (final: prev: {
       brave = prev.brave.override {
-        commandLineArgs = "--ozone-platform=wayland --disable-features=WaylandFractionalScaleV1";
+        commandLineArgs = [
+          "--restore-last-session"
+          "--hide-crash-restore-bubble"
+          "--ozone-platform=wayland"
+          "--disable-features=WaylandFractionalScaleV1"
+        ];
       };
     })
   ];
