@@ -134,6 +134,7 @@
       sudo -v && \
       cd ~/NixOS && \
       ${pkgs.time}/bin/time -f "Total Duration: %E" bash -c '
+        git pull && \
         nix flake update && \
         git add flake.lock && \
         sudo nixos-rebuild boot --flake .#$(hostname) && \
