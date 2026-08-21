@@ -13,8 +13,8 @@
     hunspell
     hunspellDicts.en_US
     hunspellDicts.ro_RO
-    # Unstable packages
-    unstable.nextcloud-client
+    # Packages
+    nextcloud-client
   ];
 
   fonts.packages = with pkgs; [
