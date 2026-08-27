@@ -1,27 +1,15 @@
 { pkgs, ... }:
 
 {
+
+  import = [
+    packagesLite.nix
+  ];
   # System-wide packages
   environment.systemPackages = with pkgs; [
     # Gnome extensions
-    gnomeExtensions.system-monitor
-    gnomeExtensions.alphabetical-app-grid
     gnomeExtensions.brightness-control-using-ddcutil
-    # Shell
-    curl
-    wget
-    jq
-    file
-    traceroute
-    tree
-    parted
-    gptfdisk
-    f2fs-tools
-    util-linux
-    mkpasswd
-    nix-tree
     # Utilities
-    git
     gparted
     ffmpeg-full
     intel-gpu-tools
@@ -31,32 +19,14 @@
     smartmontools
     # Stable apps
     vlc
-    trayscale
     libreoffice-fresh
-    brave
     gnome-network-displays
     opensoundmeter
     ddcutil
     # Unstable apps
     unstable.ventoy-full-gtk
-    unstable.telegram-desktop
-    unstable.bitwarden-desktop
     unstable.angryipscanner
     unstable.jellyfin-desktop
-  ];
-
-  # Brave options
-  nixpkgs.overlays = [
-    (final: prev: {
-      brave = prev.brave.override {
-        commandLineArgs = [
-          "--restore-last-session"
-          "--hide-crash-restore-bubble"
-          "--ozone-platform=wayland"
-          "--disable-features=WaylandFractionalScaleV1"
-        ];
-      };
-    })
   ];
 
   programs.firefox = {
@@ -81,13 +51,6 @@
   environment.sessionVariables = {
     MOZ_ENABLE_WAYLAND = "1";
     MOZ_CRASHREPORTER_DISABLE = "1"; # Disable crash reports
-  };
-
-  # Tailscale
-  services.tailscale = {
-    enable = true;
-    useRoutingFeatures = "client";
-    extraUpFlags = [ "--accept-routes" ];
   };
 
 }
