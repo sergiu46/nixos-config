@@ -2,7 +2,7 @@
 
 {
 
-  import = [
+  imports = [
     ./packagesLite.nix
   ];
   # System-wide packages
