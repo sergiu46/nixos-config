@@ -3,7 +3,7 @@
 {
 
   import = [
-    packagesLite.nix
+    ./packagesLite.nix
   ];
   # System-wide packages
   environment.systemPackages = with pkgs; [
