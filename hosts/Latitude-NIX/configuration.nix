@@ -16,7 +16,6 @@
     ../../modules/packages.nix
     ../../modules/packagesExtra.nix
     ../../modules/flatpak.nix
-    ../../modules/syncConfig.nix
     ../../modules/powerOffOnSleep.nix
     ../../modules/roCEI/roCEI.nix
   ];
@@ -88,10 +87,6 @@
     neededForBoot = true;
   };
 
-  # Swap & Resume
-  # swapDevices = [ { device = "/dev/disk/by-label/swap"; } ];
-  # boot.resumeDevice = "/dev/disk/by-label/swap";
-
   # Hardware configuration
   hardware = {
     cpu.intel.updateMicrocode = true;
@@ -115,22 +110,10 @@
     };
   };
 
-  # Touchpad
-  services.udev.extraHwdb = ''
-    evdev:name:*ALPS*TouchPad*:*
-      # 40 is twice the real resolution (slower)
-      # 80 is four times the real resolution (very slow)
-      EVDEV_ABS_00=713:2614:80
-      EVDEV_ABS_01=90:1165:84
-      EVDEV_ABS_35=713:2614:80
-      EVDEV_ABS_36=90:1165:84
-  '';
-
   # Services
   services = {
     xserver.videoDrivers = [
       "modesetting"
-      "fbdev"
     ];
   };
 

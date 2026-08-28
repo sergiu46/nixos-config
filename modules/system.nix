@@ -16,7 +16,6 @@
 
     # Other services
     fstrim.enable = true; # Enable periodic TRIM for SSDs
-    blueman.enable = true; # Bluetooth manager
     libinput.enable = true; # Input device management
     geoclue2.enable = true; # Location for timezone
   };
@@ -24,19 +23,6 @@
   hardware = {
     bluetooth.enable = true; # Enable Bluetooth
     wirelessRegulatoryDatabase = true;
-  };
-  # Start display manager after
-  systemd.services.display-manager = {
-    after = [
-      "systemd-user-sessions.service"
-      "power-profiles-daemon.service"
-      "upower.service"
-      "dbus.service"
-    ];
-    wants = [
-      "power-profiles-daemon.service"
-      "upower.service"
-    ];
   };
 
   powerManagement.enable = true; # Enable power management
@@ -93,8 +79,6 @@
   environment.systemPackages = with pkgs; [
     adwaita-qt # Qt engine for Adwaita style
     adwaita-qt6 # Qt6 version
-    qgnomeplatform # Platform support for Qt in GNOME
-    qgnomeplatform-qt6
     libsForQt5.qt5.qtwayland # Wayland libraries for Qt5
     kdePackages.qtwayland # Wayland libraries for Qt6
     adwaita-icon-theme
