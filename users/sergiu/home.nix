@@ -68,7 +68,7 @@
           "org.gnome.Nautilus.desktop"
           "brave-browser.desktop"
           "firefox.desktop"
-          "org.jellyfin.JellyfinDesktop.desktop"
+          "brave-fhgggiedobllialjnmigjemojboomian-Default.desktop"
           "brave-gnkgkkpgflmdnfamhhclhoedndmefacg-Default.desktop"
           "org.telegram.desktop.desktop"
           "brave-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop"
