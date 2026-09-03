@@ -15,6 +15,7 @@
     hunspellDicts.ro_RO
     # Packages
     nextcloud-client
+    stirling-pdf-desktop
   ];
 
   fonts.packages = with pkgs; [
