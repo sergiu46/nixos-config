@@ -152,8 +152,8 @@
 
   # Nix settings
   nix.settings = {
-    max-jobs = 1;
-    cores = 0;
+    # max-jobs = 1;
+    # cores = 0;
     auto-optimise-store = true;
     http-connections = 50;
     max-substitution-jobs = 30;
