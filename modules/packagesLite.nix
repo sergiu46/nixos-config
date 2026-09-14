@@ -16,6 +16,7 @@
     parted
     gptfdisk
     f2fs-tools
+    e2fsprogs
     util-linux
     mkpasswd
     nix-tree
