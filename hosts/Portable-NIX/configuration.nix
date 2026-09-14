@@ -20,6 +20,7 @@
     ../../modules/disableTPM.nix
     ../../modules/zramSwap.nix
     ../../modules/powerOffOnSleep.nix
+    ../../modules/f2fsErrors.nix
   ];
 
   # --- Boot & Kernel ---
