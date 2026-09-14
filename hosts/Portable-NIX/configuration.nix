@@ -35,6 +35,7 @@
       "scsi_mod.use_blk_mq=1" # Multi-queue for storage
       "intel_pstate=active"
       "amd_pstate=active"
+      "fsck.mode=skip" # Disable file system check during boot
     ];
 
     initrd = {
