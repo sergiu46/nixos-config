@@ -17,6 +17,7 @@
     libinput
     pciutils
     smartmontools
+    kdiskmark
     # Stable apps
     vlc
     libreoffice-fresh
