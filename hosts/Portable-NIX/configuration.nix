@@ -19,7 +19,7 @@
     ../../modules/flatpak.nix
     ../../modules/disableTPM.nix
     ../../modules/zramSwap.nix
-    ../../modules/powerOffOnSleep.nix
+    ../../modules/powerOffNoSleep.nix
     ../../modules/f2fsErrors.nix
   ];
 
