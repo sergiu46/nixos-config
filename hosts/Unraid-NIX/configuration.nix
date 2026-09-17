@@ -96,6 +96,8 @@
     showtime
   ];
 
+  documentation.enable = false;
+
   # Hardware - Minimal config for a Guest
   hardware = {
     enableRedistributableFirmware = true;
