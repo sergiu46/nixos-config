@@ -15,6 +15,7 @@
     ../../modules/zramSwap.nix
     ../../modules/packages.nix
     ../../modules/packagesExtra.nix
+    ../../modules/printing.nix
     ../../modules/flatpak.nix
     ../../modules/powerOffOnSleep.nix
     ../../modules/roCEI/roCEI.nix

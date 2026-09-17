@@ -84,6 +84,18 @@
 
   };
 
+  environment.gnome.excludePackages = with pkgs; [
+    geary
+    gnome-tour
+    yelp
+    epiphany
+    gnome-calendar
+    gnome-contacts
+    gnome-maps
+    gnome-music
+    showtime
+  ];
+
   # Hardware - Minimal config for a Guest
   hardware = {
     enableRedistributableFirmware = true;

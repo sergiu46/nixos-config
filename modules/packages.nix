@@ -7,8 +7,6 @@
   ];
   # System-wide packages
   environment.systemPackages = with pkgs; [
-    # Gnome extensions
-    gnomeExtensions.brightness-control-using-ddcutil
     # Utilities
     gparted
     ffmpeg-full

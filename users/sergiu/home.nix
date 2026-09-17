@@ -48,16 +48,6 @@
       "org/gnome/desktop/screensaver" = {
         lock-enabled = true;
       };
-      # # Screen off time
-      # "org/gnome/desktop/session" = {
-      #   idle-delay = 900;
-      # };
-      # "org/gnome/settings-daemon/plugins/power" = {
-      #   sleep-inactive-ac-type = "suspend";
-      #   sleep-inactive-ac-timeout = 7200;
-      #   sleep-inactive-battery-type = "suspend";
-      #   sleep-inactive-battery-timeout = 1200;
-      # };
       "org/gnome/shell" = {
         enabled-extensions = [
           pkgs.gnomeExtensions.system-monitor.extensionUuid

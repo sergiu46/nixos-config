@@ -31,12 +31,6 @@
     geary
     gnome-tour
     yelp
-    #epiphany
-    #gnome-calendar
-    #gnome-contacts
-    #gnome-maps
-    #gnome-music
-    #showtime
   ];
 
   # dconf
@@ -131,18 +125,6 @@
     variant = "";
   };
 
-  # Printing and driver support
-  services.printing = {
-    enable = true;
-    drivers = with pkgs; [
-      gutenprint
-      hplip
-    ];
-  };
-
-  # Enable I2C hardware support for DDC/CI communication
-  hardware.i2c.enable = true;
-
   # Network discovery (mDNS for local services/printers)
   services.avahi = {
     enable = true;
@@ -152,8 +134,6 @@
 
   # Nix settings
   nix.settings = {
-    # max-jobs = 1;
-    # cores = 0;
     auto-optimise-store = true;
     http-connections = 50;
     max-substitution-jobs = 30;
