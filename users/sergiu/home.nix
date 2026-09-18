@@ -48,6 +48,10 @@
       "org/gnome/desktop/screensaver" = {
         lock-enabled = true;
       };
+      # Disable mouse acceleration
+      "org/gnome/desktop/peripherals/mouse" = {
+        accel-profile = "flat";
+      };
       "org/gnome/shell" = {
         enabled-extensions = [
           pkgs.gnomeExtensions.system-monitor.extensionUuid
