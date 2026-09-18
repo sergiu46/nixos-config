@@ -10,11 +10,11 @@ in
     nixfmt # Formatter
   ];
 
-  # VSCode
-  programs.vscode = {
+  # VSCodium
+  programs.vscodium = {
     enable = true;
     mutableExtensionsDir = true;
-    package = pkgs.vscode;
+    package = pkgs.vscodium;
     profiles.default = {
       extensions = with pkgs.vscode-extensions; [
         jnoortheen.nix-ide
@@ -23,6 +23,6 @@ in
   };
 
   # Writable symlink to your repo
-  xdg.configFile."Code/User/settings.json".source =
+  xdg.configFile."VSCodium/User/settings.json".source =
     config.lib.file.mkOutOfStoreSymlink "/home/${user}/NixOS/users/${user}/vscode-settings.json";
 }

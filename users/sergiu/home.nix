@@ -62,7 +62,7 @@
           "brave-gnkgkkpgflmdnfamhhclhoedndmefacg-Default.desktop"
           "org.telegram.desktop.desktop"
           "brave-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop"
-          "code.desktop"
+          "codium.desktop"
           "org.gnome.Console.desktop"
           "bitwarden.desktop"
         ];
