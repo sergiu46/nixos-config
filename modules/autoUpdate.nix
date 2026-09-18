@@ -1,14 +1,13 @@
 { ... }:
 
 {
-
   # Automatic system upgrades
   system.autoUpgrade = {
     enable = true;
     dates = "daily";
     flake = "/home/sergiu/NixOS";
     flags = [
-      "--refresh"
+      "--recreate-lock-file"
       "--commit-lock-file"
     ];
     operation = "boot";
@@ -38,5 +37,4 @@
       safe.directory = "/home/sergiu/NixOS";
     };
   };
-
 }
