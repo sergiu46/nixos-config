@@ -22,6 +22,7 @@
     ../../modules/zramSwap.nix
     ../../modules/powerOffNoSleep.nix
     ../../modules/f2fsErrors.nix
+    ../../modules/roCEI/roCEI.nix
   ];
 
   # --- Boot & Kernel ---
