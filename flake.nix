@@ -14,7 +14,7 @@
   outputs =
     { self, nixpkgs, ... }@inputs:
     let
-      mkHost = import ./modules/mkHost.nix inputs;
+      mkHost = import ./modules/core/mkHost.nix inputs;
       system = "x86_64-linux";
       stateVersion = "25.11";
     in
@@ -25,55 +25,57 @@
           ./hosts/latitude.nix
           ./users/sergiu/sergiu.nix
           ./users/denisa/denisa.nix
-          ./modules/system.nix
-          ./modules/zramSwap.nix
-          ./modules/autoUpdate.nix
-          ./modules/powerOffOnSleep.nix
-          ./modules/packages.nix
-          ./modules/packagesExtra.nix
-          ./modules/printing.nix
-          ./modules/flatpak.nix
-          ./modules/roCEI/roCEI.nix
+          ./modules/core/system.nix
+          ./modules/hardware/zramSwap.nix
+          ./modules/services/autoUpdate.nix
+          ./modules/services/powerOffOnSleep.nix
+          ./modules/services/printing.nix
+          ./modules/software/packages.nix
+          ./modules/software/packagesExtra.nix
+          ./modules/software/flatpak.nix
+          ./modules/software/roCEI/roCEI.nix
         ];
 
         Samsung-NIX = mkHost "Samsung-NIX" system stateVersion [
           ./hosts/portable.nix
           ./users/sergiu/sergiu.nix
-          ./modules/syncConfig.nix
-          ./modules/system.nix
-          ./modules/packages.nix
-          ./modules/printing.nix
-          ./modules/tmpfs.nix
-          ./modules/flatpak.nix
-          ./modules/disableTPM.nix
-          ./modules/zramSwap.nix
-          ./modules/powerOffNoSleep.nix
-          ./modules/f2fsErrors.nix
+          ./modules/core/system.nix
+          ./modules/hardware/tmpfs.nix
+          ./modules/hardware/disableTPM.nix
+          ./modules/hardware/zramSwap.nix
+          ./modules/hardware/f2fsErrors.nix
+          ./modules/services/syncConfig.nix
+          ./modules/services/printing.nix
+          ./modules/services/powerOffNoSleep.nix
+          ./modules/software/packages.nix
+          ./modules/software/flatpak.nix
         ];
 
         Kingston-NIX = mkHost "Kingston-NIX" system stateVersion [
           ./hosts/portable.nix
           ./users/sergiu/sergiu.nix
-          ./modules/syncConfig.nix
-          ./modules/system.nix
-          ./modules/packagesLite.nix
-          ./modules/tmpfs.nix
-          ./modules/disableTPM.nix
-          ./modules/zramSwap.nix
-          ./modules/powerOffNoSleep.nix
-          ./modules/f2fsErrors.nix
-          ./modules/udevRules.nix
+          ./modules/core/system.nix
+          ./modules/hardware/tmpfs.nix
+          ./modules/hardware/disableTPM.nix
+          ./modules/hardware/zramSwap.nix
+          ./modules/hardware/f2fsErrors.nix
+          ./modules/hardware/udevRules.nix
+          ./modules/services/syncConfig.nix
+          ./modules/services/printing.nix
+          ./modules/services/powerOffNoSleep.nix
+          ./modules/software/packages.nix
+          ./modules/software/flatpak.nix
         ];
 
         Unraid-NIX = mkHost "Unraid-NIX" system stateVersion [
           ./hosts/vm.nix
           ./users/sergiu/sergiu.nix
-          ./modules/autoUpdate.nix
-          ./modules/system.nix
-          ./modules/packagesLite.nix
-          ./modules/syncConfig.nix
-          ./modules/zramSwap.nix
-          ./modules/tmpfs.nix
+          ./modules/core/system.nix
+          ./modules/hardware/zramSwap.nix
+          ./modules/hardware/tmpfs.nix
+          ./modules/services/autoUpdate.nix
+          ./modules/services/syncConfig.nix
+          ./modules/software/packagesLite.nix
         ];
       };
     };
