@@ -12,20 +12,6 @@
   imports = [
     (modulesPath + "/profiles/all-hardware.nix")
     (modulesPath + "/installer/scan/not-detected.nix")
-<<<<<<< HEAD
-=======
-    ../../modules/syncConfig.nix
-    ../../modules/system.nix
-    ../../modules/packages.nix
-    ../../modules/printing.nix
-    ../../modules/tmpfs.nix
-    ../../modules/flatpak.nix
-    ../../modules/disableTPM.nix
-    ../../modules/zramSwap.nix
-    ../../modules/powerOffNoSleep.nix
-    ../../modules/f2fsErrors.nix
-    ../../modules/roCEI/roCEI.nix
->>>>>>> e0721a10f8cdb4c0f5ba93f9ecdc607976960d12
   ];
 
   # --- Boot & Kernel ---
