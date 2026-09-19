@@ -25,26 +25,54 @@
           ./hosts/Latitude-NIX/configuration.nix
           ./users/sergiu/sergiu.nix
           ./users/denisa/denisa.nix
+          ./modules/system.nix
+          ./modules/zramSwap.nix
+          ./modules/autoUpdate.nix
+          ./modules/powerOffOnSleep.nix
+          ./modules/packages.nix
+          ./modules/packagesExtra.nix
+          ./modules/printing.nix
+          ./modules/flatpak.nix
+          ./modules/roCEI/roCEI.nix
         ];
 
         Samsung-NIX = mkHost "Samsung-NIX" system stateVersion [
           ./hosts/Portable-NIX/configuration.nix
           ./users/sergiu/sergiu.nix
+          ./modules/syncConfig.nix
+          ./modules/system.nix
+          ./modules/packages.nix
+          ./modules/printing.nix
+          ./modules/tmpfs.nix
+          ./modules/flatpak.nix
+          ./modules/disableTPM.nix
+          ./modules/zramSwap.nix
+          ./modules/powerOffNoSleep.nix
+          ./modules/f2fsErrors.nix
         ];
 
         Kingston-NIX = mkHost "Kingston-NIX" system stateVersion [
           ./hosts/Portable-NIX/configuration.nix
           ./users/sergiu/sergiu.nix
-        ];
-
-        ADATA-NIX = mkHost "ADATA-NIX" system stateVersion [
-          ./hosts/Portable-NIX/configuration.nix
-          ./users/sergiu/sergiu.nix
+          ./modules/syncConfig.nix
+          ./modules/system.nix
+          ./modules/packagesLite.nix
+          ./modules/tmpfs.nix
+          ./modules/disableTPM.nix
+          ./modules/zramSwap.nix
+          ./modules/powerOffNoSleep.nix
+          ./modules/f2fsErrors.nix
         ];
 
         Unraid-NIX = mkHost "Unraid-NIX" system stateVersion [
           ./hosts/Unraid-NIX/configuration.nix
           ./users/sergiu/sergiu.nix
+          ./modules/autoUpdate.nix
+          ./modules/system.nix
+          ./modules/packagesLite.nix
+          ./modules/syncConfig.nix
+          ./modules/zramSwap.nix
+          ./modules/tmpfs.nix
         ];
       };
     };

@@ -10,15 +10,6 @@
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    ../../modules/autoUpdate.nix
-    ../../modules/system.nix
-    ../../modules/zramSwap.nix
-    ../../modules/packages.nix
-    ../../modules/packagesExtra.nix
-    ../../modules/printing.nix
-    ../../modules/flatpak.nix
-    ../../modules/powerOffOnSleep.nix
-    ../../modules/roCEI/roCEI.nix
   ];
 
   # Networking

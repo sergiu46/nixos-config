@@ -12,16 +12,6 @@
   imports = [
     (modulesPath + "/profiles/all-hardware.nix")
     (modulesPath + "/installer/scan/not-detected.nix")
-    ../../modules/syncConfig.nix
-    ../../modules/system.nix
-    ../../modules/packages.nix
-    ../../modules/printing.nix
-    ../../modules/tmpfs.nix
-    ../../modules/flatpak.nix
-    ../../modules/disableTPM.nix
-    ../../modules/zramSwap.nix
-    ../../modules/powerOffNoSleep.nix
-    ../../modules/f2fsErrors.nix
   ];
 
   # --- Boot & Kernel ---

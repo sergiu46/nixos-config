@@ -9,14 +9,6 @@
   imports = [
     # Use the QEMU Guest profile for optimized VM settings
     (modulesPath + "/profiles/qemu-guest.nix")
-
-    # Standard modules (Ensure these paths exist relative to this file)
-    ../../modules/autoUpdate.nix
-    ../../modules/system.nix
-    ../../modules/packagesLite.nix
-    ../../modules/syncConfig.nix
-    ../../modules/zramSwap.nix
-    ../../modules/tmpfs.nix
   ];
 
   # Networking
