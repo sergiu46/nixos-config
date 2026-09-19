@@ -62,6 +62,7 @@
           ./modules/zramSwap.nix
           ./modules/powerOffNoSleep.nix
           ./modules/f2fsErrors.nix
+          ./modules/udevRules.nix
         ];
 
         Unraid-NIX = mkHost "Unraid-NIX" system stateVersion [
