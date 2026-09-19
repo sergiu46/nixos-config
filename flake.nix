@@ -22,7 +22,7 @@
       nixosConfigurations = {
 
         Latitude-NIX = mkHost "Latitude-NIX" system stateVersion [
-          ./hosts/Latitude-NIX/configuration.nix
+          ./hosts/latitude.nix
           ./users/sergiu/sergiu.nix
           ./users/denisa/denisa.nix
           ./modules/system.nix
@@ -37,7 +37,7 @@
         ];
 
         Samsung-NIX = mkHost "Samsung-NIX" system stateVersion [
-          ./hosts/Portable-NIX/configuration.nix
+          ./hosts/portable.nix
           ./users/sergiu/sergiu.nix
           ./modules/syncConfig.nix
           ./modules/system.nix
@@ -52,7 +52,7 @@
         ];
 
         Kingston-NIX = mkHost "Kingston-NIX" system stateVersion [
-          ./hosts/Portable-NIX/configuration.nix
+          ./hosts/portable.nix
           ./users/sergiu/sergiu.nix
           ./modules/syncConfig.nix
           ./modules/system.nix
@@ -65,7 +65,7 @@
         ];
 
         Unraid-NIX = mkHost "Unraid-NIX" system stateVersion [
-          ./hosts/Unraid-NIX/configuration.nix
+          ./hosts/vm.nix
           ./users/sergiu/sergiu.nix
           ./modules/autoUpdate.nix
           ./modules/system.nix
