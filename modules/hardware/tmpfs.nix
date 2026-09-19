@@ -1,4 +1,5 @@
 { ... }:
+
 {
   systemd.services.user-symlinks = {
     description = "User symlinks";

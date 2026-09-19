@@ -1,4 +1,5 @@
 { ... }:
+
 {
   # Flatpak
   services.flatpak = {

@@ -11,7 +11,7 @@
   home.stateVersion = stateVersion;
   programs.bash.enable = true;
   imports = [
-    ../../modules/vscode.nix
+    ../../modules/software/vscode.nix
   ];
 
   # autostart bitwarden
@@ -56,7 +56,6 @@
         enabled-extensions = [
           pkgs.gnomeExtensions.system-monitor.extensionUuid
           pkgs.gnomeExtensions.alphabetical-app-grid.extensionUuid
-          pkgs.gnomeExtensions.blur-my-shell.extensionUuid
         ];
         favorite-apps = [
           "org.gnome.Nautilus.desktop"
