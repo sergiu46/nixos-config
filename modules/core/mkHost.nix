@@ -10,7 +10,7 @@
 configName: system: stateVersion: modules:
 let
   # Import variables directly into userVars
-  userVars = import ../../modules/core/userVars.nix {
+  userVars = import ./userVars.nix {
     inherit (nixpkgs) lib;
     inherit configName;
   };
