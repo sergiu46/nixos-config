@@ -9,4 +9,12 @@
       hplip
     ];
   };
+
+  # Network discovery (mDNS for local services/printers)
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+
 }
