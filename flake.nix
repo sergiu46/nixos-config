@@ -44,6 +44,7 @@
           ./modules/hardware/disableTPM.nix
           ./modules/hardware/zramSwap.nix
           ./modules/hardware/f2fsErrors.nix
+          ./modules/hardware/udevRules.nix
           ./modules/services/syncConfig.nix
           ./modules/services/printing.nix
           ./modules/services/powerOffNoSleep.nix

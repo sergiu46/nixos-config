@@ -28,7 +28,6 @@
       "intel_pstate=active"
       "amd_pstate=active"
       "fsck.mode=skip" # Disable file system check during boot
-      "elevator=bfq"
     ];
 
     initrd = {
