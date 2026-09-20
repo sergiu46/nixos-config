@@ -230,9 +230,7 @@
         return 1
       fi
 
-      # Demontează automat partițiile dacă au fost montate de OS (ex: udisks2/GNOME)
-      [ -b "$dev_path" ] && sudo umount "$dev_path" 2>/dev/null || true
-      [ -b "$root_path" ] && sudo umount "$root_path" 2>/dev/null || true
+      sudo umount /dev/"$parent_disk"?* 2>/dev/null || true
 
       local parent_disk=$(lsblk -no pkname "$dev_path")
       local part_num=$(lsblk -no PARTN "$dev_path")
