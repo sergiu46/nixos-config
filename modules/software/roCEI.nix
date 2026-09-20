@@ -1,17 +1,21 @@
 { pkgs, ... }:
 
 let
-  ro-cei-pkg = pkgs.stdenv.mkDerivation {
+  # MODIFIED: Adăugat cuvântul cheie 'rec' pentru a permite referențierea internă a variabilei 'version'
+  ro-cei-pkg = pkgs.stdenv.mkDerivation rec {
     pname = "idplugclassic-ro-cei";
     version = "4.5.0";
 
-    # Points to the local deb file stored in your config directory
-    src = ./idplug-classic-4.5.0-noble-romania.deb;
+    src = pkgs.fetchurl {
+      url = "https://hub.mai.gov.ro/cei/info/descarca-middleware?versiune=450linux";
+      hash = "sha256-TQhEANzYBTX8v14rMZTplgOeyWGZJBVzsdY697/rBIQ=";
+      name = "idplugclassic-${version}.deb";
+    };
 
     nativeBuildInputs = with pkgs; [
       dpkg
       autoPatchelfHook
-      wrapGAppsHook3 
+      wrapGAppsHook3
     ];
 
     buildInputs = with pkgs; [
@@ -33,7 +37,10 @@ let
     dontBuild = true;
 
     gappsWrapperArgs = [
-      "--prefix" "LD_LIBRARY_PATH" ":" "${pkgs.pcsclite}/lib"
+      "--prefix"
+      "LD_LIBRARY_PATH"
+      ":"
+      "${pkgs.pcsclite}/lib"
     ];
 
     installPhase = ''

@@ -33,7 +33,7 @@
           ./modules/software/packages.nix
           ./modules/software/packagesExtra.nix
           ./modules/software/flatpak.nix
-          ./modules/software/roCEI/roCEI.nix
+          ./modules/software/roCEI.nix
         ];
 
         Samsung-NIX = mkHost "Samsung-NIX" system stateVersion [
@@ -62,10 +62,8 @@
           ./modules/hardware/f2fsErrors.nix
           ./modules/hardware/udevRules.nix
           ./modules/services/syncConfig.nix
-          ./modules/services/printing.nix
           ./modules/services/powerOffNoSleep.nix
-          ./modules/software/packages.nix
-          ./modules/software/flatpak.nix
+          ./modules/software/packagesLite.nix
         ];
 
         Unraid-NIX = mkHost "Unraid-NIX" system stateVersion [
