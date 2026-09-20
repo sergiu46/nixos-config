@@ -223,10 +223,16 @@
       local efi_name=$(echo "''${name:0:4}" | tr '[:lower:]' '[:upper:]')EFI
 
       local dev_path=$(readlink -f /dev/disk/by-label/"$efi_name" 2>/dev/null)
+      local root_path=$(readlink -f /dev/disk/by-label/"$name" 2>/dev/null)
+
       if [ ! -b "$dev_path" ]; then
         echo "Error: Partition with label '$efi_name' not found."
         return 1
       fi
+
+      # Demontează automat partițiile dacă au fost montate de OS (ex: udisks2/GNOME)
+      [ -b "$dev_path" ] && sudo umount "$dev_path" 2>/dev/null || true
+      [ -b "$root_path" ] && sudo umount "$root_path" 2>/dev/null || true
 
       local parent_disk=$(lsblk -no pkname "$dev_path")
       local part_num=$(lsblk -no PARTN "$dev_path")
@@ -237,7 +243,7 @@
       sudo chattr +c /mnt && \
       sudo mkdir -p /mnt/boot && \
       sudo mount /dev/disk/by-label/"$efi_name" /mnt/boot && {
-        echo "Mounted $name and enabled ACTIVE ESP flag (ef00)."
+        echo "Mounted $name and enabled ACTIVE ESP flag."
       }
     }
 
@@ -254,7 +260,7 @@
         # Deactivează/Ascunde înainte de unmount (8300)
         sgdisk -t "$part_num":8300 /dev/"$parent_disk"
         umount /mnt/boot
-        echo "EFI partition hidden (8300) and unmounted."
+        echo "EFI partition hidden and unmounted."
       fi
       umount /mnt 2>/dev/null
     }
