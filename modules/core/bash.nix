@@ -122,7 +122,7 @@
           local dev_path=$(readlink -f /dev/disk/by-label/"$efi_name")
           local parent_disk=$(lsblk -no pkname "$dev_path")
           local part_num=$(lsblk -no PARTN "$dev_path")
-          sudo sgdisk -t "$part_num":ef00 /dev/"$parent_disk"
+          sudo sgdisk -t "$part_num":ef00 /dev/"$parent_disk" >/dev/null 2>&1
           sudo mount /dev/disk/by-label/"$efi_name" /mnt/boot && \
           echo "Enabled ACTIVE ESP flag and mounted $name."
         }
