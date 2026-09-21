@@ -39,6 +39,7 @@
           "--hide-crash-restore-bubble"
           "--ozone-platform=wayland"
           "--disable-features=WaylandFractionalScaleV1"
+          "--disk-cache-dir=/tmp/brave-cache"
         ];
       };
     })
