@@ -1,6 +1,11 @@
 { pkgs, stateVersion, ... }:
 
 {
+
+  imports = [
+    ./bash.nix
+  ];
+
   # Services
   services = {
     # Desktop manager
