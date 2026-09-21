@@ -20,7 +20,8 @@
 
     script = ''
       CONFIG_DIR="$HOME/NixOS"
-      REPO_URL="https://github.com/sergiu46/nixos-config.git"
+      HTTPS_URL="https://github.com/sergiu46/nixos-config.git"
+      SSH_URL="git@github.com:sergiu46/nixos-config.git"
 
       echo "Waiting for internet connection..."
       CONNECTED=false
@@ -40,12 +41,17 @@
 
       if [ ! -d "$CONFIG_DIR" ]; then
         echo "Cloning repository..."
-        git clone "$REPO_URL" "$CONFIG_DIR"
+        git clone "$HTTPS_URL" "$CONFIG_DIR"
+        cd "$CONFIG_DIR"
+        git remote set-url --push origin "$SSH_URL"
       else
         echo "Updating repository..."
         cd "$CONFIG_DIR"
         
-        git remote set-url origin "$REPO_URL"
+        # Public HTTPS for fetching (no Bitwarden needed), SSH for pushing
+        git remote set-url origin "$HTTPS_URL"
+        git remote set-url --push origin "$SSH_URL"
+
         git fetch origin
         git reset --hard origin/main
       fi
