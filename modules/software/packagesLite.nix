@@ -40,6 +40,7 @@
           "--ozone-platform=wayland"
           "--disable-features=WaylandFractionalScaleV1"
           "--disk-cache-dir=/tmp/brave-cache"
+          "--disable-gpu-shader-disk-cache"
         ];
       };
     })
