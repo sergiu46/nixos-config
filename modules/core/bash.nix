@@ -94,7 +94,8 @@
             local part_num=$(echo "$dev_boot" | grep -o '[0-9]*$')
             
             # Apply the hidden flag
-            sudo sgdisk -t "$part_num":8300 /dev/"$disk"
+            sudo parted -s "$disk" set "$part_num" esp off
+            sudo parted -s "$disk" set "$part_num" hidden on
             
             echo "Formatting Root partition as F2FS..."
             sudo mkfs.f2fs -f -l "$root_name" -O extra_attr,inode_checksum,sb_checksum,compression -o 5 "$dev_root"
@@ -122,7 +123,8 @@
           local dev_path=$(readlink -f /dev/disk/by-label/"$efi_name")
           local parent_disk=$(lsblk -no pkname "$dev_path")
           local part_num=$(lsblk -no PARTN "$dev_path")
-          sudo sgdisk -t "$part_num":ef00 /dev/"$parent_disk" >/dev/null 2>&1
+          
+          sudo parted -s /dev/"$parent_disk" set "$part_num" esp on >/dev/null 2>&1
           sudo mount /dev/disk/by-label/"$efi_name" /mnt/boot && \
           echo "Enabled ACTIVE ESP flag and mounted $name."
         }
@@ -138,7 +140,11 @@
           local parent_disk=$(lsblk -no pkname "$dev_path")
           local part_num=$(lsblk -no PARTN "$dev_path")
           umount /mnt/boot
-          sgdisk -t "$part_num":8300 /dev/"$parent_disk" >/dev/null 2>&1
+          
+          fsck.fat -a "$dev_path" >/dev/null 2>&1 || true
+          parted -s /dev/"$parent_disk" set "$part_num" esp off >/dev/null 2>&1
+          parted -s /dev/"$parent_disk" set "$part_num" hidden on >/dev/null 2>&1
+          
           echo "EFI partition unmounted and hidden."
         fi
         umount /mnt 2>/dev/null
