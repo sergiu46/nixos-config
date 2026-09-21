@@ -182,7 +182,7 @@
 
   # Flip ESP Flags
   systemd.services.activate-efi-on-boot = {
-    description = "Set /boot to ACTIVE (ef00) at boot";
+    description = "Set /boot to ACTIVE (esp) at boot";
     after = [ "local-fs.target" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
@@ -191,14 +191,14 @@
         DEV_PATH=$(${pkgs.util-linux}/bin/findmnt -vno SOURCE /boot)
         PARENT_DISK=$(${pkgs.util-linux}/bin/lsblk -no pkname "$DEV_PATH")
         PART_NUM=$(${pkgs.util-linux}/bin/lsblk -no PARTN "$DEV_PATH")
-        ${pkgs.gptfdisk}/bin/sgdisk -t "$PART_NUM":ef00 /dev/"$PARENT_DISK"
+        ${pkgs.parted}/bin/parted -s /dev/"$PARENT_DISK" set "$PART_NUM" esp on
       '';
       RemainAfterExit = true;
     };
   };
 
   systemd.services.deactivate-efi-on-shutdown = {
-    description = "Set /boot to HIDDEN (8300) at shutdown";
+    description = "Set /boot to HIDDEN at shutdown";
     after = [ "local-fs.target" ];
     before = [
       "shutdown.target"
@@ -212,8 +212,8 @@
       ExecStop = pkgs.writeShellScript "efi-off" ''
         DEV_PATH=$(${pkgs.util-linux}/bin/findmnt -vno SOURCE /boot)
         PARENT_DISK=$(${pkgs.util-linux}/bin/lsblk -no pkname "$DEV_PATH")
-        PART_NUM=$(${pkgs.util-linux}/bin/lsblk -no PARTN "$DEV_PATH")
-        ${pkgs.gptfdisk}/bin/sgdisk -t "$PART_NUM":8300 /dev/"$PARENT_DISK"
+        PART_NUM=$(${pkgs.util-linux}/bin/lsblk -no PARTN "$DEV_PATH")        
+        ${pkgs.parted}/bin/parted -s /dev/"$PARENT_DISK" set "$PART_NUM" esp off
       '';
     };
   };
