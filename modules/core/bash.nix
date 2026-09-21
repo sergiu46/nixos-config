@@ -110,9 +110,14 @@
       mount-portable() {
         read -p "Enter Config Name to mount (e.g., Samsung-NIX): " name
         local efi_name=$(echo "''${name:0:4}" | tr '[:lower:]' '[:upper:]')EFI
+
+        sudo umount /dev/disk/by-label/"$name" 2>/dev/null || true
+        sudo umount /dev/disk/by-label/"$efi_name" 2>/dev/null || true
+
         sudo mkdir -p /mnt
         sudo mount -t f2fs -o ${userVars.f2fs.optsString} /dev/disk/by-label/"$name" /mnt && \
         sudo chattr +c /mnt && \
+        
         sudo mkdir -p /mnt/boot && \
         sudo mount /dev/disk/by-label/"$efi_name" /mnt/boot && {
           local dev_path=$(readlink -f /dev/disk/by-label/"$efi_name")
