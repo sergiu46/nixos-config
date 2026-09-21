@@ -21,7 +21,6 @@
     libreoffice-fresh
     gnome-network-displays
     opensoundmeter
-    ddcutil
     # Unstable apps
     unstable.ventoy-full-gtk
     unstable.angryipscanner
