@@ -16,14 +16,11 @@
       curl
       coreutils
       gnugrep
-      openssh
     ];
 
     script = ''
       CONFIG_DIR="$HOME/NixOS"
-      REPO_URL="git@github.com:sergiu46/nixos-config.git"
-      export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
-      export GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no"
+      REPO_URL="https://github.com/sergiu46/nixos-config.git"
 
       echo "Waiting for internet connection..."
       CONNECTED=false
@@ -41,22 +38,6 @@
         exit 1
       fi
 
-      echo "Waiting for Bitwarden SSH keys to be available..."
-      KEYS_AVAILABLE=false
-      for i in {1..60}; do
-        if [ -S "$SSH_AUTH_SOCK" ] && ssh-add -l > /dev/null 2>&1; then
-          echo "Bitwarden agent is ready and has keys!"
-          KEYS_AVAILABLE=true
-          break
-        fi
-        sleep 2
-      done
-
-      if [ "$KEYS_AVAILABLE" = false ]; then
-        echo "Error: Bitwarden agent not found or no keys loaded. Is Bitwarden unlocked?"
-        exit 1
-      fi
-
       if [ ! -d "$CONFIG_DIR" ]; then
         echo "Cloning repository..."
         git clone "$REPO_URL" "$CONFIG_DIR"
@@ -64,11 +45,7 @@
         echo "Updating repository..."
         cd "$CONFIG_DIR"
         
-        CURRENT_URL=$(git remote get-url origin)
-        if [[ "$CURRENT_URL" == "https://"* ]]; then
-          git remote set-url origin "$REPO_URL"
-        fi
-
+        git remote set-url origin "$REPO_URL"
         git fetch origin
         git reset --hard origin/main
       fi
