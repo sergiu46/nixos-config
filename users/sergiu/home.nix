@@ -221,26 +221,15 @@
     mount-portable() {
       read -p "Enter Config Name to mount (e.g., Samsung-NIX): " name
       local efi_name=$(echo "''${name:0:4}" | tr '[:lower:]' '[:upper:]')EFI
-
-      local dev_path=$(readlink -f /dev/disk/by-label/"$efi_name" 2>/dev/null)
-      local root_path=$(readlink -f /dev/disk/by-label/"$name" 2>/dev/null)
-
-      if [ ! -b "$dev_path" ]; then
-        echo "Error: Partition with label '$efi_name' not found."
-        return 1
-      fi
-
-      sudo umount /dev/"$parent_disk"?* 2>/dev/null || true
-
-      local parent_disk=$(lsblk -no pkname "$dev_path")
-      local part_num=$(lsblk -no PARTN "$dev_path")
-      sudo sgdisk -t "$part_num":ef00 /dev/"$parent_disk"
-
       sudo mkdir -p /mnt
       sudo mount -t f2fs -o ${userVars.f2fs.optsString} /dev/disk/by-label/"$name" /mnt && \
       sudo chattr +c /mnt && \
       sudo mkdir -p /mnt/boot && \
       sudo mount /dev/disk/by-label/"$efi_name" /mnt/boot && {
+        local dev_path=$(readlink -f /dev/disk/by-label/"$efi_name")
+        local parent_disk=$(lsblk -no pkname "$dev_path")
+        local part_num=$(lsblk -no PARTN "$dev_path")
+        sudo sgdisk -t "$part_num":ef00 /dev/"$parent_disk" >/dev/null 2>&1
         echo "Mounted $name and enabled ACTIVE ESP flag."
       }
     }
