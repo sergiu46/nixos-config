@@ -110,21 +110,21 @@
       mount-portable() {
         read -p "Enter Config Name to mount (e.g., Samsung-NIX): " name
         local efi_name=$(echo "''${name:0:4}" | tr '[:lower:]' '[:upper:]')EFI
-
+        
         sudo umount /dev/disk/by-label/"$name" 2>/dev/null || true
         sudo umount /dev/disk/by-label/"$efi_name" 2>/dev/null || true
 
         sudo mkdir -p /mnt
         sudo mount -t f2fs -o ${userVars.f2fs.optsString} /dev/disk/by-label/"$name" /mnt && \
         sudo chattr +c /mnt && \
-        
-        sudo mkdir -p /mnt/boot && \
-        sudo mount /dev/disk/by-label/"$efi_name" /mnt/boot && {
+
+        sudo mkdir -p /mnt/boot && {
           local dev_path=$(readlink -f /dev/disk/by-label/"$efi_name")
           local parent_disk=$(lsblk -no pkname "$dev_path")
           local part_num=$(lsblk -no PARTN "$dev_path")
-          sudo sgdisk -t "$part_num":ef00 /dev/"$parent_disk" >/dev/null 2>&1
-          echo "Mounted $name and enabled ACTIVE ESP flag."
+          sudo sgdisk -t "$part_num":ef00 /dev/"$parent_disk"
+          sudo mount /dev/disk/by-label/"$efi_name" /mnt/boot && \
+          echo "Enabled ACTIVE ESP flag and mounted $name."
         }
       }
 
@@ -137,11 +137,9 @@
           local dev_path=$(findmnt -vno SOURCE /mnt/boot)
           local parent_disk=$(lsblk -no pkname "$dev_path")
           local part_num=$(lsblk -no PARTN "$dev_path")
-          
-          # Deactivează/Ascunde înainte de unmount (8300)
-          sgdisk -t "$part_num":8300 /dev/"$parent_disk"  >/dev/null 2>&1
           umount /mnt/boot
-          echo "EFI partition hidden and unmounted."
+          sgdisk -t "$part_num":8300 /dev/"$parent_disk" >/dev/null 2>&1
+          echo "EFI partition unmounted and hidden."
         fi
         umount /mnt 2>/dev/null
       }
