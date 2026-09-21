@@ -141,7 +141,7 @@
           local part_num=$(lsblk -no PARTN "$dev_path")
           umount /mnt/boot
           
-          fsck.fat -a "$dev_path" >/dev/null 2>&1 || true
+          fsck.fat -a -w -v "$dev_path" >/dev/null 2>&1 || true
           parted -s /dev/"$parent_disk" set "$part_num" esp off >/dev/null 2>&1
           parted -s /dev/"$parent_disk" set "$part_num" hidden on >/dev/null 2>&1
           
