@@ -182,16 +182,15 @@
 
   # Flip ESP Flags
   systemd.services.activate-efi-on-boot = {
-    description = "Set /boot to ACTIVE (esp) before mount";
-    before = [ "boot.mount" ];
-    wantedBy = [ "boot.mount" ];
+    description = "Set /boot to ACTIVE (esp) at boot";
+    after = [ "local-fs.target" ];
+    wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
       ExecStart = pkgs.writeShellScript "efi-on" ''
-        DEV_PATH=$(${pkgs.coreutils}/bin/readlink -f /dev/disk/by-label/${userVars.efiLabel})
+        DEV_PATH=$(${pkgs.util-linux}/bin/findmnt -vno SOURCE /boot)
         PARENT_DISK=$(${pkgs.util-linux}/bin/lsblk -no pkname "$DEV_PATH")
         PART_NUM=$(${pkgs.util-linux}/bin/lsblk -no PARTN "$DEV_PATH")
-
         ${pkgs.parted}/bin/parted -s /dev/"$PARENT_DISK" set "$PART_NUM" esp on
       '';
       RemainAfterExit = true;
