@@ -26,6 +26,7 @@
           ./users/sergiu/sergiu.nix
           ./users/denisa/denisa.nix
           ./modules/core/system.nix
+          ./modules/core/network.nix
           ./modules/hardware/zramSwap.nix
           ./modules/services/autoUpdate.nix
           ./modules/services/powerOffOnSleep.nix
@@ -40,6 +41,7 @@
           ./hosts/portable.nix
           ./users/sergiu/sergiu.nix
           ./modules/core/system.nix
+          ./modules/core/network.nix
           ./modules/hardware/tmpfs.nix
           ./modules/hardware/disableTPM.nix
           ./modules/hardware/zramSwap.nix
@@ -56,6 +58,7 @@
           ./hosts/portable.nix
           ./users/sergiu/sergiu.nix
           ./modules/core/system.nix
+          ./modules/core/network.nix
           ./modules/hardware/tmpfs.nix
           ./modules/hardware/disableTPM.nix
           ./modules/hardware/zramSwap.nix

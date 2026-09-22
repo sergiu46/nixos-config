@@ -9,7 +9,6 @@
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    ../modules/core/network.nix
   ];
 
   # Nixpkgs

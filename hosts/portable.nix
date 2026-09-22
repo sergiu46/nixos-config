@@ -11,7 +11,6 @@
   imports = [
     (modulesPath + "/profiles/all-hardware.nix")
     (modulesPath + "/installer/scan/not-detected.nix")
-    ../modules/core/network.nix
   ];
 
   # --- Boot & Kernel ---
