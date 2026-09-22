@@ -156,7 +156,7 @@
     sof-firmware
   ];
 
-  # Flip ESP Flags
+  # Flip ESP Flags on Boot
   systemd.services.activate-efi-on-boot = {
     description = "Set /boot to ACTIVE (esp) at boot";
     after = [ "local-fs.target" ];
@@ -173,6 +173,7 @@
     };
   };
 
+  # Flip ESP Flags on Shutdown
   systemd.services.deactivate-efi-on-shutdown = {
     description = "Set /boot to HIDDEN at shutdown";
     after = [ "local-fs.target" ];
@@ -191,8 +192,6 @@
         PART_NUM=$(${pkgs.util-linux}/bin/lsblk -no PARTN "$DEV_PATH")        
 
         ${pkgs.util-linux}/bin/umount /boot || true
-        ${pkgs.dosfstools}/bin/fsck.fat -a -w -v "$DEV_PATH" >/dev/null 2>&1 || true
-
         ${pkgs.parted}/bin/parted -s /dev/"$PARENT_DISK" set "$PART_NUM" esp off
         ${pkgs.parted}/bin/parted -s /dev/"$PARENT_DISK" set "$PART_NUM" hidden on
       '';
