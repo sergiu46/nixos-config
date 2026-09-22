@@ -1,7 +1,28 @@
-{ ... }:
+{ config, lib, ... }:
 
+let
+  # List normal users
+  normalUsers = lib.filterAttrs (name: user: user.isNormalUser) config.users.users;
+
+  # Generate .cache mount for each user
+  userCacheMounts = lib.mapAttrs' (
+    name: user:
+    lib.nameValuePair "${user.home}/.cache" {
+      device = "tmpfs";
+      fsType = "tmpfs";
+      options = [
+        "noatime"
+        "nodev"
+        "nosuid"
+        "size=50%"
+        "mode=0700"
+        "uid=${name}"
+        "gid=${user.group}"
+      ];
+    }
+  ) normalUsers;
+in
 {
-
   systemd.user.services.user-symlinks = {
     description = "User symlinks";
     before = [ "graphical-session-pre.target" ];
@@ -16,16 +37,16 @@
       rm -f $HOME/.config/BraveSoftware/Brave-Browser/Singleton*
 
       # TELEGRAM SETUP
-      mkdir -p $XDG_RUNTIME_DIR/telegram_cache
+      mkdir -p $HOME/.cache/telegram_cache
       mkdir -p $HOME/.local/share/TelegramDesktop/tdata
       rm -rf $HOME/.local/share/TelegramDesktop/tdata/user_data
-      ln -sfn $XDG_RUNTIME_DIR/telegram_cache $HOME/.local/share/TelegramDesktop/tdata/user_data
+      ln -sfn $HOME/.cache/telegram_cache $HOME/.local/share/TelegramDesktop/tdata/user_data
 
       # GNOME SETUP
-      mkdir -p $XDG_RUNTIME_DIR/gvfs-metadata
+      mkdir -p $HOME/.cache/gvfs-metadata
       mkdir -p $HOME/.local/share/
       rm -rf $HOME/.local/share/gvfs-metadata
-      ln -sfn $XDG_RUNTIME_DIR/gvfs-metadata $HOME/.local/share/gvfs-metadata
+      ln -sfn $HOME/.cache/gvfs-metadata $HOME/.local/share/gvfs-metadata
     '';
   };
 
@@ -52,20 +73,6 @@
 
   # tmpfs Drives
   fileSystems = {
-    # .cache RAM drive
-    "/home/sergiu/.cache" = {
-      device = "tmpfs";
-      fsType = "tmpfs";
-      options = [
-        "noatime"
-        "nodev"
-        "nosuid"
-        "size=50%"
-        "mode=0700"
-        "uid=1000"
-      ];
-    };
-
     # Flatpak and other temporary files
     "/var/tmp" = {
       device = "tmpfs";
@@ -128,6 +135,7 @@
       ];
     };
 
-  };
+  }
+  // userCacheMounts;
 
 }
