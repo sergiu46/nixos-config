@@ -1,39 +1,31 @@
 { ... }:
 
 {
-  systemd.services.user-symlinks = {
+
+  systemd.user.services.user-symlinks = {
     description = "User symlinks";
-    after = [
-      "home-sergiu-.cache.mount"
-      "local-fs.target"
-    ];
-    requires = [ "home-sergiu-.cache.mount" ];
-    wantedBy = [ "multi-user.target" ];
+    before = [ "graphical-session-pre.target" ];
+    wantedBy = [ "default.target" ];
     serviceConfig = {
       Type = "oneshot";
-      User = "sergiu";
-      Group = "users";
+      RemainAfterExit = true;
     };
 
     script = ''
       # BRAVE SETUP
-      rm -f /home/sergiu/.config/BraveSoftware/Brave-Browser/Singleton*
-      mkdir -p /home/sergiu/.cache/brave_CacheStorage
-      mkdir -p "/home/sergiu/.config/BraveSoftware/Brave-Browser/Default/Service Worker"
-      rm -rf "/home/sergiu/.config/BraveSoftware/Brave-Browser/Default/Service Worker/CacheStorage"
-      ln -sfn /home/sergiu/.cache/brave_CacheStorage "/home/sergiu/.config/BraveSoftware/Brave-Browser/Default/Service Worker/CacheStorage" 
+      rm -f $HOME/.config/BraveSoftware/Brave-Browser/Singleton*
 
       # TELEGRAM SETUP
-      mkdir -p /home/sergiu/.cache/telegram_cache
-      mkdir -p /home/sergiu/.local/share/TelegramDesktop/tdata
-      rm -rf /home/sergiu/.local/share/TelegramDesktop/tdata/user_data
-      ln -sfn /home/sergiu/.cache/telegram_cache /home/sergiu/.local/share/TelegramDesktop/tdata/user_data
+      mkdir -p $XDG_RUNTIME_DIR/telegram_cache
+      mkdir -p $HOME/.local/share/TelegramDesktop/tdata
+      rm -rf $HOME/.local/share/TelegramDesktop/tdata/user_data
+      ln -sfn $XDG_RUNTIME_DIR/telegram_cache $HOME/.local/share/TelegramDesktop/tdata/user_data
 
       # GNOME SETUP
-      mkdir -p /home/sergiu/.cache/gvfs-metadata
-      mkdir -p /home/sergiu/.local/share/
-      rm -rf /home/sergiu/.local/share/gvfs-metadata
-      ln -sfn /home/sergiu/.cache/gvfs-metadata /home/sergiu/.local/share/gvfs-metadata
+      mkdir -p $XDG_RUNTIME_DIR/gvfs-metadata
+      mkdir -p $HOME/.local/share/
+      rm -rf $HOME/.local/share/gvfs-metadata
+      ln -sfn $XDG_RUNTIME_DIR/gvfs-metadata $HOME/.local/share/gvfs-metadata
     '';
   };
 
