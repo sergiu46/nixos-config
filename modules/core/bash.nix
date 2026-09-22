@@ -20,7 +20,7 @@
           nix flake update && \
           git add flake.lock && \
           sudo nixos-rebuild boot --flake .#$(hostname) && \
-          git commit -m "update" && \
+          git commit -m "Manual Update" && \
           git push
         '
       '';
