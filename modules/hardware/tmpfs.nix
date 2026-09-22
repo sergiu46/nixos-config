@@ -45,6 +45,10 @@
   # Browser Speedup: Profile-sync-daemon
   services.psd.enable = true;
 
+  services.logind.extraConfig = ''
+    RuntimeDirectorySize=50%
+  '';
+
   # Log Handling: Keep logs in RAM and limited in size
   services.journald.extraConfig = ''
     Storage=volatile
