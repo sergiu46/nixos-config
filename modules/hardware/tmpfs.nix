@@ -8,8 +8,6 @@
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      RuntimeDirectory = "cache";
-      RuntimeDirectorySize = "50%";
     };
 
     script = ''
@@ -47,7 +45,7 @@
 
   # Logind settings for /run/user size
   services.logind.settings.Login = {
-    RuntimeDirectorySize = "50%";
+    RuntimeDirectorySize = "80%";
   };
 
   # Log Handling: Keep logs in RAM and limited in size
