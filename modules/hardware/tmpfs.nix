@@ -18,6 +18,10 @@
     script = ''
       # BRAVE SETUP
       rm -f /home/sergiu/.config/BraveSoftware/Brave-Browser/Singleton*
+      mkdir -p /home/sergiu/.cache/brave_CacheStorage
+      mkdir -p "/home/sergiu/.config/BraveSoftware/Brave-Browser/Default/Service Worker"
+      rm -rf "/home/sergiu/.config/BraveSoftware/Brave-Browser/Default/Service Worker/CacheStorage"
+      ln -sfn /home/sergiu/.cache/brave_CacheStorage "/home/sergiu/.config/BraveSoftware/Brave-Browser/Default/Service Worker/CacheStorage" 
 
       # TELEGRAM SETUP
       mkdir -p /home/sergiu/.cache/telegram_cache
