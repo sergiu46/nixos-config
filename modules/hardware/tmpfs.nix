@@ -1,18 +1,8 @@
-{ config, lib, ... }:
+{ ... }:
 
-let
-  normalUsers = lib.filterAttrs (name: user: user.isNormalUser) config.users.users;
-
-  userCacheMounts = lib.mapAttrsToList (name: user: {
-    what = "tmpfs";
-    where = "${user.home}/.cache";
-    type = "tmpfs";
-    options = "noatime,nodev,nosuid,size=50%,mode=0700,uid=${name},gid=${user.group}";
-  }) normalUsers;
-in
 {
   systemd.user.services.user-symlinks = {
-    description = "User symlinks";
+    description = "User symlinks and RAM cache redirection";
     before = [ "graphical-session-pre.target" ];
     wantedBy = [ "default.target" ];
     serviceConfig = {
@@ -21,20 +11,27 @@ in
     };
 
     script = ''
+      # 1. REDIRECT ENTIRE .CACHE TO RAM VIA XDG_RUNTIME_DIR
+      mkdir -p "$XDG_RUNTIME_DIR/cache"
+      if [ ! -L "$HOME/.cache" ]; then
+        rm -rf "$HOME/.cache"
+        ln -sfn "$XDG_RUNTIME_DIR/cache" "$HOME/.cache"
+      fi
+
       # BRAVE SETUP
-      rm -f $HOME/.config/BraveSoftware/Brave-Browser/Singleton*
+      rm -f "$HOME/.config/BraveSoftware/Brave-Browser/Singleton*"
 
-      # TELEGRAM SETUP
-      mkdir -p $HOME/.cache/telegram_cache
-      mkdir -p $HOME/.local/share/TelegramDesktop/tdata
-      rm -rf $HOME/.local/share/TelegramDesktop/tdata/user_data
-      ln -sfn $HOME/.cache/telegram_cache $HOME/.local/share/TelegramDesktop/tdata/user_data
+      # TELEGRAM SETUP (Now automatically in RAM via .cache symlink)
+      mkdir -p "$HOME/.cache/telegram_cache"
+      mkdir -p "$HOME/.local/share/TelegramDesktop/tdata"
+      rm -rf "$HOME/.local/share/TelegramDesktop/tdata/user_data"
+      ln -sfn "$HOME/.cache/telegram_cache" "$HOME/.local/share/TelegramDesktop/tdata/user_data"
 
-      # GNOME SETUP
-      mkdir -p $HOME/.cache/gvfs-metadata
-      mkdir -p $HOME/.local/share/
-      rm -rf $HOME/.local/share/gvfs-metadata
-      ln -sfn $HOME/.cache/gvfs-metadata $HOME/.local/share/gvfs-metadata
+      # GNOME SETUP (Now automatically in RAM via .cache symlink)
+      mkdir -p "$HOME/.cache/gvfs-metadata"
+      mkdir -p "$HOME/.local/share/"
+      rm -rf "$HOME/.local/share/gvfs-metadata"
+      ln -sfn "$HOME/.cache/gvfs-metadata" "$HOME/.local/share/gvfs-metadata"
     '';
   };
 
@@ -59,10 +56,7 @@ in
     build-dir = "/var/cache/nix-build";
   };
 
-  # Mount the dynamically generated tmpfs entries via systemd
-  systemd.mounts = userCacheMounts;
-
-  # tmpfs Drives (Static paths only to avoid recursion)
+  # tmpfs Drives (System-level only, no user filesystems needed)
   fileSystems = {
     # Flatpak and other temporary files
     "/var/tmp" = {
