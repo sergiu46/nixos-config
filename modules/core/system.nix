@@ -104,6 +104,20 @@
   # Networking
   networking.networkmanager.enable = true;
 
+  # Network discovery (mDNS / DNS-SD / Zeroconf)
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true; # Enables resolving .local hostnames via NSS
+    openFirewall = true; # Opens UDP port 5353 in the firewall
+
+    # Broadcast this machine on the network so other devices can discover it
+    publish = {
+      enable = true;
+      addresses = true;
+      workstation = true;
+    };
+  };
+
   # Locale and internationalization
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {

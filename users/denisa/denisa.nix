@@ -8,6 +8,7 @@
       "render"
       "i2c"
       "dialout"
+      "lp"
     ];
     home = "/home/denisa";
     initialHashedPassword = "$6$KBCYxtQFkuzSoCNu$V1Bax2llJJWiMVfvapePb2JyPcHQR2iyljRqqAFRHHajQ90MVgiWvobXXzU6J1CxtSwi.OxsgXf/07GzRt6kx0";

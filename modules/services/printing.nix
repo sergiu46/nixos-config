@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  # Printing and driver support
+  # Purely printing-related services
   services.printing = {
     enable = true;
     drivers = with pkgs; [
@@ -10,11 +10,7 @@
     ];
   };
 
-  # Network discovery (mDNS for local services/printers)
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    openFirewall = true;
-  };
+  # Optional IPP-over-USB support
+  services.ipp-usb.enable = true;
 
 }
