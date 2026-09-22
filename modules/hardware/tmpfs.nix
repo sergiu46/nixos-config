@@ -45,9 +45,10 @@
   # Browser Speedup: Profile-sync-daemon
   services.psd.enable = true;
 
-  services.logind.extraConfig = ''
-    RuntimeDirectorySize=50%
-  '';
+  # Logind settings for /run/user size
+  services.logind.settings.Login = {
+    RuntimeDirectorySize = "50%";
+  };
 
   # Log Handling: Keep logs in RAM and limited in size
   services.journald.extraConfig = ''
