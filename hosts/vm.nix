@@ -17,9 +17,6 @@
     hostName = configName;
     useDHCP = lib.mkDefault true;
     usePredictableInterfaceNames = true; # Standard interface naming for VMs
-
-    # NetworkManager is unnecessary for simple VM LAN networking
-    networkmanager.enable = false;
   };
 
   # Bootloader and Kernel
