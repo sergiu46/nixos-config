@@ -2,7 +2,6 @@
   lib,
   modulesPath,
   pkgs,
-  configName,
   userVars,
   ...
 }:
@@ -10,10 +9,8 @@
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
+    ../modules/core/network.nix
   ];
-
-  # Networking
-  networking.hostName = configName;
 
   # Nixpkgs
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
