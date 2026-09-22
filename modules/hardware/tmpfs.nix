@@ -8,6 +8,8 @@
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
+      RuntimeDirectory = "cache";
+      RuntimeDirectorySize = "50%";
     };
 
     script = ''
