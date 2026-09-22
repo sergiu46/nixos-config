@@ -17,6 +17,7 @@
     smartmontools
     kdiskmark
     # Stable apps
+    drawing
     vlc
     libreoffice-fresh
     gnome-network-displays
