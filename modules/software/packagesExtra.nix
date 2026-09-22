@@ -16,6 +16,7 @@
     # Packages
     nextcloud-client
     stirling-pdf-desktop
+    unstable.jellyfin-desktop
   ];
 
   fonts.packages = with pkgs; [
