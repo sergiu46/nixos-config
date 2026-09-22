@@ -1,26 +1,14 @@
 { config, lib, ... }:
 
 let
-  # List normal users
   normalUsers = lib.filterAttrs (name: user: user.isNormalUser) config.users.users;
 
-  # Generate .cache mount for each user
-  userCacheMounts = lib.mapAttrs' (
-    name: user:
-    lib.nameValuePair "${user.home}/.cache" {
-      device = "tmpfs";
-      fsType = "tmpfs";
-      options = [
-        "noatime"
-        "nodev"
-        "nosuid"
-        "size=50%"
-        "mode=0700"
-        "uid=${name}"
-        "gid=${user.group}"
-      ];
-    }
-  ) normalUsers;
+  userCacheMounts = lib.mapAttrsToList (name: user: {
+    what = "tmpfs";
+    where = "${user.home}/.cache";
+    type = "tmpfs";
+    options = "noatime,nodev,nosuid,size=50%,mode=0700,uid=${name},gid=${user.group}";
+  }) normalUsers;
 in
 {
   systemd.user.services.user-symlinks = {
@@ -71,7 +59,10 @@ in
     build-dir = "/var/cache/nix-build";
   };
 
-  # tmpfs Drives
+  # Mount the dynamically generated tmpfs entries via systemd
+  systemd.mounts = userCacheMounts;
+
+  # tmpfs Drives (Static paths only to avoid recursion)
   fileSystems = {
     # Flatpak and other temporary files
     "/var/tmp" = {
@@ -135,7 +126,6 @@ in
       ];
     };
 
-  }
-  // userCacheMounts;
+  };
 
 }
