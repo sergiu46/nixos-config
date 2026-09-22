@@ -190,8 +190,6 @@
         DEV_PATH=$(${pkgs.util-linux}/bin/findmnt -vno SOURCE /boot)
         PARENT_DISK=$(${pkgs.util-linux}/bin/lsblk -no pkname "$DEV_PATH")
         PART_NUM=$(${pkgs.util-linux}/bin/lsblk -no PARTN "$DEV_PATH")        
-
-        ${pkgs.util-linux}/bin/umount /boot || true
         ${pkgs.parted}/bin/parted -s /dev/"$PARENT_DISK" set "$PART_NUM" esp off
         ${pkgs.parted}/bin/parted -s /dev/"$PARENT_DISK" set "$PART_NUM" hidden on
       '';
