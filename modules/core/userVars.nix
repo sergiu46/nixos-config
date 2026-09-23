@@ -20,7 +20,6 @@ let
     "compress_mode=fs"
     "compress_extension=*"
     "gc_merge"
-    "flush_merge"
     "reserve_root=16384"
     "inline_xattr"
     "inline_data"

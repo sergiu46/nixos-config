@@ -84,17 +84,20 @@
   };
 
   # --- Filesystems ---
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-label/${userVars.f2fs.label}";
-      fsType = "f2fs";
-      options = userVars.f2fs.optsList;
-    };
+  boot.initrd.luks.devices.${userVars.f2fs.label} = {
+    device = "/dev/disk/by-label/${userVars.f2fs.label}-CRYPT";
+    allowDiscards = true;
+  };
 
-    "/boot" = {
-      device = "/dev/disk/by-label/${userVars.efiLabel}";
-      fsType = "vfat";
-    };
+  fileSystems."/" = {
+    device = "/dev/mapper/${userVars.f2fs.label}";
+    fsType = "f2fs";
+    options = userVars.f2fs.optsList;
+  };
+
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-label/${userVars.efiLabel}";
+    fsType = "vfat";
   };
 
   services.gnome.core-shell.enable = true;

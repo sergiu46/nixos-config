@@ -72,7 +72,7 @@
         read -p "Target BOOT partition (e.g., /dev/sda4): " dev_boot
         read -p "Target ROOT partition (e.g., /dev/sda3): " dev_root
         read -p "Enter Config Name (e.g., Samsung-NIX): " name
-        
+
         local efi_name=$(echo "''${name:0:4}" | tr '[:lower:]' '[:upper:]')EFI
         local root_name="$name"
 
@@ -80,26 +80,41 @@
           echo "--------------------------------------------------"
           echo "PREPARING DRIVE FOR: $name"
           echo "BOOT: $dev_boot -> FAT32 (Label: $efi_name, Flags: hidden)"
-          echo "ROOT: $dev_root -> F2FS  (Label: $root_name)"
+          echo "ROOT: $dev_root -> LUKS2 -> F2FS (Label: $root_name)"
           echo "--------------------------------------------------"
           read -p "REALLY wipe these partitions? (y/n): " CONFIRM
-          
+
           if [ "$CONFIRM" == "y" ]; then
             sudo umount -l "$dev_boot" "$dev_root" 2>/dev/null || true
-            
+
             echo "Formatting Boot partition as FAT32..."
             sudo mkfs.fat -F 32 -n "$efi_name" "$dev_boot"
-            
+
             local disk=$(echo "$dev_boot" | sed 's/[0-9]*$//')
             local part_num=$(echo "$dev_boot" | grep -o '[0-9]*$')
-            
+
             # Apply the hidden flag
             sudo parted -s "$disk" set "$part_num" esp off
             sudo parted -s "$disk" set "$part_num" hidden on
-            
+
+            echo "Encrypting Root partition (LUKS2, AES-256-XTS, 4K sectors)..."
+            sudo cryptsetup luksFormat \
+              --type luks2 \
+              --cipher aes-xts-plain64 \
+              --key-size 512 \
+              --hash sha256 \
+              --sector-size 4096 \
+              --label "''${name}-CRYPT" \
+              "$dev_root"
+
+            echo "Opening encrypted container..."
+            sudo cryptsetup open "$dev_root" "$name"
+
             echo "Formatting Root partition as F2FS..."
-            sudo mkfs.f2fs -f -l "$root_name" -O extra_attr,inode_checksum,sb_checksum,compression -o 5 "$dev_root"
-            
+            sudo mkfs.f2fs -f -l "$root_name" -O extra_attr,inode_checksum,sb_checksum,compression -o 5 "/dev/mapper/$name"
+
+            sudo cryptsetup close "$name"
+
             echo "--------------------------------------------------"
             echo "Success! You can now run: mount-portable (select $name)"
           fi
@@ -111,22 +126,24 @@
       mount-portable() {
         read -p "Enter Config Name to mount (e.g., Samsung-NIX): " name
         local efi_name=$(echo "''${name:0:4}" | tr '[:lower:]' '[:upper:]')EFI
-        
-        sudo umount /dev/disk/by-label/"$name" 2>/dev/null || true
+
+        sudo umount /dev/mapper/"$name" 2>/dev/null || true
+        sudo cryptsetup close "$name" 2>/dev/null || true
         sudo umount /dev/disk/by-label/"$efi_name" 2>/dev/null || true
 
         sudo mkdir -p /mnt
-        sudo mount -t f2fs -o ${userVars.f2fs.optsString} /dev/disk/by-label/"$name" /mnt && \
+        sudo cryptsetup open /dev/disk/by-label/"''${name}-CRYPT" "$name" && \
+        sudo mount -t f2fs -o ${userVars.f2fs.optsString} /dev/mapper/"$name" /mnt && \
         sudo chattr +c /mnt && \
 
         sudo mkdir -p /mnt/boot && {
           local dev_path=$(readlink -f /dev/disk/by-label/"$efi_name")
           local parent_disk=$(lsblk -no pkname "$dev_path")
           local part_num=$(lsblk -no PARTN "$dev_path")
-          
+
           sudo parted -s /dev/"$parent_disk" set "$part_num" esp on >/dev/null 2>&1
           sudo mount /dev/disk/by-label/"$efi_name" /mnt/boot && \
-          echo "Enabled ACTIVE ESP flag and mounted $name."
+          echo "Enabled ACTIVE ESP flag, unlocked, and mounted $name."
         }
       }
 
@@ -140,14 +157,21 @@
           local parent_disk=$(lsblk -no pkname "$dev_path")
           local part_num=$(lsblk -no PARTN "$dev_path")
           umount /mnt/boot
-          
+
           fsck.fat -a -w -v "$dev_path" >/dev/null 2>&1 || true
           parted -s /dev/"$parent_disk" set "$part_num" esp off >/dev/null 2>&1
           parted -s /dev/"$parent_disk" set "$part_num" hidden on >/dev/null 2>&1
-          
+
           echo "EFI partition unmounted and hidden."
         fi
+
+        local root_src=$(findmnt -vno SOURCE /mnt 2>/dev/null)
         umount /mnt 2>/dev/null
+
+        if [[ "$root_src" == /dev/mapper/* ]]; then
+          cryptsetup close "$(basename "$root_src")"
+          echo "Closed encrypted container."
+        fi
       }
 
       install-nixos() {
