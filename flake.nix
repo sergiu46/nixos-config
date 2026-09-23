@@ -36,33 +36,24 @@
           ./modules/software/roCEI.nix
         ];
 
-        Samsung-NIX = mkHost "Samsung-NIX" system stateVersion [
+        BAR-Plus = mkHost "BAR-Plus" system stateVersion [
           ./hosts/portable.nix
           ./users/sergiu/sergiu.nix
           ./modules/core/system.nix
           ./modules/core/network.nix
-          ./modules/hardware/tmpfs.nix
-          ./modules/hardware/disableTPM.nix
-          ./modules/hardware/zramSwap.nix
-          ./modules/hardware/f2fsErrors.nix
-          ./modules/hardware/udevRules.nix
+          ./modules/hardware/portable.nix
           ./modules/services/syncConfig.nix
           ./modules/services/printing.nix
           ./modules/services/powerOffNoSleep.nix
           ./modules/software/packagesDefault.nix
-          ./modules/software/flatpak.nix
         ];
 
-        Kingston-NIX = mkHost "Kingston-NIX" system stateVersion [
+        FIT-Plus = mkHost "FIT-Plus" system stateVersion [
           ./hosts/portable.nix
           ./users/sergiu/sergiu.nix
           ./modules/core/system.nix
           ./modules/core/network.nix
-          ./modules/hardware/tmpfs.nix
-          ./modules/hardware/disableTPM.nix
-          ./modules/hardware/zramSwap.nix
-          ./modules/hardware/f2fsErrors.nix
-          ./modules/hardware/udevRules.nix
+          ./modules/hardware/portable.nix
           ./modules/services/syncConfig.nix
           ./modules/services/powerOffNoSleep.nix
           ./modules/software/packagesLite.nix
