@@ -1,32 +1,7 @@
-{ pkgs, ... }:
+{ ... }:
 
 {
-
-  imports = [
-    ./packagesLite.nix
-  ];
-  # System-wide packages
-  environment.systemPackages = with pkgs; [
-    # Utilities
-    gparted
-    ffmpeg-full
-    intel-gpu-tools
-    libva-utils
-    libinput
-    pciutils
-    smartmontools
-    kdiskmark
-    # Stable apps
-    drawing
-    vlc
-    libreoffice-fresh
-    gnome-network-displays
-    opensoundmeter
-    # Unstable apps
-    unstable.ventoy-full-gtk
-    unstable.angryipscanner
-  ];
-
+  # Firefox with configs
   programs.firefox = {
     enable = true;
     preferences = {
@@ -46,6 +21,7 @@
     };
   };
 
+  # Variables for firefox
   environment.sessionVariables = {
     MOZ_ENABLE_WAYLAND = "1";
     MOZ_CRASHREPORTER_DISABLE = "1"; # Disable crash reports
