@@ -1,6 +1,10 @@
 { pkgs, ... }:
 
 {
+  imports = [
+    ./packagesDefault.nix
+  ];
+
   # System-wide packages
   environment.systemPackages = with pkgs; [
     # Gnome extensions
