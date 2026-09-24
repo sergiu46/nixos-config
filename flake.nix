@@ -18,9 +18,9 @@
       system = "x86_64-linux";
     in
     {
-      nixosConfigurations = {
+      nixosConfigurations = builtins.mapAttrs (name: hostFn: hostFn name) {
 
-        Latitude-NIX = mkHost "Latitude-NIX" system "25.11" [
+        Latitude-NIX = mkHost system "25.11" [
           ./hosts/latitude.nix
           ./users/sergiu/sergiu.nix
           ./users/denisa/denisa.nix
@@ -35,7 +35,7 @@
           ./modules/software/roCEI.nix
         ];
 
-        BAR-Plus = mkHost "BAR-Plus" system "25.11" [
+        BAR-Plus = mkHost system "25.11" [
           ./hosts/portable.nix
           ./users/sergiu/sergiu.nix
           ./modules/core/system.nix
@@ -47,7 +47,7 @@
           ./modules/software/packagesDefault.nix
         ];
 
-        FIT-Plus = mkHost "FIT-Plus" system "25.11" [
+        FIT-Plus = mkHost system "25.11" [
           ./hosts/portable.nix
           ./users/sergiu/sergiu.nix
           ./modules/core/system.nix
@@ -58,7 +58,7 @@
           ./modules/software/packagesLite.nix
         ];
 
-        Unraid-NIX = mkHost "Unraid-NIX" system "25.11" [
+        Unraid-NIX = mkHost system "25.11" [
           ./hosts/vm.nix
           ./users/sergiu/sergiu.nix
           ./modules/core/system.nix

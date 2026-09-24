@@ -6,8 +6,7 @@
   ...
 }@inputs:
 
-# This is the actual mkHost function
-configName: system: stateVersion: modules:
+system: stateVersion: modules: configName:
 let
   # Import variables directly into userVars
   userVars = import ./userVars.nix {
