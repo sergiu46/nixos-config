@@ -29,7 +29,7 @@ in
 {
 
   # Where in home directory to store the config
-  nixosConfigDir = "NixOS";
+  nixosConfigDir = "/.config/NixOS";
 
   # The account that owns this repo on disk.
   # Used only where there's no logged-in user.
