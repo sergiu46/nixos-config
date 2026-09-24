@@ -212,5 +212,5 @@
   };
 
   documentation.enable = false;
-  system.stateVersion = stateVersion;
+
 }

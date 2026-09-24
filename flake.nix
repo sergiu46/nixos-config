@@ -16,12 +16,11 @@
     let
       mkHost = import ./modules/core/mkHost.nix inputs;
       system = "x86_64-linux";
-      stateVersion = "25.11";
     in
     {
       nixosConfigurations = {
 
-        Latitude-NIX = mkHost "Latitude-NIX" system stateVersion [
+        Latitude-NIX = mkHost "Latitude-NIX" system "25.11" [
           ./hosts/latitude.nix
           ./users/sergiu/sergiu.nix
           ./users/denisa/denisa.nix
@@ -36,7 +35,7 @@
           ./modules/software/roCEI.nix
         ];
 
-        BAR-Plus = mkHost "BAR-Plus" system stateVersion [
+        BAR-Plus = mkHost "BAR-Plus" system "25.11" [
           ./hosts/portable.nix
           ./users/sergiu/sergiu.nix
           ./modules/core/system.nix
@@ -48,7 +47,7 @@
           ./modules/software/packagesDefault.nix
         ];
 
-        FIT-Plus = mkHost "FIT-Plus" system stateVersion [
+        FIT-Plus = mkHost "FIT-Plus" system "25.11" [
           ./hosts/portable.nix
           ./users/sergiu/sergiu.nix
           ./modules/core/system.nix
@@ -59,7 +58,7 @@
           ./modules/software/packagesLite.nix
         ];
 
-        Unraid-NIX = mkHost "Unraid-NIX" system stateVersion [
+        Unraid-NIX = mkHost "Unraid-NIX" system "25.11" [
           ./hosts/vm.nix
           ./users/sergiu/sergiu.nix
           ./modules/core/system.nix
