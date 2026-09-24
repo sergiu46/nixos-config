@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, userVars, ... }:
 
 {
   systemd.user.services.sync-nixos-config = {
@@ -19,7 +19,7 @@
     ];
 
     script = ''
-      CONFIG_DIR="$HOME/NixOS"
+      CONFIG_DIR="$HOME/${userVars.nixosConfigDir}"
       HTTPS_URL="https://github.com/sergiu46/nixos-config.git"
       SSH_URL="git@github.com:sergiu46/nixos-config.git"
 
@@ -41,13 +41,14 @@
 
       if [ ! -d "$CONFIG_DIR" ]; then
         echo "Cloning repository..."
+        mkdir -p "$CONFIG_DIR"
         git clone "$HTTPS_URL" "$CONFIG_DIR"
         cd "$CONFIG_DIR"
         git remote set-url --push origin "$SSH_URL"
       else
         echo "Updating repository..."
         cd "$CONFIG_DIR"
-        
+
         # Public HTTPS for fetching (no Bitwarden needed), SSH for pushing
         git remote set-url origin "$HTTPS_URL"
         git remote set-url --push origin "$SSH_URL"

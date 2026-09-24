@@ -27,6 +27,17 @@ let
   ];
 in
 {
+
+  # Where in home directory to store the config
+  nixosConfigDir = "NixOS";
+
+  # The account that owns this repo on disk.
+  # Used only where there's no logged-in user.
+  primaryUser = "sergiu";
+
+  # Porable boot partition label
+  efiLabel = "${lib.toUpper (builtins.substring 0 4 configName)}EFI";
+
   btrfs = {
     label = configName;
     optsList = btrfsOpts;
@@ -39,6 +50,4 @@ in
     optsString = lib.concatStringsSep "," f2fsOpts;
   };
 
-  # Porable boot partition label
-  efiLabel = "${lib.toUpper (builtins.substring 0 4 configName)}EFI";
 }

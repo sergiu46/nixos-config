@@ -1,11 +1,11 @@
-{ ... }:
+{ userVars, ... }:
 
 {
   # Automatic system upgrades
   system.autoUpgrade = {
     enable = true;
     dates = "daily";
-    flake = "/home/sergiu/NixOS";
+    flake = "/home/${userVars.primaryUser}/${userVars.nixosConfigDir}";
     flags = [
       "--recreate-lock-file"
       "--commit-lock-file"
@@ -34,7 +34,7 @@
         name = "NixOS Auto Updater";
         email = "root@localhost";
       };
-      safe.directory = "/home/sergiu/NixOS";
+      safe.directory = "/home/${userVars.primaryUser}/${userVars.nixosConfigDir}";
     };
   };
 }

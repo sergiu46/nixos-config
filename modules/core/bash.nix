@@ -8,13 +8,13 @@
   programs.bash = {
     shellAliases = {
       # SYSTEM BUILD
-      check = "${pkgs.time}/bin/time -f 'Duration: %E' nixos-rebuild build --flake ~/NixOS#$(hostname)";
-      switch = "${pkgs.time}/bin/time -f 'Duration: %E' sudo nixos-rebuild switch --flake ~/NixOS#$(hostname)";
-      boot = "${pkgs.time}/bin/time -f 'Duration: %E' sudo nixos-rebuild boot --flake ~/NixOS#$(hostname)";
+      check = "${pkgs.time}/bin/time -f 'Duration: %E' nixos-rebuild build --flake $HOME/${userVars.nixosConfigDir}#$(hostname)";
+      switch = "${pkgs.time}/bin/time -f 'Duration: %E' sudo nixos-rebuild switch --flake $HOME/${userVars.nixosConfigDir}#$(hostname)";
+      boot = "${pkgs.time}/bin/time -f 'Duration: %E' sudo nixos-rebuild boot --flake $HOME/${userVars.nixosConfigDir}#$(hostname)";
 
       update = ''
         sudo -v && \
-        cd ~/NixOS && \
+        cd $HOME/${userVars.nixosConfigDir} && \
         ${pkgs.time}/bin/time -f "Total Duration: %E" bash -c '
           git pull && \
           nix flake update && \
@@ -177,9 +177,10 @@
 
       install-nixos() {
         read -p "Enter host name: " name
+        local user=$(logname)
         sudo bash -c "
           HOME=/root /run/current-system/sw/bin/time -f 'Duration: %E' \
-          nixos-install --flake /home/sergiu/NixOS#$name --no-root-passwd
+          nixos-install --flake /home/$user/${userVars.nixosConfigDir}#$name --no-root-passwd
           $(declare -f umount-nixos); umount-nixos
         "
       }

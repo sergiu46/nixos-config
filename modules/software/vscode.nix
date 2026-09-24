@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  userVars,
+  ...
+}:
 
 let
   user = config.home.username;
@@ -24,5 +29,5 @@ in
 
   # Writable symlink to your repo
   xdg.configFile."VSCodium/User/settings.json".source =
-    config.lib.file.mkOutOfStoreSymlink "/home/${user}/NixOS/users/${user}/vscode-settings.json";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/${userVars.nixosConfigDir}/users/${user}/vscode-settings.json";
 }
