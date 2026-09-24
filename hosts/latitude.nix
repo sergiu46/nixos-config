@@ -16,7 +16,6 @@
 
   # Bootloader and kernel
   boot = {
-    plymouth.enable = true;
     kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];

@@ -26,6 +26,7 @@
           ./users/denisa/denisa.nix
           ./modules/core/system.nix
           ./modules/core/network.nix
+          ./modules/core/plymouth.nix
           ./modules/hardware/zramSwap.nix
           ./modules/services/autoUpdate.nix
           ./modules/services/powerOffOnSleep.nix
@@ -40,6 +41,7 @@
           ./users/sergiu/sergiu.nix
           ./modules/core/system.nix
           ./modules/core/network.nix
+          ./modules/core/plymouth.nix
           ./modules/hardware/portable.nix
           ./modules/services/syncConfig.nix
           ./modules/services/printing.nix
@@ -52,6 +54,7 @@
           ./users/sergiu/sergiu.nix
           ./modules/core/system.nix
           ./modules/core/network.nix
+          ./modules/core/plymouth.nix
           ./modules/hardware/portable.nix
           ./modules/services/syncConfig.nix
           ./modules/services/powerOffNoSleep.nix
