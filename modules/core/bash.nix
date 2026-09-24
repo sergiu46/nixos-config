@@ -71,7 +71,7 @@
 
         read -p "Target BOOT partition (e.g., /dev/sda3): " dev_boot
         read -p "Target ROOT partition (e.g., /dev/sda4): " dev_root
-        read -p "Enter Config Name (e.g., Samsung-NIX): " name
+        read -p "Enter Config Name: " name
 
         local efi_name=$(echo "''${name:0:4}" | tr '[:lower:]' '[:upper:]')EFI
         local root_name="$name"
@@ -124,7 +124,7 @@
       }
 
       mount-portable() {
-        read -p "Enter Config Name to mount (e.g., Samsung-NIX): " name
+        read -p "Enter Config Name to mount: " name
         local efi_name=$(echo "''${name:0:4}" | tr '[:lower:]' '[:upper:]')EFI
 
         sudo umount /dev/mapper/"$name" 2>/dev/null || true
@@ -144,6 +144,7 @@
           sudo parted -s /dev/"$parent_disk" set "$part_num" esp on >/dev/null 2>&1
           sudo mount /dev/disk/by-label/"$efi_name" /mnt/boot && \
           echo "Enabled ACTIVE ESP flag, unlocked, and mounted $name."
+          echo "You can now run: install-nixos (select $name)"
         }
       }
 
@@ -175,7 +176,7 @@
       }
 
       install-nixos() {
-        read -p "Enter host name (e.g., Samsung-NIX): " name
+        read -p "Enter host name: " name
         sudo bash -c "
           HOME=/root /run/current-system/sw/bin/time -f 'Duration: %E' \
           nixos-install --flake /home/sergiu/NixOS#$name --no-root-passwd
