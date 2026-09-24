@@ -176,7 +176,7 @@
       }
 
       install-nixos() {
-        read -p "Enter host name: " name
+        read -p "Enter config name: " name
         local user=$(logname)
         sudo bash -c "
           HOME=/root /run/current-system/sw/bin/time -f 'Duration: %E' \
