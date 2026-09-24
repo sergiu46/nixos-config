@@ -15,6 +15,7 @@
 
   # --- Boot & Kernel ---
   boot = {
+    plymouth.enable = true;
     kernelPackages = pkgs.linuxPackages_latest;
     # Load KVM modules for both vendors so virtualization works everywhere
     kernelModules = [

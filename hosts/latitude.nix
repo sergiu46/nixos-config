@@ -16,11 +16,7 @@
 
   # Bootloader and kernel
   boot = {
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-
+    plymouth.enable = true;
     kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
@@ -32,6 +28,10 @@
       "i915.enable_psr=0" # DISABLING this prevents "hiccups" on Skylake
       "mem_sleep_default=deep" # Deep sleep
     ];
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
     initrd = {
       kernelModules = [ ];
       availableKernelModules = [
