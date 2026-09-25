@@ -4,7 +4,7 @@
   environment.systemPackages = [ pkgs.libnotify ];
 
   systemd.user.services.boot-error-notify = {
-    description = "Notify of failed systemd services and boot errors on ${config.networking.hostName}";
+    description = "Notify of failed systemd services and critical hardware/storage faults on ${config.networking.hostName}";
     wantedBy = [ "graphical-session.target" ];
     after = [ "graphical-session.target" ];
     script = ''
@@ -17,13 +17,15 @@
           "$FAILED_COUNT service(s) failed on ${config.networking.hostName}. Run 'systemctl --failed' for details."
       fi
 
-      # 2. Check for general journal errors (Priority 3 = err)
-      ERROR_COUNT=$(journalctl -b -p 3 -q --no-pager | grep -v "^-- Boot" | grep -vE "dbus-broker-launch|gkr-pam: unable to locate daemon control file|No journal files were opened due to insufficient permissions" | grep -c .)
+      # 2. Check for critical hardware, GPU, CPU, and filesystem faults (btrfs, ext4, f2fs, zfs)
+      CRIT_PATTERN="I/O error|blk_update_request|bad sector|SMART|Machine Check|MCE|thermal|throttling|GPU.*reset|GPU.*hang|ring.*hang|f2fs|zfs|ext4|btrfs|remount-ro|read-only|corrupted"
+
+      ERROR_COUNT=$(journalctl -k -p 3 -q --no-pager | grep -iE "$CRIT_PATTERN" | grep -c .)
 
       if [ "$ERROR_COUNT" -gt 0 ]; then
-        ${pkgs.libnotify}/bin/notify-send -u normal -t 10000 \
-          "Boot Errors Logged" \
-          "$ERROR_COUNT error lines detected in journal. Run 'journalctl -b -p 3' to view."
+        ${pkgs.libnotify}/bin/notify-send -u critical -t 15000 \
+          "Hardware / Storage Error Detected" \
+          "$ERROR_COUNT critical hardware or filesystem error(s) detected in kernel logs. Run 'journalctl -k -p 3' to view."
       fi
     '';
   };
