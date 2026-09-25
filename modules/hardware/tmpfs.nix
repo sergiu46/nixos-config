@@ -1,5 +1,19 @@
-{ ... }:
+{ config, lib, ... }:
 
+let
+  # Filtrăm toți utilizatorii normali
+  normalUsers = lib.filterAttrs (n: u: u.isNormalUser) config.users.users;
+
+  # Generăm unități native systemd.mount pentru a evita bucla din fileSystems
+  userCacheMounts = lib.mapAttrsToList (n: u: {
+    what = "tmpfs";
+    where = "${u.home}/.cache";
+    type = "tmpfs";
+    options = "size=50%,mode=0755,uid=${n},gid=${u.group}";
+    wantedBy = [ "local-fs.target" ];
+    before = [ "home-manager-${n}.service" ];
+  }) normalUsers;
+in
 {
   systemd.user.services.user-symlinks = {
     description = "User symlinks and RAM cache redirection";
@@ -11,23 +25,16 @@
     };
 
     script = ''
-      # 1. REDIRECT ENTIRE .CACHE TO RAM VIA XDG_RUNTIME_DIR
-      mkdir -p "$XDG_RUNTIME_DIR/cache"
-      if [ ! -L "$HOME/.cache" ]; then
-        rm -rf "$HOME/.cache"
-        ln -sfn "$XDG_RUNTIME_DIR/cache" "$HOME/.cache"
-      fi
-
       # BRAVE SETUP
       rm -f "$HOME/.config/BraveSoftware/Brave-Browser/Singleton*"
 
-      # TELEGRAM SETUP (Now automatically in RAM via .cache symlink)
+      # TELEGRAM SETUP
       mkdir -p "$HOME/.cache/telegram_cache"
       mkdir -p "$HOME/.local/share/TelegramDesktop/tdata"
       rm -rf "$HOME/.local/share/TelegramDesktop/tdata/user_data"
       ln -sfn "$HOME/.cache/telegram_cache" "$HOME/.local/share/TelegramDesktop/tdata/user_data"
 
-      # GNOME SETUP (Now automatically in RAM via .cache symlink)
+      # GNOME SETUP
       mkdir -p "$HOME/.cache/gvfs-metadata"
       mkdir -p "$HOME/.local/share/"
       rm -rf "$HOME/.local/share/gvfs-metadata"
@@ -61,9 +68,11 @@
     build-dir = "/var/cache/nix-build";
   };
 
-  # tmpfs Drives (System-level only, no user filesystems needed)
+  # Montările generate dinamic, independente de structura blocantă fileSystems
+  systemd.mounts = userCacheMounts;
+
+  # tmpfs Drives (Sistem)
   fileSystems = {
-    # Flatpak and other temporary files
     "/var/tmp" = {
       device = "tmpfs";
       fsType = "tmpfs";
@@ -75,7 +84,6 @@
       ];
     };
 
-    # System Logs
     "/var/log" = {
       device = "tmpfs";
       fsType = "tmpfs";
@@ -88,7 +96,6 @@
       ];
     };
 
-    # Nix build directory
     "/var/cache/nix-build" = {
       device = "tmpfs";
       fsType = "tmpfs";
@@ -101,7 +108,6 @@
       ];
     };
 
-    # systemd private cache
     "/var/cache/private" = {
       device = "tmpfs";
       fsType = "tmpfs";
@@ -113,7 +119,6 @@
       ];
     };
 
-    # CUPS print spool
     "/var/spool/cups" = {
       device = "tmpfs";
       fsType = "tmpfs";
