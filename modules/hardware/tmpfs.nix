@@ -9,14 +9,14 @@ let
     what = "tmpfs";
     where = "${u.home}/.cache";
     type = "tmpfs";
-    options = "size=50%,mode=0755,uid=${n},gid=${u.group}";
+    options = "size=80%,mode=0755,uid=${n},gid=${u.group}";
     wantedBy = [ "local-fs.target" ];
     before = [ "home-manager-${n}.service" ];
   }) normalUsers;
 in
 {
   systemd.user.services.user-symlinks = {
-    description = "User symlinks and RAM cache redirection";
+    description = "User symlinks";
     before = [ "graphical-session-pre.target" ];
     wantedBy = [ "default.target" ];
     serviceConfig = {
@@ -47,6 +47,9 @@ in
   boot.tmp.tmpfsSize = "80%";
   boot.tmp.cleanOnBoot = true;
 
+  # User .cache mounts
+  systemd.mounts = userCacheMounts;
+
   # Browser Speedup: Profile-sync-daemon
   services.psd.enable = true;
 
@@ -67,9 +70,6 @@ in
     sandbox = true;
     build-dir = "/var/cache/nix-build";
   };
-
-  # Montările generate dinamic, independente de structura blocantă fileSystems
-  systemd.mounts = userCacheMounts;
 
   # tmpfs Drives (Sistem)
   fileSystems = {
