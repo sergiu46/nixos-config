@@ -91,9 +91,19 @@
     gnome-maps
     gnome-music
     showtime
+    snapshot # Camera
+    simple-scan # Document Scanner
+    totem # Video/Audio Player
+    gnome-weather # Weather
+    gnome-characters
+    gnome-clocks
+    gnome-font-viewer
+    gnome-connections
+    baobab
   ];
 
   documentation.enable = false;
+  documentation.nixos.enable = false;
 
   # Hardware - Minimal config for a Guest
   hardware = {
