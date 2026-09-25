@@ -26,6 +26,8 @@
       "intel_pstate=active"
       "amd_pstate=active"
       "fsck.mode=skip" # Disable file system check during boot
+      "scsi_mod.scan=async"
+      "async_probe"
     ];
 
     initrd = {
