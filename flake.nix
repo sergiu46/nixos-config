@@ -61,6 +61,18 @@
           ./modules/software/packagesLite.nix
         ];
 
+        Kingston = mkHost system "26.05" [
+          ./hosts/portable.nix
+          ./users/sergiu/sergiu.nix
+          ./modules/core/system.nix
+          ./modules/core/network.nix
+          ./modules/core/plymouth.nix
+          ./modules/hardware/portable.nix
+          ./modules/services/syncConfig.nix
+          ./modules/services/powerOffNoSleep.nix
+          ./modules/software/packagesLite.nix
+        ];
+
         Unraid-NIX = mkHost system "25.11" [
           ./hosts/vm.nix
           ./users/sergiu/sergiu.nix
