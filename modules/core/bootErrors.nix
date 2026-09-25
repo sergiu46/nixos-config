@@ -18,7 +18,7 @@
       fi
 
       # 2. Check for general journal errors (Priority 3 = err)
-      ERROR_COUNT=$(journalctl -b -p 3 -q --no-pager | grep -v "^-- Boot" | grep -c .)
+      ERROR_COUNT=$(journalctl -b -p 3 -q --no-pager | grep -v "^-- Boot" | grep -vE "dbus-broker-launch|gkr-pam: unable to locate daemon control file|No journal files were opened due to insufficient permissions" | grep -c .)
 
       if [ "$ERROR_COUNT" -gt 0 ]; then
         ${pkgs.libnotify}/bin/notify-send -u normal -t 10000 \
