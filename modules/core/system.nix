@@ -4,6 +4,7 @@
 
   imports = [
     ./bash.nix
+    ./bootErrors.nix
   ];
 
   # Services
@@ -131,7 +132,7 @@
   nix.settings = {
     sandbox = true;
     max-jobs = "auto";
-    cores = 0; 
+    cores = 0;
     auto-optimise-store = true;
     http-connections = 50;
     max-substitution-jobs = 30;
