@@ -14,47 +14,77 @@
 
   # --- Boot & Kernel ---
   boot = {
+    # Kernel selection
     kernelPackages = pkgs.linuxPackages_latest;
-    # Load KVM modules for both vendors so virtualization works everywhere
+    # Loaded after root is mounted - for virtualization
     kernelModules = [
       "kvm-amd"
       "kvm-intel"
     ];
+
+    # Bootloader
+    loader = {
+      systemd-boot.enable = true;
+      timeout = 2; # Wait time for menu
+      efi = {
+        canTouchEfiVariables = false; # Don't rewrite NVRAM on unfamiliar firmware
+        efiSysMountPoint = "/boot";
+      };
+    };
+
+    # Initrd: early boot environment that finds, unlocks, and mounts root
+    initrd = {
+      systemd.enable = true;
+      checkJournalingFS = true;
+
+      # Fast decompression over smaller image size
+      compressor = "zstd";
+      compressorArgs = [
+        "-1"
+        "-T0"
+      ];
+
+      # Skip NixOS's built-in module list (legacy internal SATA/PATA chipset
+      includeDefaultModules = false;
+      availableKernelModules = [
+        # USB storage transport (the drive itself)
+        "uas"
+        "usb_storage"
+        "sd_mod"
+
+        # USB host controllers - varies by host machine
+        "ehci_pci"
+        "ohci_pci"
+        "uhci_hcd"
+        "xhci_pci"
+
+        # SD/MMC card readers
+        "mmc_block"
+        "mmc_core"
+        "rtsx_pci"
+        "sdhci_acpi"
+        "sdhci_pci"
+
+        # Keyboard input for the LUKS prompt
+        "usbhid"
+        "hid_generic"
+        "atkbd"
+        "i8042"
+      ];
+    };
+
+    # Kernel parameters
     kernelParams = [
-      "usbcore.autosuspend=-1"
-      "scsi_mod.use_blk_mq=1" # Multi-queue for storage
       "intel_pstate=active"
       "amd_pstate=active"
+      "usbcore.autosuspend=-1"
       "fsck.mode=skip" # Disable file system check during boot
+      "scsi_mod.use_blk_mq=1" # Multi-queue for storage
       "scsi_mod.scan=async"
       "async_probe"
     ];
 
-    initrd = {
-      checkJournalingFS = true;
-      systemd.enable = true;
-      # Broad hardware support for the USB stick to boot anywhere
-      availableKernelModules = [
-        "ahci"
-        "ehci_pci"
-        "mmc_block"
-        "mmc_core"
-        "nvme"
-        "ohci_pci"
-        "rtsx_pci"
-        "sd_mod"
-        "sdhci_acpi"
-        "sdhci_pci"
-        "sr_mod"
-        "uas"
-        "uhci_hcd"
-        "usb_storage"
-        "xhci_pci"
-        "atkbd"
-        "hid_generic"
-      ];
-    };
-
+    # Kernel runtime tuning
     kernel.sysctl = {
       # Write batching - critical since no TRIM for wear leveling
       "vm.dirty_background_bytes" = 134217728; # 128MB
@@ -66,14 +96,7 @@
       "kernel.core_pattern" = "|/bin/false";
     };
 
-    loader = {
-      systemd-boot.enable = true;
-      efi = {
-        canTouchEfiVariables = false;
-        efiSysMountPoint = "/boot";
-      };
-    };
-
+    # Filesystem support
     supportedFilesystems = lib.mkAfter [
       "btrfs"
       "ext4"
@@ -101,8 +124,7 @@
     fsType = "vfat";
   };
 
-  services.gnome.core-shell.enable = true;
-
+  # --- Hardware ---
   hardware = {
     cpu.amd.updateMicrocode = true;
     cpu.intel.updateMicrocode = true;
@@ -138,7 +160,10 @@
     };
   };
 
+  # --- Services ---
   services = {
+    gnome.core-shell.enable = true;
+
     haveged.enable = true; # randomize service
     locate.enable = false; # disable file indexing
     xserver.wacom.enable = true; # Wacom tablet support
@@ -150,7 +175,6 @@
       "nouveau" # Nvidia Open Source
       "modesetting" # Intel & Generic fallback
     ];
-
   };
 
   # Extra firmware packages
@@ -160,6 +184,7 @@
     sof-firmware
   ];
 
+  # --- EFI Partition Flag Management ---
   # Flip ESP Flags on Boot
   systemd.services.activate-efi-on-boot = {
     description = "Set /boot to ACTIVE (esp) at boot";
@@ -200,18 +225,16 @@
     };
   };
 
-  # systemd settings
-  systemd = {
-    mounts = [
-      {
-        where = "/var/lib/systemd";
-        what = "tmpfs";
-        type = "tmpfs";
-        options = "mode=0755,size=20M";
-      }
-    ];
-  };
+  # --- systemd mounts ---
+  systemd.mounts = [
+    {
+      where = "/var/lib/systemd";
+      what = "tmpfs";
+      type = "tmpfs";
+      options = "mode=0755,size=20M";
+    }
+  ];
 
+  # --- Misc ---
   documentation.enable = false;
-
 }
