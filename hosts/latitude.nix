@@ -14,23 +14,20 @@
   # Nixpkgs
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
-  # Bootloader and kernel
+  # --- Boot & Kernel ---
   boot = {
+    # Kernel selection
     kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
-    kernelParams = [
-      "scsi_mod.use_blk_mq=1" # Multi-queue for storage
-      "intel_pstate=active" # Keeps the CPU responsive
-      "i915.enable_guc=2" # Authenticates HuC for smooth video
-      "i915.enable_fbc=1" # Saves battery and reduces heat
-      "i915.enable_psr=0" # DISABLING this prevents "hiccups" on Skylake
-      "mem_sleep_default=deep" # Deep sleep
-    ];
+
+    # Bootloader
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
+
+    # Initrd
     initrd = {
       kernelModules = [ ];
       availableKernelModules = [
@@ -41,11 +38,20 @@
         "usb_storage"
         "xhci_pci"
       ];
-
     };
+
+    # Kernel parameters
+    kernelParams = [
+      "scsi_mod.use_blk_mq=1" # Multi-queue for storage
+      "intel_pstate=active" # Keeps the CPU responsive
+      "i915.enable_guc=2" # Authenticates HuC for smooth video
+      "i915.enable_fbc=1" # Saves battery and reduces heat
+      "i915.enable_psr=0" # DISABLING this prevents "hiccups" on Skylake
+      "mem_sleep_default=deep" # Deep sleep
+    ];
   };
 
-  # Boot Drive
+  # --- Filesystems ---
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/4804-E951";
     fsType = "vfat";
@@ -74,7 +80,7 @@
     neededForBoot = true;
   };
 
-  # Hardware configuration
+  # --- Hardware ---
   hardware = {
     cpu.intel.updateMicrocode = true;
     enableRedistributableFirmware = true;
@@ -97,19 +103,19 @@
     };
   };
 
-  # Services
+  # --- Services ---
   services = {
     xserver.videoDrivers = [
       "modesetting"
     ];
+
+    journald.extraConfig = ''
+      SystemMaxUse=500M
+      MaxRetentionSec=1month
+    '';
   };
 
-  services.journald.extraConfig = ''
-    SystemMaxUse=500M
-    MaxRetentionSec=1month
-  '';
-
-  # Firefox Config
+  # --- Firefox (Intel graphics workarounds) ---
   programs.firefox.preferences = {
     # Force-enable hardware because the Intel 520 is blocklisted by default
     "media.hardware-video-decoding.force-enabled" = true;
@@ -131,5 +137,4 @@
     # Direct the system to the Intel Media Driver
     LIBVA_DRIVER_NAME = "iHD";
   };
-
 }

@@ -19,7 +19,7 @@
     usePredictableInterfaceNames = true; # Standard interface naming for VMs
   };
 
-  # Bootloader and Kernel
+  # --- Bootloader and Kernel ---
   boot = {
     loader = {
       systemd-boot.enable = true;
@@ -44,7 +44,7 @@
     };
   };
 
-  # Filesystem (Optimized for ZFS Host)
+  # --- Filesystem (Optimized for ZFS Host) ---
   fileSystems."/" = {
     device = "/dev/disk/by-label/nixos";
     fsType = "ext4";
@@ -63,55 +63,60 @@
     ];
   };
 
-  # Logind Settings
-  services.logind.settings = {
-    Login = {
-      IdleAction = "poweroff";
-      IdleActionSec = "2h";
-    };
+  # --- Hardware - Minimal config for a Guest ---
+  hardware = {
+    enableRedistributableFirmware = true;
   };
 
-  # Services
+  # --- Services ---
   services = {
+    # Logind Settings
+    logind.settings = {
+      Login = {
+        IdleAction = "poweroff";
+        IdleActionSec = "2h";
+      };
+    };
+
     # Allows Unraid to see IP address and manage clean shutdowns
     qemuGuest.enable = true;
     spice-vdagentd.enable = true;
     # Simple video driver for the VNC/VirtIO display
     xserver.videoDrivers = [ "virtio" ];
-
   };
 
-  environment.gnome.excludePackages = with pkgs; [
-    geary
-    gnome-tour
-    yelp
-    epiphany
-    gnome-calendar
-    gnome-contacts
-    gnome-maps
-    gnome-music
-    showtime
-    snapshot # Camera
-    simple-scan # Document Scanner
-    totem # Video/Audio Player
-    gnome-weather # Weather
-    gnome-characters
-    gnome-clocks
-    gnome-font-viewer
-    gnome-connections
-    baobab
-  ];
+  # --- Environment ---
+  environment = {
+    gnome.excludePackages = with pkgs; [
+      geary
+      gnome-tour
+      yelp
+      epiphany
+      gnome-calendar
+      gnome-contacts
+      gnome-maps
+      gnome-music
+      showtime
+      snapshot # Camera
+      simple-scan # Document Scanner
+      totem # Video/Audio Player
+      gnome-weather # Weather
+      gnome-characters
+      gnome-clocks
+      gnome-font-viewer
+      gnome-connections
+      baobab
+    ];
 
-  documentation.enable = false;
-  documentation.nixos.enable = false;
-
-  # Hardware - Minimal config for a Guest
-  hardware = {
-    enableRedistributableFirmware = true;
+    # Environment cleanup (Removed Intel-specific variables)
+    sessionVariables = {
+      # Add any VM-specific variables here if needed
+    };
   };
 
-  # Environment cleanup (Removed Intel-specific variables)
-  environment.sessionVariables = {
-    # Add any VM-specific variables here if needed
+  # --- Misc ---
+  documentation = {
+    enable = false;
+    nixos.enable = false;
   };
 }
