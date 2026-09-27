@@ -31,14 +31,17 @@
 
     # Quiet console - unl0kr's own themed screen is the visual moment that
     # matters here, not scrolling kernel/udev/systemd log text beforehand
-    consoleLogLevel = 3;
+    consoleLogLevel = 0;
     kernelParams = [
       "quiet"
       "splash"
+      "loglevel=0"
+      "vt.global_cursor_default=0"
+      "systemd.show_status=false"
+      "rd.systemd.show_status=false"
+      "udev.log_priority=3"
       "intremap=on"
       "boot.shell_on_fail"
-      "udev.log_priority=3"
-      "rd.systemd.show_status=auto"
     ];
   };
 }
