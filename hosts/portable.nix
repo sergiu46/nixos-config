@@ -25,7 +25,7 @@
     # Bootloader
     loader = {
       systemd-boot.enable = true;
-      timeout = 2; # Wait time for menu
+      timeout = 2; # Deliberately not 0 - leaves a window to pick an older generation if something goes wrong
       efi = {
         canTouchEfiVariables = false; # Don't rewrite NVRAM on unfamiliar firmware
         efiSysMountPoint = "/boot";
@@ -35,7 +35,7 @@
     # Initrd: early boot environment that finds, unlocks, and mounts root
     initrd = {
       systemd.enable = true;
-      checkJournalingFS = true;
+      unl0kr.enable = true;
 
       # Fast decompression over smaller image size
       compressor = "zstd";
@@ -65,11 +65,16 @@
         "sdhci_acpi"
         "sdhci_pci"
 
-        # Keyboard input for the LUKS prompt
+        # Input drivers for unl0kr (Keyboard, Mouse & Touchscreen)
         "usbhid"
         "hid_generic"
+        "hid_multitouch"
         "atkbd"
         "i8042"
+        "evdev"
+        "psmouse"
+        "i2c_hid"
+        "i2c_hid_acpi"
       ];
     };
 
@@ -129,7 +134,6 @@
     cpu.amd.updateMicrocode = true;
     cpu.intel.updateMicrocode = true;
     enableAllFirmware = true;
-    enableRedistributableFirmware = true;
 
     # Graphics Acceleration
     graphics = {
@@ -162,8 +166,6 @@
 
   # --- Services ---
   services = {
-    gnome.core-shell.enable = true;
-
     haveged.enable = true; # randomize service
     locate.enable = false; # disable file indexing
     xserver.wacom.enable = true; # Wacom tablet support
@@ -177,9 +179,8 @@
     ];
   };
 
-  # Extra firmware packages
+  # Audio firmware - not covered by hardware.enableAllFirmware
   environment.systemPackages = with pkgs; [
-    linux-firmware
     alsa-firmware
     sof-firmware
   ];
