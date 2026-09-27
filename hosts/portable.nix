@@ -33,9 +33,9 @@
     };
 
     # Initrd: early boot environment that finds, unlocks, and mounts root
+    # before handing off to the real system.
     initrd = {
       systemd.enable = true;
-      unl0kr.enable = true;
 
       # Fast decompression over smaller image size
       compressor = "zstd";
@@ -45,7 +45,8 @@
       ];
 
       # Skip NixOS's built-in module list (legacy internal SATA/PATA chipset
-      includeDefaultModules = false;
+      # drivers like sata_nv/ata_piix - irrelevant since root only ever comes
+      # from USB or a card reader) and declare exactly what's needed instead.
       availableKernelModules = [
         # USB storage transport (the drive itself)
         "uas"
@@ -64,17 +65,6 @@
         "rtsx_pci"
         "sdhci_acpi"
         "sdhci_pci"
-
-        # Input drivers for unl0kr (Keyboard, Mouse & Touchscreen)
-        "usbhid"
-        "hid_generic"
-        "hid_multitouch"
-        "atkbd"
-        "i8042"
-        "evdev"
-        "psmouse"
-        "i2c_hid"
-        "i2c_hid_acpi"
       ];
     };
 

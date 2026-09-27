@@ -41,7 +41,7 @@
           ./users/sergiu/sergiu.nix
           ./modules/core/system.nix
           ./modules/core/network.nix
-          ./modules/core/plymouth.nix
+          ./modules/core/unl0kr.nix
           ./modules/hardware/portable.nix
           ./modules/services/syncConfig.nix
           ./modules/services/printing.nix
@@ -54,7 +54,7 @@
           ./users/sergiu/sergiu.nix
           ./modules/core/system.nix
           ./modules/core/network.nix
-          ./modules/core/plymouth.nix
+          ./modules/core/unl0kr.nix
           ./modules/hardware/portable.nix
           ./modules/services/syncConfig.nix
           ./modules/services/powerOffNoSleep.nix
@@ -66,7 +66,7 @@
           ./users/sergiu/sergiu.nix
           ./modules/core/system.nix
           ./modules/core/network.nix
-          ./modules/core/plymouth.nix
+          ./modules/core/unl0kr.nix
           ./modules/hardware/portable.nix
           ./modules/services/syncConfig.nix
           ./modules/services/powerOffNoSleep.nix
