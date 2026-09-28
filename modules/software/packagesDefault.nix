@@ -17,6 +17,7 @@
     pciutils
     smartmontools
     kdiskmark
+    geekbench
     # Stable apps
     drawing
     vlc
