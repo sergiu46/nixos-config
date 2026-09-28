@@ -3,8 +3,14 @@
 {
   boot = {
     initrd = {
-      unl0kr.enable = true;
-      # Input drivers for unl0kr (Keyboard, Mouse & Touchscreen)
+      unl0kr = {
+        enable = true;
+        settings = {
+          terminal.switch = true;
+        };
+      };
+
+      # Input drivers
       availableKernelModules = [
         "usbhid"
         "hid_generic"
@@ -32,19 +38,5 @@
       };
     };
 
-    # Quiet console.
-    consoleLogLevel = 0;
-    kernelParams = [
-      "intremap=on"
-      "boot.shell_on_fail"
-      "udev.log_level=3"
-      "rd.systemd.show_status=false"
-      "systemd.show_status=false"
-    ];
-
-    # Suppress kernel warnings via sysctl
-    kernel.sysctl = {
-      "kernel.printk" = "3 4 1 3";
-    };
   };
 }
