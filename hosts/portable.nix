@@ -64,19 +64,6 @@
         "sdhci_acpi"
         "sdhci_pci"
 
-        # Input drivers for unl0kr (Keyboard, Mouse & Touchscreen)
-        "usbhid"
-        "hid_generic"
-        "hid_multitouch"
-        "atkbd"
-        "i8042"
-        "evdev"
-        "psmouse"
-        "i2c_hid"
-        "i2c_hid_acpi"
-        "i2c_designware_platform"
-        "i2c_designware_core"
-
       ];
 
     };
