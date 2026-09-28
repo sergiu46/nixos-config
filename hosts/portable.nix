@@ -64,6 +64,13 @@
         "sdhci_acpi"
         "sdhci_pci"
 
+        # touchscreen support
+        "usbhid"
+        "hid_generic"
+        "hid_multitouch"
+        "evdev"
+        "i2c_hid"
+        "i2c_hid_acpi"
       ];
 
     };
