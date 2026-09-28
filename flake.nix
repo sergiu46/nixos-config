@@ -43,10 +43,11 @@
           ./modules/core/network.nix
           ./modules/core/unl0kr.nix
           ./modules/hardware/portable.nix
-          ./modules/services/syncConfig.nix
-          ./modules/services/printing.nix
-          ./modules/services/powerOffNoSleep.nix
           ./modules/software/packagesDefault.nix
+          ./modules/services/powerOffNoSleep.nix
+          ./modules/services/printing.nix
+          ./modules/services/syncConfig.nix
+
         ];
 
         FIT-Plus = mkHost system "25.11" [
@@ -56,9 +57,8 @@
           ./modules/core/network.nix
           ./modules/core/unl0kr.nix
           ./modules/hardware/portable.nix
-          ./modules/services/syncConfig.nix
-          ./modules/services/powerOffNoSleep.nix
           ./modules/software/packagesLite.nix
+          ./modules/services/powerOffNoSleep.nix
         ];
 
         Kingston = mkHost system "26.05" [
@@ -66,10 +66,10 @@
           ./users/sergiu/sergiu.nix
           ./modules/core/system.nix
           ./modules/core/network.nix
+          ./modules/core/unl0kr.nix
           ./modules/hardware/portable.nix
-          ./modules/services/syncConfig.nix
-          ./modules/services/powerOffNoSleep.nix
           ./modules/software/packagesLite.nix
+          ./modules/services/powerOffNoSleep.nix
         ];
 
         Unraid-NIX = mkHost system "25.11" [
