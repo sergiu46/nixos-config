@@ -27,5 +27,6 @@
     "plaintext": false,
     "markdown": false,
     "scminput": false
-  }
+  },
+  "git.ignoreRebaseWarning": true
 }
