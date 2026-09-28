@@ -25,9 +25,9 @@
     # Bootloader
     loader = {
       systemd-boot.enable = true;
-      timeout = 2; # Deliberately not 0 - leaves a window to pick an older generation if something goes wrong
+      timeout = 1; # time for choosing generation
       efi = {
-        canTouchEfiVariables = false; # Don't rewrite NVRAM on unfamiliar firmware
+        canTouchEfiVariables = false;
         efiSysMountPoint = "/boot";
       };
     };
@@ -36,7 +36,6 @@
     # before handing off to the real system.
     initrd = {
       systemd.enable = true;
-      unl0kr.enable = true;
 
       # Fast decompression over smaller image size
       compressor = "zstd";
@@ -64,13 +63,6 @@
         "sdhci_acpi"
         "sdhci_pci"
 
-        # touchscreen support
-        "usbhid"
-        "hid_generic"
-        "hid_multitouch"
-        "evdev"
-        "i2c_hid"
-        "i2c_hid_acpi"
       ];
 
     };
@@ -105,6 +97,7 @@
       "f2fs"
       "ntfs"
       "vfat"
+      "exfat"
       "xfs"
     ];
   };
