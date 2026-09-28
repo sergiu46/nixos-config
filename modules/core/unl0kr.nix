@@ -12,6 +12,17 @@
         "evdev"
         "i2c_hid"
         "i2c_hid_acpi"
+
+        # ThinkPad Touchpad (I2C / SMBus / PS2 / RMI4)
+        "psmouse"
+        "i2c_designware_core"
+        "i2c_designware_platform"
+        "i2c_i801"
+        "i2c_piix4"
+        "intel_lpss_pci"
+        "rmi_core"
+        "rmi_smbus"
+        "hid_rmi"
       ];
 
       # Disable standard systemd console password prompt
@@ -31,7 +42,7 @@
       "systemd.show_status=false"
     ];
 
-    # Suppress kernel warnings (like f2fs flush_merge) via sysctl
+    # Suppress kernel warnings via sysctl
     kernel.sysctl = {
       "kernel.printk" = "3 4 1 3";
     };
