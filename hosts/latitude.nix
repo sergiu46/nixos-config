@@ -45,7 +45,7 @@
     kernelParams = [
       "scsi_mod.use_blk_mq=1" # Multi-queue for storage
       "intel_pstate=active" # Keeps the CPU responsive
-      "i915.enable_guc=2" # Authenticates HuC for smooth video
+      "i915.enable_guc=3" # Enables GuC submission and HuC authentication
       "i915.enable_fbc=1" # Saves battery and reduces heat
       "i915.enable_psr=0" # DISABLING this prevents "hiccups" on Skylake
       "mem_sleep_default=deep" # Deep sleep
@@ -93,6 +93,8 @@
       extraPackages = with pkgs; [
         intel-media-driver
         intel-vaapi-driver
+        intel-compute-runtime # OpenCL compute support
+        vpl-gpu-rt # Intel Video Processing Library runtime
         libvdpau-va-gl
         libva-utils
       ];
