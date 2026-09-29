@@ -27,6 +27,7 @@
     # Unstable apps
     unstable.ventoy-full-gtk
     unstable.angryipscanner
+    unstable.geekbench
   ];
 
 }
