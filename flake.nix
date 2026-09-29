@@ -31,6 +31,7 @@
           ./modules/services/autoUpdate.nix
           ./modules/services/powerOffOnSleep.nix
           ./modules/services/printing.nix
+          ./modules/services/syncConfig.nix
           ./modules/software/packagesExtra.nix
           ./modules/software/flatpak.nix
           ./modules/software/roCEI.nix
