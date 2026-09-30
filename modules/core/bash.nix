@@ -26,9 +26,10 @@
       '';
 
       clean = ''
+        DAYS="''${1:-1}d"
         ${pkgs.time}/bin/time -f 'Duration: %E' sudo bash -c "
-          sudo -u $(logname) nix-collect-garbage --delete-older-than 1d && \
-          nix-collect-garbage --delete-older-than 1d && \
+          sudo -u $(logname) nix-collect-garbage --delete-older-than $DAYS && \
+          nix-collect-garbage --delete-older-than $DAYS && \
           nix store optimise && \
           /run/current-system/bin/switch-to-configuration boot && \
           command -v flatpak &> /dev/null && flatpak uninstall --unused -y || true
