@@ -23,9 +23,24 @@
 
     # Bootloader
     loader = {
-      systemd-boot.enable = true;
+      systemd-boot = {
+        enable = true;
+        extraFiles = {
+          "shell.efi" = "${pkgs.edk2-uefi-shell}/shell.efi";
+          "startup.nsh" = "${pkgs.writeText "startup.nsh" ''
+            FS0:
+            \EFI\BOOT\BOOTX64.EFI
+          ''}";
+        };
+        extraEntries = {
+          "uefi-shell.conf" = ''
+            title Boot from USB (Ventoy)
+            efi /shell.efi
+          '';
+        };
+      };
       efi.canTouchEfiVariables = true;
-      timeout = 2;
+      timeout = 5;
     };
 
     # Initrd
