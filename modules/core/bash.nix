@@ -25,21 +25,23 @@
         '
       '';
 
-      clean = ''
-        DAYS="''${1:-1}d"
-        ${pkgs.time}/bin/time -f 'Duration: %E' sudo bash -c "
-          sudo -u $(logname) nix-collect-garbage --delete-older-than $DAYS && \
-          nix-collect-garbage --delete-older-than $DAYS && \
-          nix store optimise && \
-          /run/current-system/bin/switch-to-configuration boot && \
-          command -v flatpak &> /dev/null && flatpak uninstall --unused -y || true
-        "
-      '';
-
       favorites = "gsettings get org.gnome.shell favorite-apps";
     };
 
     interactiveShellInit = ''
+      clean() {
+        local val="''${1:-1}"
+        local days="''${val%d}d"
+
+        ${pkgs.time}/bin/time -f 'Duration: %E' sudo bash -c "
+          sudo -u \$(logname) nix-collect-garbage --delete-older-than $days && \
+          nix-collect-garbage --delete-older-than $days && \
+          nix store optimise && \
+          /run/current-system/bin/switch-to-configuration boot && \
+          command -v flatpak &> /dev/null && flatpak uninstall --unused -y || true
+        "
+      }
+
       format-btrfs() {
         lsblk -pn -o NAME,SIZE,TYPE,FSTYPE,LABEL | grep part
         read -p "Target device for Btrfs: " dev
