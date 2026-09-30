@@ -31,11 +31,17 @@
     interactiveShellInit = ''
       clean() {
         local val="''${1:-1}"
-        local days="''${val%d}d"
+        local gc_arg
+        if [ "$val" = "0" ] || [ "$val" = "0d" ]; then
+          gc_arg="-d"
+        else
+          local days="''${val%d}d"
+          gc_arg="--delete-older-than $days"
+        fi
 
         ${pkgs.time}/bin/time -f 'Duration: %E' sudo bash -c "
-          sudo -u \$(logname) nix-collect-garbage --delete-older-than $days && \
-          nix-collect-garbage --delete-older-than $days && \
+          sudo -u \$(logname) nix-collect-garbage $gc_arg && \
+          nix-collect-garbage $gc_arg && \
           nix store optimise && \
           /run/current-system/bin/switch-to-configuration boot && \
           command -v flatpak &> /dev/null && flatpak uninstall --unused -y || true
