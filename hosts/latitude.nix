@@ -41,7 +41,7 @@
           "uefi-shell.conf" = ''
             title Boot from USB (Ventoy)
             efi /shell.efi
-            options -delay 0 -nc
+            options -nomap -delay 0
           '';
         };
       };
