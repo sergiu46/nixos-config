@@ -28,14 +28,20 @@
         extraFiles = {
           "shell.efi" = "${pkgs.edk2-uefi-shell}/shell.efi";
           "startup.nsh" = "${pkgs.writeText "startup.nsh" ''
-            FS0:
-            \EFI\BOOT\BOOTX64.EFI
+            @echo -off
+            for %i in FS0 FS1 FS2 FS3 FS4 FS5 FS6 FS7 FS8 FS9
+              if exist %i:\EFI\BOOT\BOOTX64.EFI then
+                %i:
+                \EFI\BOOT\BOOTX64.EFI
+              endif
+            endfor
           ''}";
         };
         extraEntries = {
           "uefi-shell.conf" = ''
             title Boot from USB (Ventoy)
             efi /shell.efi
+            options -delay 0 -nc
           '';
         };
       };
