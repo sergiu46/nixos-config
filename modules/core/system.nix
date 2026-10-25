@@ -24,7 +24,6 @@
     fstrim.enable = true; # Enable periodic TRIM for SSDs
     libinput.enable = true; # Input device management
     geoclue2.enable = true; # Location for timezone
-
   };
 
   hardware = {

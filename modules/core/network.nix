@@ -6,6 +6,7 @@
     hostName = configName;
     useDHCP = lib.mkDefault true;
     usePredictableInterfaceNames = false;
+    modemmanager.enable = false; # to prevent serial hijacking
     networkmanager = {
       enable = true;
       settings = {
