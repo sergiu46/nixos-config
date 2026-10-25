@@ -10,6 +10,7 @@
       "render"
       "i2c"
       "dialout"
+      "uucp"
       "lp"
     ];
     home = "/home/sergiu";
