@@ -41,8 +41,21 @@ let
     "inline_data"
     "inline_dentry"
   ];
+
+  userGroups = [
+    "networkmanager"
+    "video"
+    "render"
+    "i2c"
+    "dialout"
+    "uucp"
+    "lp"
+  ];
+
 in
 {
+
+  inherit userGroups;
 
   # Where in home directory to store the config
   nixosConfigDir = "/.config/NixOS";
