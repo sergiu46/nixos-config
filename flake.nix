@@ -51,7 +51,7 @@
 
         ];
 
-        FIT-Plus = mkHost system "25.11" [
+        FIT-Plus = mkHost system "26.05" [
           ./hosts/portable.nix
           ./users/sergiu/sergiu.nix
           ./modules/core/system.nix
