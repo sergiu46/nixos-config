@@ -18,7 +18,6 @@
     hunspellDicts.en_US
     hunspellDicts.ro_RO
     # Packages
-    nextcloud-client
     stirling-pdf-desktop
     unstable.jellyfin-desktop
   ];
