@@ -3,7 +3,7 @@
 {
   # System-wide packages
   environment.systemPackages = with pkgs; [
-    brave
+    unstable.brave
   ];
 
   # Brave options
