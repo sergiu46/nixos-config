@@ -20,16 +20,6 @@
           "fallback-x11"
           "x11"
         ];
-
-        # Mount host hardware driver paths inside the sandbox
-        Context.filesystems = [
-          "/run/current-system/sw/lib/dri:ro"
-          "/run/opengl-driver/lib:ro"
-        ];
-
-        Environment = {
-          LIBVA_DRIVERS_PATH = "/run/current-system/sw/lib/dri";
-        };
       };
     };
   };
