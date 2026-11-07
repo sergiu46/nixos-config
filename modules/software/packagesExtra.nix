@@ -19,7 +19,6 @@
     hunspellDicts.ro_RO
     # Packages
     stirling-pdf-desktop
-    unstable.jellyfin-desktop
   ];
 
   fonts.packages = with pkgs; [
