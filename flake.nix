@@ -45,6 +45,7 @@
           ./modules/core/unl0kr.nix
           ./modules/hardware/portable.nix
           ./modules/software/packagesDefault.nix
+          ./modules/software/flatpak.nix
           ./modules/services/powerOffNoSleep.nix
           ./modules/services/printing.nix
           ./modules/services/syncConfig.nix

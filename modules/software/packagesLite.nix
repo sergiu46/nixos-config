@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./brave.nix
     ./tailscale.nix
   ];
   # System-wide packages
