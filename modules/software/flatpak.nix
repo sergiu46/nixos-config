@@ -14,6 +14,19 @@
 
     packages = [
     ];
+
+    overrides.settings = {
+      global = {
+        # Grant universal access to GPU rendering nodes and hardware acceleration
+        Context.devices = [ "dri" ];
+        # Grant display server access for both Wayland and X11 sessions
+        Context.sockets = [
+          "wayland"
+          "fallback-x11"
+          "x11"
+        ];
+      };
+    };
   };
 
 }
