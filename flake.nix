@@ -33,8 +33,9 @@
           ./modules/services/printing.nix
           ./modules/services/syncConfig.nix
           ./modules/software/packagesExtra.nix
-          ./modules/software/flatpak.nix
           ./modules/software/roCEI.nix
+          ./modules/software/flatpak.nix
+          ./modules/software/brave-flatpak.nix
         ];
 
         BAR-Plus = mkHost system "25.11" [
@@ -46,6 +47,7 @@
           ./modules/hardware/portable.nix
           ./modules/software/packagesDefault.nix
           ./modules/software/flatpak.nix
+          ./modules/software/brave-flatpak.nix
           ./modules/services/powerOffNoSleep.nix
           ./modules/services/printing.nix
           ./modules/services/syncConfig.nix
