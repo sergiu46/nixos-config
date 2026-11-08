@@ -60,6 +60,7 @@
         favorite-apps = [
           "org.gnome.Nautilus.desktop"
           "brave-browser.desktop"
+          "com.brave.Browser.desktop"
           "firefox.desktop"
           "brave-fhgggiedobllialjnmigjemojboomian-Default.desktop"
           "brave-gnkgkkpgflmdnfamhhclhoedndmefacg-Default.desktop"
