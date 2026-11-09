@@ -85,6 +85,8 @@
           ./modules/services/autoUpdate.nix
           ./modules/services/syncConfig.nix
           ./modules/software/packagesLite.nix
+          ./modules/software/flatpak.nix
+          ./modules/software/brave-flatpak.nix
         ];
       };
     };
