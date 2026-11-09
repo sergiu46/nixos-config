@@ -3,6 +3,8 @@
 {
   imports = [
     ./tailscale.nix
+    ./flatpak.nix
+    ./brave-flatpak.nix
   ];
   # System-wide packages
   environment.systemPackages = with pkgs; [
