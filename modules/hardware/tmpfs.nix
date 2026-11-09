@@ -16,7 +16,7 @@ let
 in
 {
   systemd.user.services.user-symlinks = {
-    description = "User symlinks";
+    description = "User symlinks and RAM caching setup";
     before = [ "graphical-session-pre.target" ];
     wantedBy = [ "default.target" ];
     serviceConfig = {
@@ -39,6 +39,22 @@ in
       mkdir -p "$HOME/.local/share/"
       rm -rf "$HOME/.local/share/gvfs-metadata"
       ln -sfn "$HOME/.cache/gvfs-metadata" "$HOME/.local/share/gvfs-metadata"
+
+      # FLATPAK CACHE SETUP (Redirects ~/.var/app/*/cache to ~/.cache/flatpak-caches)
+      mkdir -p "$HOME/.cache/flatpak-caches"
+      if [ -d "$HOME/.var/app" ]; then
+        for app_dir in "$HOME/.var/app"/*; do
+          if [ -d "$app_dir" ]; then
+            app_name=$(basename "$app_dir")
+            mkdir -p "$HOME/.cache/flatpak-caches/$app_name"
+            if [ ! -L "$app_dir/cache" ]; then
+              rm -rf "$app_dir/cache"
+              mkdir -p "$app_dir/cache"
+            fi
+            ln -sfn "$HOME/.cache/flatpak-caches/$app_name" "$app_dir/cache"
+          fi
+        done
+      fi
     '';
   };
 
@@ -129,7 +145,5 @@ in
         "mode=0710"
       ];
     };
-
   };
-
 }
