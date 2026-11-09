@@ -49,7 +49,6 @@ in
             mkdir -p "$HOME/.cache/flatpak-caches/$app_name"
             if [ ! -L "$app_dir/cache" ]; then
               rm -rf "$app_dir/cache"
-              mkdir -p "$app_dir/cache"
             fi
             ln -sfn "$HOME/.cache/flatpak-caches/$app_name" "$app_dir/cache"
           fi
