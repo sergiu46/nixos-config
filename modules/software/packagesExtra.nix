@@ -18,7 +18,6 @@
     hunspellDicts.en_US
     hunspellDicts.ro_RO
     # Packages
-    stirling-pdf-desktop
   ];
 
   fonts.packages = with pkgs; [
