@@ -4,6 +4,7 @@
 
   imports = [
     ./packagesLite.nix
+    ./flatpak.nix
     ./firefox.nix
   ];
   # System-wide packages
