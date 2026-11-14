@@ -10,11 +10,12 @@
         ATTR{queue/rotational}=="0", \
         ATTR{queue/scheduler}="bfq"
 
-      # mq-deadline for removable USBs
+      # BFQ for removable USBs
       ACTION=="add|change", \
-        KERNEL=="sd[a-z]*", \
-        ATTR{removable}=="1", \
-        ATTR{queue/scheduler}="mq-deadline"
+        SUBSYSTEM=="block", \
+        KERNEL=="sd[a-z]", \
+        ENV{ID_BUS}=="usb", \
+        ATTR{queue/scheduler}="bfq"
 
       # Ghost Mode: Hide internal drives of the host machine
       # SUBSYSTEM=="block", ATTRS{removable}=="0", ENV{UDISKS_IGNORE}="1"
