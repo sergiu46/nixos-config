@@ -1,7 +1,6 @@
 {
   pkgs,
   stateVersion,
-  userVars,
   ...
 }:
 

@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 let
+  bravePkg = pkgs.unstable.brave; # Keep matching your installed Brave package
+
   mkSystemWebApp =
     {
       id,
@@ -10,10 +12,9 @@ let
     }:
     let
       launcher = pkgs.writeShellScriptBin id ''
-        exec ${pkgs.brave}/bin/brave \
+        exec ${bravePkg}/bin/brave \
           --ozone-platform=x11 \
           --class=${id} \
-          --user-data-dir="$HOME/.local/share/brave-webapps/${id}" \
           --start-maximized \
           --app="${url}" "$@"
       '';
@@ -38,7 +39,7 @@ let
 in
 {
   environment.systemPackages = [
-    pkgs.brave
+    bravePkg
 
     (mkSystemWebApp {
       id = "whatsapp-pwa";
@@ -51,6 +52,12 @@ in
       name = "Jellyfin";
       url = "https://jellyfin.ssrv.ro";
       iconPath = "${./icons/jellyfin.svg}";
+    })
+    (mkSystemWebApp {
+      id = "homeassistant-pwa";
+      name = "Home Assistant";
+      url = "https://ha.ssrv.ro";
+      iconPath = "${./icons/homeassistant.svg}";
     })
   ];
 }
