@@ -25,6 +25,9 @@
     libreoffice-fresh
     gnome-network-displays
     opensoundmeter
+    jellyfin-mpv-shim
+    audacity
+    pdfarranger
     # Unstable apps
     unstable.ventoy-full-gtk
     unstable.angryipscanner
