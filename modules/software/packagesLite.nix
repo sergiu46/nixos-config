@@ -4,7 +4,6 @@
   imports = [
     ./tailscale.nix
     ./brave.nix
-    ./webapps.nix
   ];
   # System-wide packages
   environment.systemPackages = with pkgs; [
