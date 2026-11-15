@@ -1,7 +1,9 @@
 { pkgs, ... }:
 
 let
-  bravePkg = pkgs.unstable.brave; # Keep matching your installed Brave package
+  bravePkg = pkgs.unstable.brave.override {
+    commandLineArgs = "--disable-smooth-scrolling";
+  };
 
   mkSystemWebApp =
     {

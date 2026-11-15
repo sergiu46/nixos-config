@@ -1,24 +1,19 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
-{
-  # System-wide packages
-  environment.systemPackages = with pkgs; [
-    unstable.brave
+let
+  braveFlags = [
+    "--restore-last-session"
+    "--hide-crash-restore-bubble"
+    "--ozone-platform=wayland"
+    "--disable-smooth-scrolling"
+    "--disable-gpu-shader-disk-cache"
+    "--disable-features=WaylandFractionalScaleV1,OutdatedBuildDetector,UseChromeOSDirectVideoDecoder"
   ];
-
-  # Brave options
-  nixpkgs.overlays = [
-    (final: prev: {
-      brave = prev.brave.override {
-        commandLineArgs = [
-          "--restore-last-session"
-          "--hide-crash-restore-bubble"
-          "--ozone-platform=wayland"
-          "--disable-features=WaylandFractionalScaleV1"
-          "--disable-gpu-shader-disk-cache"
-        ];
-      };
+in
+{
+  environment.systemPackages = [
+    (pkgs.unstable.brave.override {
+      commandLineArgs = lib.concatStringsSep " " braveFlags;
     })
   ];
-
 }
