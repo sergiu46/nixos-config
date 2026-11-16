@@ -86,8 +86,6 @@
       # Write intervals (centiseconds: 500 = 5 s)
       "vm.dirty_expire_centisecs" = 500; # dirty data older than 5 s is flushed
       "vm.dirty_writeback_centisecs" = 200; # flusher wakes every 2 s
-      # Keep /nix/store executables cached in RAM longer under memory pressure
-      "vm.vfs_cache_pressure" = 50;
       # Disable core dumps
       "kernel.core_pattern" = "|/bin/false";
     };
