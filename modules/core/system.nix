@@ -74,6 +74,7 @@
     QT_AUTO_SCREEN_SCALE_FACTOR = "1";
     QT_SCREEN_SCALE_FACTORS = "1";
     QT_SCALE_FACTOR_ROUNDING_POLICY = "RoundPreferFloor";
+    ELECTRON_OZONE_PLATFORM_HINT = "auto";
   };
 
   # Apps need these 'engines' installed to render the themes correctly
