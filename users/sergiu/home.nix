@@ -63,6 +63,7 @@
           "firefox.desktop"
           "org.telegram.desktop.desktop"
           "brave-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop"
+          "com.github.iwalton3.jellyfin-mpv-shim.desktop"
           "brave-fhgggiedobllialjnmigjemojboomian-Default.desktop"
           "brave-gnkgkkpgflmdnfamhhclhoedndmefacg-Default.desktop"
           "codium.desktop"
