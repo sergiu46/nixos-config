@@ -80,12 +80,14 @@
 
     # Kernel runtime tuning
     kernel.sysctl = {
-      # Write batching - critical since no TRIM for wear leveling
-      "vm.dirty_background_bytes" = 33554432; # 32 MiB: start flushing early
-      "vm.dirty_bytes" = 134217728; # 128 MiB: writers block above this
-      # Write intervals (centiseconds: 3000 = 30 s)
-      "vm.dirty_expire_centisecs" = 3000; # dirty data older than 30 s is flushed
-      "vm.dirty_writeback_centisecs" = 1000; # flusher wakes every 10 s
+      # Tighter write batching to prevent USB read starvation during downloads
+      "vm.dirty_background_bytes" = 16777216; # 16 MiB: start flushing early
+      "vm.dirty_bytes" = 50331648; # 48 MiB: writers block above this
+      # Write intervals (centiseconds: 500 = 5 s)
+      "vm.dirty_expire_centisecs" = 500; # dirty data older than 5 s is flushed
+      "vm.dirty_writeback_centisecs" = 200; # flusher wakes every 2 s
+      # Keep /nix/store executables cached in RAM longer under memory pressure
+      "vm.vfs_cache_pressure" = 50;
       # Disable core dumps
       "kernel.core_pattern" = "|/bin/false";
     };
