@@ -5,7 +5,6 @@ let
     "--restore-last-session"
     "--hide-crash-restore-bubble"
     "--ozone-platform=wayland"
-    "--disable-smooth-scrolling"
     "--disable-gpu-shader-disk-cache"
     "--disable-features=WaylandFractionalScaleV1,OutdatedBuildDetector,UseChromeOSDirectVideoDecoder"
   ];
