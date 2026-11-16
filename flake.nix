@@ -9,6 +9,10 @@
       url = "https://flakehub.com/f/nix-community/home-manager/*";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    wsf = {
+      url = "github:daniel-g-carrasco/wayland-scroll-factor";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -28,6 +32,7 @@
           ./modules/core/network.nix
           ./modules/core/plymouth.nix
           ./modules/hardware/zramSwap.nix
+          ./modules/hardware/scrollFactor.nix
           ./modules/services/autoUpdate.nix
           ./modules/services/powerOffOnSleep.nix
           ./modules/services/printing.nix
@@ -78,6 +83,7 @@
           ./modules/core/system.nix
           ./modules/hardware/zramSwap.nix
           ./modules/hardware/tmpfs.nix
+          ./modules/hardware/scrollFactor.nix
           ./modules/services/autoUpdate.nix
           ./modules/services/syncConfig.nix
           ./modules/software/packagesLite.nix

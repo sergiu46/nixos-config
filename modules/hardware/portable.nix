@@ -6,6 +6,7 @@
     ./tmpfs.nix
     ./udevRules.nix
     ./zramSwap.nix
+    ./scrollFactor.nix
   ];
 
 }
