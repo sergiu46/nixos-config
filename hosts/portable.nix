@@ -83,8 +83,8 @@
       # Tighter write batching to prevent USB read starvation during downloads
       "vm.dirty_background_bytes" = 16777216; # 16 MiB: start flushing early
       "vm.dirty_bytes" = 50331648; # 48 MiB: writers block above this
-      # Write intervals (centiseconds: 500 = 5 s)
-      "vm.dirty_expire_centisecs" = 500; # dirty data older than 5 s is flushed
+      # Write intervals
+      "vm.dirty_expire_centisecs" = 1500; # dirty data older than 15 s is flushed
       "vm.dirty_writeback_centisecs" = 200; # flusher wakes every 2 s
       # Disable core dumps
       "kernel.core_pattern" = "|/bin/false";
