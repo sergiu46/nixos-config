@@ -106,6 +106,7 @@
   boot.initrd.luks.devices.${userVars.f2fs.label} = {
     device = "/dev/disk/by-label/${userVars.f2fs.label}-CRYPT";
     allowDiscards = true;
+    bypassWorkqueues = true;
   };
 
   fileSystems."/" = {
