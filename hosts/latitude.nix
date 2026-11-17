@@ -25,6 +25,7 @@
     loader = {
       systemd-boot = {
         enable = true;
+        configuration-limit = 10;
         extraFiles = {
           "shell.efi" = "${pkgs.edk2-uefi-shell}/shell.efi";
           "startup.nsh" = "${pkgs.writeText "startup.nsh" ''

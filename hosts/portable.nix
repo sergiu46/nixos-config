@@ -25,6 +25,7 @@
     # Bootloader
     loader = {
       systemd-boot.enable = true;
+      systemd-boot.configurationLimit = 5;
       timeout = 1; # time for choosing generation
       efi = {
         canTouchEfiVariables = false;

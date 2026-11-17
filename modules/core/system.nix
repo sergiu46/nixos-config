@@ -153,7 +153,6 @@
     ];
   };
 
-  boot.loader.systemd-boot.configurationLimit = 10;
   nixpkgs.config.allowUnfree = true;
 
   # System state version
