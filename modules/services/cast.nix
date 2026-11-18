@@ -3,6 +3,7 @@
 let
   chain = "cast-allow";
   ipt = "${pkgs.iptables}/bin/iptables";
+  ports = "32768:60999"; # Linux ephemeral range
 
   watcher = pkgs.writeShellScript "chromecast-fw" ''
     ${ipt} -N ${chain} 2>/dev/null || true
@@ -15,12 +16,12 @@ let
       case "$ev" in
         '=')
           seen[$name]=$addr
-          ${ipt} -C ${chain} -s "$addr" -p tcp -j nixos-fw-accept 2>/dev/null \
-            || ${ipt} -A ${chain} -s "$addr" -p tcp -j nixos-fw-accept
+          ${ipt} -C ${chain} -s "$addr" -p tcp --dport ${ports} -j nixos-fw-accept 2>/dev/null \
+            || ${ipt} -A ${chain} -s "$addr" -p tcp --dport ${ports} -j nixos-fw-accept
           ;;
         '-')
           old=''${seen[$name]:-}
-          [ -n "$old" ] && ${ipt} -D ${chain} -s "$old" -p tcp -j nixos-fw-accept 2>/dev/null
+          [ -n "$old" ] && ${ipt} -D ${chain} -s "$old" -p tcp --dport ${ports} -j nixos-fw-accept 2>/dev/null
           unset "seen[$name]"
           ;;
       esac
@@ -41,7 +42,6 @@ in
       5353
     ];
 
-    # check real name with `ip link`
     trustedInterfaces = [ "p2p-wlan0-0" ];
 
     extraCommands = ''
@@ -53,7 +53,6 @@ in
     '';
   };
 
-  # Chromecast: allow discovered devices only
   systemd.services.chromecast-fw = {
     description = "Allow discovered Chromecasts through the firewall";
     wantedBy = [ "multi-user.target" ];
