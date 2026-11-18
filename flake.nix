@@ -51,6 +51,7 @@
           ./modules/software/packagesDefault.nix
           ./modules/services/powerOffNoSleep.nix
           ./modules/services/printing.nix
+          ./modules/services/cast.nix
           ./modules/services/syncConfig.nix
 
         ];
