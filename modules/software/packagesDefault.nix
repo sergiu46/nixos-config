@@ -23,7 +23,6 @@
     drawing
     vlc
     libreoffice-fresh
-    gnome-network-displays
     opensoundmeter
     audacity
     pdfarranger
