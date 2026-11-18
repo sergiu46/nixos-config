@@ -26,7 +26,7 @@
     loader = {
       systemd-boot.enable = true;
       systemd-boot.configurationLimit = 5;
-      timeout = 1; # time for choosing generation
+      timeout = 2; # time for choosing generation
       efi = {
         canTouchEfiVariables = false;
         efiSysMountPoint = "/boot";
@@ -82,8 +82,8 @@
     # Kernel runtime tuning
     kernel.sysctl = {
       # Write batching - critical since no TRIM for wear leveling
-      "vm.dirty_background_bytes" = 134217728; # 128MB
-      "vm.dirty_bytes" = 536870912; # 512MB
+      "vm.dirty_background_bytes" = 67108864; # 64MB
+      "vm.dirty_bytes" = 134217728; # 128MB
       # Write intervals
       "vm.dirty_expire_centisecs" = 6000; # 45 seconds
       "vm.dirty_writeback_centisecs" = 3000; # 15 seconds
