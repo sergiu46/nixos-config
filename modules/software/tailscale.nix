@@ -4,7 +4,7 @@
 
   # Gui for tailscale
   environment.systemPackages = with pkgs; [
-    trayscale
+    unstable.trayscale
   ];
 
   # Tailscale
