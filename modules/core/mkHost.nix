@@ -30,15 +30,24 @@ nixpkgs.lib.nixosSystem {
       { ... }:
       {
         nixpkgs.overlays = [
-          (final: prev: {
-            unstable = import nixpkgs-unstable {
-              inherit system;
-              config = {
-                allowUnfree = true;
-                allowInsecurePredicate = (pkg: true);
-              };
-            };
-          })
+          (
+            final: prev:
+            let
+              mkUnstable =
+                extraConfig:
+                import nixpkgs-unstable {
+                  inherit system;
+                  config = {
+                    allowUnfree = true;
+                  }
+                  // extraConfig;
+                };
+            in
+            {
+              unstable = mkUnstable { }; # unstable, insecure rejected
+              insecure = mkUnstable { allowInsecurePredicate = _: true; }; # unstable, insecure accepted
+            }
+          )
         ];
       }
     )

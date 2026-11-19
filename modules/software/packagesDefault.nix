@@ -27,7 +27,7 @@
     audacity
     pdfarranger
     # Unstable apps
-    unstable.ventoy-full-gtk
+    insecure.ventoy-full-gtk
     unstable.angryipscanner
     unstable.geekbench
     unstable.jellyfin-mpv-shim
