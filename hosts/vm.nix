@@ -72,14 +72,6 @@
 
   # --- Services ---
   services = {
-    # Logind Settings
-    logind.settings = {
-      Login = {
-        IdleAction = "poweroff";
-        IdleActionSec = "2h";
-      };
-    };
-
     # Allows Unraid to see IP address and manage clean shutdowns
     qemuGuest.enable = true;
     spice-vdagentd.enable = true;
