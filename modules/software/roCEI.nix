@@ -1,7 +1,6 @@
 { pkgs, ... }:
 
 let
-  # MODIFIED: Adăugat cuvântul cheie 'rec' pentru a permite referențierea internă a variabilei 'version'
   ro-cei-pkg = pkgs.stdenv.mkDerivation rec {
     pname = "idplugclassic-ro-cei";
     version = "4.5.0";
@@ -19,9 +18,8 @@ let
     ];
 
     buildInputs = with pkgs; [
+      stdenv.cc.cc.lib
       pcsclite
-      glibc
-      gcc.cc.lib
       glib
       gtk3
       atk
@@ -36,6 +34,7 @@ let
     dontConfigure = true;
     dontBuild = true;
 
+    # pcsclite is loaded at runtime (dlopen), so autoPatchelfHook can't see it
     gappsWrapperArgs = [
       "--prefix"
       "LD_LIBRARY_PATH"
@@ -45,6 +44,7 @@ let
 
     installPhase = ''
       runHook preInstall
+
       mkdir -p $out
       if [ -d "usr" ]; then
         cp -r usr/* $out/
@@ -55,7 +55,7 @@ let
         ln -s "$out/bin/idplugclassic/identitymanager" "$out/bin/idplugclassic-manager"
       fi
 
-      # MODIFIED: Patch the extracted .desktop file to include StartupWMClass
+      # Point the desktop entry at the wrapper and set the window class
       for f in $out/share/applications/*.desktop; do
         if [ -f "$f" ]; then
           sed -i 's|^Exec=.*|Exec=idplugclassic-manager|' "$f"
@@ -74,13 +74,13 @@ let
   };
 in
 {
-  # Enable the smart card reader service required by the application
+  # Smart card reader daemon required by the middleware
   services.pcscd.enable = true;
 
   # Install the package system-wide
   environment.systemPackages = [ ro-cei-pkg ];
 
-  # Creates a symlink in /usr/share to fix hardcoded asset paths
+  # Symlink in /usr/share to satisfy hardcoded asset paths
   systemd.tmpfiles.rules = [
     "L+ /usr/share/idplugclassic - - - - ${ro-cei-pkg}/share/idplugclassic"
   ];
