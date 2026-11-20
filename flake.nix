@@ -31,6 +31,7 @@
           ./modules/core/system.nix
           ./modules/core/network.nix
           ./modules/core/plymouth.nix
+          ./modules/core/nix-ld.nix
           ./modules/hardware/zramSwap.nix
           ./modules/hardware/scrollFactor.nix
           ./modules/services/autoUpdate.nix
@@ -47,6 +48,7 @@
           ./modules/core/system.nix
           ./modules/core/network.nix
           ./modules/core/unl0kr.nix
+          ./modules/core/nix-ld.nix
           ./modules/hardware/portable.nix
           ./modules/software/packagesDefault.nix
           ./modules/services/powerOffNoSleep.nix
@@ -82,7 +84,6 @@
           ./hosts/vm.nix
           ./users/sergiu/sergiu.nix
           ./modules/core/system.nix
-          ./modules/core/nix-ld.nix
           ./modules/hardware/zramSwap.nix
           ./modules/hardware/tmpfs.nix
           ./modules/hardware/scrollFactor.nix
