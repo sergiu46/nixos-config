@@ -82,6 +82,7 @@
           ./hosts/vm.nix
           ./users/sergiu/sergiu.nix
           ./modules/core/system.nix
+          ./modules/core/nix-ld.nix
           ./modules/hardware/zramSwap.nix
           ./modules/hardware/tmpfs.nix
           ./modules/hardware/scrollFactor.nix
