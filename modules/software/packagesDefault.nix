@@ -30,6 +30,7 @@
 
     # Unstable apps
     insecure.ventoy-full-gtk
+    unstable.doublecmd
     unstable.angryipscanner
     unstable.geekbench
     unstable.jellyfin-mpv-shim
