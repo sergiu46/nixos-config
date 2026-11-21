@@ -19,6 +19,7 @@
     smartmontools
     kdiskmark
     geekbench
+    rpi-imager
     # Stable apps
     drawing
     vlc
@@ -26,6 +27,7 @@
     opensoundmeter
     audacity
     pdfarranger
+
     # Unstable apps
     insecure.ventoy-full-gtk
     unstable.angryipscanner
