@@ -19,7 +19,7 @@
     smartmontools
     kdiskmark
     geekbench
-    rpi-imager
+
     # Stable apps
     drawing
     vlc
@@ -32,6 +32,7 @@
     insecure.ventoy-full-gtk
     unstable.angryipscanner
     unstable.geekbench
+    unstable.rpi-imager
     unstable.jellyfin-mpv-shim
   ];
 
