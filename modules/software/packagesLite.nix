@@ -25,6 +25,7 @@
     util-linux
     mkpasswd
     nix-tree
+    mc
     # Utilities
     git
     cryptsetup
