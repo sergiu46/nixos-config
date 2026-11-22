@@ -32,7 +32,6 @@
     insecure.ventoy-full-gtk
     unstable.angryipscanner
     unstable.geekbench
-    unstable.rpi-imager
     unstable.jellyfin-mpv-shim
   ];
 
