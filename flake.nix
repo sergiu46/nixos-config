@@ -38,7 +38,7 @@
           ./modules/services/powerOffOnSleep.nix
           ./modules/services/printing.nix
           ./modules/services/cast.nix
-          ./modules/software/packagesExtra.nix
+          ./modules/software/packagesDefault.nix
           ./modules/software/roCEI.nix
         ];
 
