@@ -10,7 +10,7 @@
   # System-wide packages
   environment.systemPackages = with pkgs; [
     # Utilities
-    gparted
+
     intel-gpu-tools
     libva-utils
     libinput
@@ -18,6 +18,20 @@
     smartmontools
     kdiskmark
 
+    #Gparted
+    gparted
+    parted
+    gptfdisk
+    f2fs-tools
+    e2fsprogs
+    exfatprogs
+    dosfstools
+    mtools
+    btrfs-progs
+    ntfs3g
+    xfsprogs
+    xfsdump
+    gpart
     # Office
     libreoffice-fresh
     hunspell
