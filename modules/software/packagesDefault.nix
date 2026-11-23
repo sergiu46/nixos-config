@@ -20,17 +20,24 @@
     kdiskmark
     geekbench
 
+<<<<<<< HEAD
     # Office
     libreoffice-fresh
     hunspell
     hunspellDicts.en_US
     hunspellDicts.ro_RO
     pdfarranger
+=======
+>>>>>>> refs/remotes/origin/main
     # Stable apps
     drawing
     vlc
     opensoundmeter
     audacity
+<<<<<<< HEAD
+=======
+    pdfarranger
+>>>>>>> refs/remotes/origin/main
 
     # Unstable apps
     insecure.ventoy-full-gtk
