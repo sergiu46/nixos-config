@@ -13,8 +13,25 @@ let
     wantedBy = [ "local-fs.target" ];
     before = [ "home-manager-${n}.service" ];
   }) normalUsers;
+
+  # Persistent bind mount for ~/.cache/nix (tarball/fetcher/eval caches).
+  # Lives on the real disk so it survives reboots, while the rest of ~/.cache stays in RAM.
+  # systemd orders it after the ~/.cache tmpfs automatically (nested path).
+  nixCacheMounts = lib.mapAttrsToList (n: u: {
+    what = "/var/lib/nix-user-cache/${n}";
+    where = "${u.home}/.cache/nix";
+    type = "none";
+    options = "bind";
+    wantedBy = [ "local-fs.target" ];
+    before = [ "home-manager-${n}.service" ];
+  }) normalUsers;
 in
 {
+  # Backing directories for the persistent ~/.cache/nix bind mounts
+  systemd.tmpfiles.rules = lib.mapAttrsToList (
+    n: u: "d /var/lib/nix-user-cache/${n} 0700 ${n} ${u.group} -"
+  ) normalUsers;
+
   systemd.user.services.user-symlinks = {
     description = "User symlinks";
     before = [ "graphical-session-pre.target" ];
@@ -81,8 +98,8 @@ in
   boot.tmp.tmpfsSize = "80%";
   boot.tmp.cleanOnBoot = true;
 
-  # User .cache mounts
-  systemd.mounts = userCacheMounts;
+  # User .cache mounts (+ persistent ~/.cache/nix on top)
+  systemd.mounts = userCacheMounts ++ nixCacheMounts;
 
   # Browser Speedup: Profile-sync-daemon
   services.psd.enable = true;
