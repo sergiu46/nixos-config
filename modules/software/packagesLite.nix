@@ -25,6 +25,7 @@
     mkpasswd
     nix-tree
     mc
+    btop
     # Utilities
     git
     cryptsetup
