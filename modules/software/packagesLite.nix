@@ -17,11 +17,6 @@
     file
     traceroute
     tree
-    parted
-    gptfdisk
-    f2fs-tools
-    e2fsprogs
-    exfatprogs
     mkpasswd
     nix-tree
     mc

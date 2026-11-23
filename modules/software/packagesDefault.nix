@@ -10,7 +10,6 @@
   # System-wide packages
   environment.systemPackages = with pkgs; [
     # Utilities
-
     intel-gpu-tools
     libva-utils
     libinput
@@ -32,6 +31,7 @@
     xfsprogs
     xfsdump
     gpart
+
     # Office
     libreoffice-fresh
     hunspell
