@@ -38,14 +38,12 @@
   ];
 
   fonts.packages = with pkgs; [
-    corefonts # Microsoft's TrueType core fonts
-    vista-fonts # Includes Calibri, Cambria, etc.
-    noto-fonts # Broad Unicode & web compatibility (~70 MB)
-    noto-fonts-color-emoji # Color emoji support (~10 MB)
-    roboto # Popular Google UI/web font (~2 MB)
-    symbola # A massive font for symbols and boxes
-    freefont_ttf # Includes many standard symbols
-    liberation_ttf # Excellent metric-compatible replacement for MS fonts
+    corefonts # Arial, Times New Roman, Courier New, Verdana
+    vista-fonts # Calibri, Cambria, Consolas
+    liberation_ttf # Metric-compatible fallback for Arial/Times/Courier
+    noto-fonts # Broad Unicode coverage, incl. Romanian diacritics
+    noto-fonts-color-emoji # Color emoji
+    roboto # Optional: delete this line if you don't need it
   ];
   fonts.fontconfig.allowBitmaps = false;
 
