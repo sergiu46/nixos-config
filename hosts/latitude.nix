@@ -118,7 +118,6 @@
         intel-compute-runtime # OpenCL compute support
         vpl-gpu-rt # Intel Video Processing Library runtime
         libvdpau-va-gl
-        libva-utils
       ];
       extraPackages32 = with pkgs.pkgsi686Linux; [
         intel-media-driver

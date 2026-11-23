@@ -11,14 +11,12 @@
   environment.systemPackages = with pkgs; [
     # Utilities
     gparted
-    ffmpeg-full
     intel-gpu-tools
     libva-utils
     libinput
     pciutils
     smartmontools
     kdiskmark
-    geekbench
 
     # Office
     libreoffice-fresh

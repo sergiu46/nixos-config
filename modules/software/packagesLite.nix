@@ -22,7 +22,6 @@
     f2fs-tools
     e2fsprogs
     exfatprogs
-    util-linux
     mkpasswd
     nix-tree
     mc
