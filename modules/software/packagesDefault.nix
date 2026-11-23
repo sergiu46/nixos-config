@@ -43,7 +43,6 @@
     liberation_ttf # Metric-compatible fallback for Arial/Times/Courier
     noto-fonts # Broad Unicode coverage, incl. Romanian diacritics
     noto-fonts-color-emoji # Color emoji
-    roboto # Optional: delete this line if you don't need it
   ];
   fonts.fontconfig.allowBitmaps = false;
 
