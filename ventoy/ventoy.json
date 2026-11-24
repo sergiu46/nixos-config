@@ -1,6 +1,7 @@
 {
     "control": [
         { "VTOY_MENU_TIMEOUT": "5" },
-        { "VTOY_DEFAULT_IMAGE": "F6>NixOS Portable" }
+        { "VTOY_DEFAULT_IMAGE": "F6>NixOS Portable" },
+        { "VTOY_GFXMODE": "max" }
     ]
 }
