@@ -22,6 +22,7 @@
     mc
     btop
     usbutils
+    fastfetch
     # Utilities
     git
     cryptsetup
