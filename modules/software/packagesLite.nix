@@ -21,6 +21,7 @@
     nix-tree
     mc
     btop
+    usbutils
     # Utilities
     git
     cryptsetup
