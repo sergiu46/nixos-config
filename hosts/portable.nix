@@ -85,8 +85,8 @@
       "vm.dirty_background_bytes" = 67108864; # 64MB
       "vm.dirty_bytes" = 134217728; # 128MB
       # Write intervals
-      "vm.dirty_expire_centisecs" = 6000; # 45 seconds
-      "vm.dirty_writeback_centisecs" = 3000; # 15 seconds
+      "vm.dirty_expire_centisecs" = 6000; # 60 seconds
+      "vm.dirty_writeback_centisecs" = 3000; # 30 seconds
       # Disable core dumps
       "kernel.core_pattern" = "|/bin/false";
     };
@@ -121,37 +121,29 @@
     fsType = "vfat";
   };
 
+  # --- Nix ---
+  # Dedup after the files are already written = extra writes on flash.
+  # Run `nix store optimise` manually (the `clean` alias does) if space gets tight.
+  nix.settings.auto-optimise-store = lib.mkForce false;
+
   # --- Hardware ---
   hardware = {
     cpu.amd.updateMicrocode = true;
     cpu.intel.updateMicrocode = true;
     enableAllFirmware = true;
 
-    # Graphics Acceleration
+    # Graphics acceleration. Mesa (AMD radeonsi/radv, Intel iris/anv,
+    # nouveau, plus their VA-API/VDPAU paths) is included by enable = true.
     graphics = {
       enable = true;
-      enable32Bit = true;
       extraPackages = with pkgs; [
-        # Intel
+        # Intel video decode/encode
         intel-media-driver # Modern Intel (Broadwell+)
         intel-vaapi-driver # Older Intel
-        # Universal / Core (Crucial for smooth daily tasks on all GPUs)
-        mesa
+        # Small helpers, kept for compatibility
         vulkan-loader
-        vulkan-validation-layers
         libva # Base LibVA
         libvdpau-va-gl # VDPAU wrapper
-        # AMD
-        rocmPackages.clr.icd # OpenCL for AMD
-      ];
-
-      # 32-bit support (Steam, Wine, etc.)
-      extraPackages32 = with pkgs.pkgsi686Linux; [
-        intel-media-driver
-        intel-vaapi-driver
-        mesa
-        vulkan-loader
-        libvdpau-va-gl
       ];
     };
   };
@@ -211,7 +203,7 @@
       ExecStop = pkgs.writeShellScript "efi-off" ''
         DEV_PATH=$(${pkgs.util-linux}/bin/findmnt -vno SOURCE /boot)
         PARENT_DISK=$(${pkgs.util-linux}/bin/lsblk -no pkname "$DEV_PATH")
-        PART_NUM=$(${pkgs.util-linux}/bin/lsblk -no PARTN "$DEV_PATH")        
+        PART_NUM=$(${pkgs.util-linux}/bin/lsblk -no PARTN "$DEV_PATH")
         ${pkgs.parted}/bin/parted -s /dev/"$PARENT_DISK" set "$PART_NUM" esp off
         ${pkgs.parted}/bin/parted -s /dev/"$PARENT_DISK" set "$PART_NUM" hidden on
       '';
