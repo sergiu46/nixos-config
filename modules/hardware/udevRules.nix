@@ -10,30 +10,19 @@
         ATTR{queue/rotational}=="0", \
         ATTR{queue/scheduler}="bfq"
 
-      # BFQ for removable USBs (covers both usb-storage and UAS bridges)
-      ACTION=="add|change", \
-        SUBSYSTEM=="block", \
-        KERNEL=="sd[a-z]", \
-        ATTRS{removable}=="1", \
-        ATTR{queue/scheduler}="bfq", \
-        ATTR{queue/iosched/low_latency}="1", \
-        ATTR{queue/iosched/slice_idle}="0", \
-        ATTR{queue/read_ahead_kb}="512"
-
-      # Fallback if USB enclosure reports removable==0
+      # BFQ and responsiveness tuning for any USB storage device (flash drives, USB SSDs, UASP)
       ACTION=="add|change", \
         SUBSYSTEM=="block", \
         KERNEL=="sd[a-z]", \
         SUBSYSTEMS=="usb", \
         ATTR{queue/scheduler}="bfq", \
-        ATTR{queue/iosched/low_latency}="1", \
-        ATTR{queue/iosched/slice_idle}="0", \
-        ATTR{queue/read_ahead_kb}="512"
+        ATTR{queue/nr_requests}="128", \
+        ATTR{queue/read_ahead_kb}="256", \
+        RUN+="/bin/sh -c 'test -w /sys/block/%k/queue/iosched/low_latency && echo 1 > /sys/block/%k/queue/iosched/low_latency; test -w /sys/block/%k/queue/iosched/slice_idle && echo 0 > /sys/block/%k/queue/iosched/slice_idle; true'"
 
       # Ghost Mode: Hide internal drives of the host machine
       # SUBSYSTEM=="block", ATTRS{removable}=="0", ENV{UDISKS_IGNORE}="1"
     '';
 
   };
-
 }
