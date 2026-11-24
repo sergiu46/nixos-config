@@ -4,7 +4,7 @@
   imports = [
     ./disableTPM.nix
     ./tmpfs.nix
-    ./udevRules.nix
+    #./udevRules.nix
     ./zramSwap.nix
     ./scrollFactor.nix
   ];
