@@ -113,4 +113,8 @@
     enable = false;
     nixos.enable = false;
   };
+
+  # --- Allow reboot for updates ---
+  system.autoUpgrade.allowReboot = lib.mkForce true;
+
 }
