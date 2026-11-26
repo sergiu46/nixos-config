@@ -13,7 +13,7 @@ let
   f2fsOpts = [
     "noatime"
     "lazytime"
-    "nodiscard"
+    "discard"
     "compress_algorithm=zstd:1"
     "compress_mode=fs"
     "compress_extension=*"
@@ -28,9 +28,6 @@ let
     "nocompress_extension=gz"
     "nocompress_extension=xz"
     "nocompress_extension=iso"
-    "gc_merge"
-    "atgc"
-    "checkpoint_merge"
     "reserve_root=16384"
     "inline_xattr"
     "inline_data"
