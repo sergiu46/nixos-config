@@ -85,8 +85,8 @@
       "vm.dirty_background_bytes" = 134217728; # 128MB
       "vm.dirty_bytes" = 536870912; # 512MB
       # Write intervals
-      "vm.dirty_expire_centisecs" = 6000; # 45 seconds
-      "vm.dirty_writeback_centisecs" = 3000; # 15 seconds
+      "vm.dirty_expire_centisecs" = 6000; # 60 seconds
+      "vm.dirty_writeback_centisecs" = 3000; # 30 seconds
       # Disable core dumps
       "kernel.core_pattern" = "|/bin/false";
     };
