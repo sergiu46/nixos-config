@@ -21,10 +21,6 @@ let
     "gc_merge"
     "atgc"
     "reserve_root=16384"
-    "inline_xattr"
-    "inline_data"
-    "inline_dentry"
-
   ];
 
   userGroups = [
