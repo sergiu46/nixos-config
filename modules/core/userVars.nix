@@ -21,6 +21,7 @@ let
     "gc_merge"
     "atgc"
     "reserve_root=16384"
+    "active_logs=2"
   ];
 
   userGroups = [
