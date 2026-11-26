@@ -13,15 +13,14 @@ let
   f2fsOpts = [
     "noatime"
     "lazytime"
-    "nodiscard"
-    "compress_algorithm=zstd:6"
+    "discard"
+    "compress_algorithm=zstd:1"
     "compress_chksum"
     "compress_mode=fs"
     "compress_extension=*"
     "gc_merge"
     "atgc"
     "reserve_root=16384"
-    "active_logs=2"
   ];
 
   userGroups = [
