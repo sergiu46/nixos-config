@@ -22,7 +22,6 @@ let
     "atgc"
     "checkpoint_merge"
     "flush_merge"
-    "reserve_root=16384"
     "inline_xattr"
     "inline_data"
     "inline_dentry"
