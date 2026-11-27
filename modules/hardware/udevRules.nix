@@ -11,7 +11,7 @@
         ATTR{queue/scheduler}="none"
 
       ACTION=="add|change", SUBSYSTEM=="block", KERNEL=="sd[a-z]", ENV{ID_BUS}=="usb", \
-        ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="none", ATTR{queue/read_ahead_kb}="128"
+        ATTR{queue/scheduler}="bfq", ATTR{queue/read_ahead_kb}="128"
 
       # f2fs reads through the dm-crypt device, which has its own readahead
       ACTION=="add|change", SUBSYSTEM=="block", KERNEL=="dm-[0-9]*", ENV{DM_UUID}=="CRYPT-*", \
