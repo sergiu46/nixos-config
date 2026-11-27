@@ -145,7 +145,6 @@
         sudo cryptsetup open --perf-no_read_workqueue --perf-no_write_workqueue \
           /dev/disk/by-label/"''${name}-CRYPT" "$name" && \
         sudo mount -t f2fs -o ${userVars.f2fs.optsString} /dev/mapper/"$name" /mnt && \
-        sudo chattr +c /mnt && \
 
         sudo mkdir -p /mnt/boot && {
           local dev_path=$(readlink -f /dev/disk/by-label/"$efi_name")
