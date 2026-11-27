@@ -1,7 +1,10 @@
 {
-    "control": [
+    "control":[
         { "VTOY_MENU_TIMEOUT": "5" },
-        { "VTOY_DEFAULT_IMAGE": "F6>NixOS Portable" },
-        { "VTOY_GFXMODE": "max" }
-    ]
+        { "VTOY_WIN_UEFI_RES_LOCK": "1" },
+        { "VTOY_DEFAULT_IMAGE": "F6>NixOS Portable" }
+    ],
+    "theme":{
+        "gfxmode": "max"
+    }
 }
