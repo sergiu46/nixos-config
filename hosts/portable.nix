@@ -74,9 +74,7 @@
       "amd_pstate=active"
       "usbcore.autosuspend=-1"
       "fsck.mode=skip" # Disable file system check during boot
-      "scsi_mod.use_blk_mq=1" # Multi-queue for storage
       "scsi_mod.scan=async"
-      "async_probe"
     ];
 
     # Kernel runtime tuning
