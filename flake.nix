@@ -65,8 +65,9 @@
           ./modules/core/network.nix
           ./modules/core/unl0kr.nix
           ./modules/hardware/portable.nix
-          ./modules/software/packagesLite.nix
+          ./modules/software/packagesDefault.nix
           ./modules/services/powerOffNoSleep.nix
+          ./modules/services/syncConfig.nix
         ];
 
         Kingston = mkHost system "26.05" [
@@ -78,6 +79,7 @@
           ./modules/hardware/portable.nix
           ./modules/software/packagesLite.nix
           ./modules/services/powerOffNoSleep.nix
+          ./modules/services/syncConfig.nix
         ];
 
         Unraid-NIX = mkHost system "25.11" [
