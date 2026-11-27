@@ -21,7 +21,6 @@ let
     "compress_algorithm=zstd:1"
     "compress_chksum"
     "compress_extension=*"
-    "atgc"
     "gc_merge"
   ];
 
