@@ -142,7 +142,8 @@
         sudo umount /dev/disk/by-label/"$efi_name" 2>/dev/null || true
 
         sudo mkdir -p /mnt
-        sudo cryptsetup open /dev/disk/by-label/"''${name}-CRYPT" "$name" && \
+        sudo cryptsetup open --perf-no_read_workqueue --perf-no_write_workqueue \
+          /dev/disk/by-label/"''${name}-CRYPT" "$name" && \
         sudo mount -t f2fs -o ${userVars.f2fs.optsString} /dev/mapper/"$name" /mnt && \
         sudo chattr +c /mnt && \
 
