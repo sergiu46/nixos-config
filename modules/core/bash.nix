@@ -117,7 +117,7 @@
               "$dev_root"
 
             echo "Opening encrypted container..."
-            sudo cryptsetup open "$dev_root" "$name"
+            sudo cryptsetup open --perf-no_read_workqueue --perf-no_write_workqueue "$dev_root" "$name"  
 
             echo "Formatting Root partition as F2FS..."
             sudo mkfs.f2fs -f -l "$root_name" -s 2 -o 10 -t 0 \
