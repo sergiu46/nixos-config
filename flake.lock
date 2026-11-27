@@ -114,11 +114,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794007666,
-        "narHash": "sha256-XbZPXxBhMN3KLq/W4Sos7DjN39uSECj3lBm290F3bFk=",
+        "lastModified": 1795771351,
+        "narHash": "sha256-pt4iGw49QguuhHghi3104GVdt4pHwcPd0NM5CLXzcLI=",
         "owner": "daniel-g-carrasco",
         "repo": "wayland-scroll-factor",
-        "rev": "883c700502f5975a6078763b7cc889096f6644ae",
+        "rev": "9ccfae34e08c7a5de234a6950de852acd4cd87fa",
         "type": "github"
       },
       "original": {
