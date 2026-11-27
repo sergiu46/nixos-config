@@ -115,6 +115,7 @@
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/${userVars.efiLabel}";
     fsType = "vfat";
+    options = [ "noatime" ];
   };
 
   # --- Nix ---
