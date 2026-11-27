@@ -81,12 +81,10 @@
 
     # Kernel runtime tuning
     kernel.sysctl = {
-      # Write batching - critical since no TRIM for wear leveling
-      "vm.dirty_background_bytes" = 134217728; # 128MB
-      "vm.dirty_bytes" = 536870912; # 512MB
-      # Write intervals
-      "vm.dirty_expire_centisecs" = 6000; # 60 seconds
-      "vm.dirty_writeback_centisecs" = 3000; # 30 seconds
+      "vm.dirty_background_bytes" = 8388608; # 8MB
+      "vm.dirty_bytes" = 33554432; # 32MB
+      "vm.dirty_expire_centisecs" = 3000;
+      "vm.dirty_writeback_centisecs" = 500;
       # Disable core dumps
       "kernel.core_pattern" = "|/bin/false";
     };

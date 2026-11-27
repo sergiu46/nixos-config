@@ -13,12 +13,16 @@ let
   f2fsOpts = [
     "noatime"
     "lazytime"
+    "mode=lfs"
+    "active_logs=2"
+    "nodiscard"
+    "checkpoint_merge"
+    "flush_merge"
     "compress_algorithm=zstd:1"
     "compress_chksum"
     "compress_extension=*"
     "atgc"
     "gc_merge"
-    "flush_merge"
   ];
 
   userGroups = [

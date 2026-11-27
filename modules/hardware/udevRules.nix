@@ -10,9 +10,12 @@
         ATTR{queue/rotational}=="0", \
         ATTR{queue/scheduler}="none"
 
-      # BFQ and responsiveness tuning for any USB storage device (flash drives, USB SSDs, UASP)
       ACTION=="add|change", SUBSYSTEM=="block", KERNEL=="sd[a-z]", ENV{ID_BUS}=="usb", \
-        ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="bfq", ATTR{queue/read_ahead_kb}="256"
+        ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="none", ATTR{queue/read_ahead_kb}="128"
+
+      # f2fs reads through the dm-crypt device, which has its own readahead
+      ACTION=="add|change", SUBSYSTEM=="block", KERNEL=="dm-[0-9]*", ENV{DM_UUID}=="CRYPT-*", \
+        ATTR{queue/read_ahead_kb}="128"
 
       # Ghost Mode: Hide internal drives of the host machine
       # SUBSYSTEM=="block", ATTRS{removable}=="0", ENV{UDISKS_IGNORE}="1"

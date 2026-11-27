@@ -120,7 +120,8 @@
             sudo cryptsetup open "$dev_root" "$name"
 
             echo "Formatting Root partition as F2FS..."
-            sudo mkfs.f2fs -f -l "$root_name" -O extra_attr,inode_checksum,sb_checksum,compression -o 5 "/dev/mapper/$name"
+            sudo mkfs.f2fs -f -l "$root_name" -s 2 -o 10 -t 0 \
+              -O extra_attr,inode_checksum,sb_checksum,compression "/dev/mapper/$name"
 
             sudo cryptsetup close "$name"
 
