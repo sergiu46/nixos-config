@@ -106,9 +106,22 @@ in
   # User .cache mounts (+ persistent ~/.cache/nix on top)
   systemd.mounts = userCacheMounts ++ nixCacheMounts;
 
-  # Browser Speedup: Profile-sync-daemon
-  environment.systemPackages = [ pkgs.unstable.profile-sync-daemon ];
+  # Browser Speedup: Profile-sync-daemon (unstable)
   services.psd.enable = true;
+
+  nixpkgs.overlays = [
+    (final: prev: {
+      profile-sync-daemon = final.unstable.profile-sync-daemon.overrideAttrs (old: {
+        postInstall = (old.postInstall or "") + ''
+          if [ -f $out/share/psd/contrib/brave ]; then
+            cp $out/share/psd/contrib/brave $out/share/psd/browsers/brave
+          fi
+        '';
+      });
+    })
+  ];
+
+  environment.systemPackages = [ pkgs.profile-sync-daemon ];
 
   # Logind settings for /run/user size
   services.logind.settings.Login = {
