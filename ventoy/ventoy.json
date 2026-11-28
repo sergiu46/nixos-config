@@ -4,7 +4,10 @@
         { "VTOY_WIN_UEFI_RES_LOCK": "1" },
         { "VTOY_DEFAULT_IMAGE": "F6>NixOS Portable" }
     ],
-    "theme":{
-        "gfxmode": "max"
+    
+    "theme": {
+        "file": "/ventoy/ventoy-just-black/theme.txt",
+		"ventoy_color": "white"
     }
+    
 }
