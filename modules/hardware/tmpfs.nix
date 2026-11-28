@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   # Filtrăm toți utilizatorii normali
@@ -103,6 +108,21 @@ in
 
   # Browser Speedup: Profile-sync-daemon
   services.psd.enable = true;
+  services.psd.resyncTimer = "10m";
+  environment.systemPackages = [ pkgs.profile-sync-daemon ];
+
+  # Teach psd about Brave and Firefox's XDG profile path
+  nixpkgs.overlays = [
+    (final: prev: {
+      profile-sync-daemon = prev.profile-sync-daemon.overrideAttrs (old: {
+        postInstall = (old.postInstall or "") + ''
+          cp $out/share/psd/contrib/brave $out/share/psd/browsers/brave
+          substituteInPlace $out/share/psd/browsers/firefox \
+            --replace-warn ".mozilla/firefox" ".config/mozilla/firefox"
+        '';
+      });
+    })
+  ];
 
   # Logind settings for /run/user size
   services.logind.settings.Login = {
