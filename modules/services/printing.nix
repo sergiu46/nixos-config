@@ -13,4 +13,7 @@
   # Optional IPP-over-USB support
   services.ipp-usb.enable = true;
 
+  # Limit stop timeout
+  systemd.services.cups-browsed.serviceConfig.TimeoutStopSec = "5s";
+
 }
