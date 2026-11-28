@@ -111,7 +111,14 @@ in
 
   nixpkgs.overlays = [
     (final: prev: {
-      profile-sync-daemon = final.unstable.profile-sync-daemon;
+      profile-sync-daemon = final.unstable.profile-sync-daemon.overrideAttrs (old: {
+        postFixup = (old.postFixup or "") + ''
+          cat > $out/share/psd/browsers/brave <<'EOF'
+          DIRArr[0]="$XDG_CONFIG_HOME/BraveSoftware/Brave-Browser"
+          PSNAME="brave"
+          EOF
+        '';
+      });
     })
   ];
 
